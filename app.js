@@ -1,5 +1,5 @@
 /* =====================================================================
-   Harshit Sharma — Hybrid Masterpiece Portfolio Application Logic
+   Harshit Sharma — Personal Portfolio Application Logic
    ===================================================================== */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -95,10 +95,10 @@ function initTypingEffect() {
     if (!typingElement) return;
 
     const titles = [
-        "AI & ML Engineering Student @ USAR",
-        "Autonomous Agent Systems Builder",
-        "Full-Stack & Backend API Developer",
-        "Cybersecurity & Linux Explorer"
+        "AI & ML Student @ USAR (GGSIPU)",
+        "Machine Learning Model Developer",
+        "Full-Stack Web & Backend Engineer",
+        "Cybersecurity & Systems Explorer"
     ];
 
     let titleIndex = 0;
@@ -134,27 +134,7 @@ function initTypingEffect() {
 }
 
 /* ---------------------------------------------------------------------
-   3. Inspector Tab Switcher
-   --------------------------------------------------------------------- */
-function switchInspectorTab(tabName) {
-    const card = document.querySelector('.flagship-card');
-    if (!card) return;
-
-    const tabs = card.querySelectorAll('.insp-tab');
-    tabs.forEach(t => t.classList.remove('active'));
-
-    const activeTab = Array.from(tabs).find(t => t.getAttribute('onclick').includes(tabName));
-    if (activeTab) activeTab.classList.add('active');
-
-    const contents = card.querySelectorAll('.inspector-content');
-    contents.forEach(c => c.classList.add('hidden'));
-
-    const targetContent = document.getElementById(`insp-${tabName}`);
-    if (targetContent) targetContent.classList.remove('hidden');
-}
-
-/* ---------------------------------------------------------------------
-   4. Skills Matrix & Filter
+   3. Skills Matrix & Categorized Filter
    --------------------------------------------------------------------- */
 const skillsData = [
     { name: 'Python', category: 'languages', icon: '🐍' },
@@ -210,7 +190,7 @@ function filterSkills(category) {
 }
 
 /* ---------------------------------------------------------------------
-   5. Web Terminal Shell Engine
+   4. Web Terminal Shell Engine
    --------------------------------------------------------------------- */
 function initTerminal() {
     const input = document.getElementById('terminal-input');
@@ -246,36 +226,28 @@ function executeTerminalCommand(cmd) {
     switch (cmd) {
         case 'help':
             appendTerminalLine('Available Commands:', 't-info');
-            appendTerminalLine('  about       - Brief introduction and education background', 't-output');
-            appendTerminalLine('  skills      - List core technical stack & tools', 't-output');
-            appendTerminalLine('  projects    - List featured engineering builds', 't-output');
-            appendTerminalLine('  resilient   - Run live demo of Resilient AI Benchmark', 't-output');
-            appendTerminalLine('  contact     - Display email, LinkedIn, and social links', 't-output');
+            appendTerminalLine('  about       - Display Harshit\'s background & education', 't-output');
+            appendTerminalLine('  skills      - List technical stack & tools', 't-output');
+            appendTerminalLine('  projects    - List all 4 featured projects', 't-output');
+            appendTerminalLine('  contact     - Display social links & email', 't-output');
             appendTerminalLine('  clear       - Clear terminal screen', 't-output');
             break;
 
         case 'about':
-            appendTerminalLine('Harshit Sharma — AI & ML Student @ USAR (GGSIPU), Delhi', 't-info');
-            appendTerminalLine('Specialties: Autonomous AI orchestration, backend APIs (FastAPI/Postgres), and system security.', 't-output');
+            appendTerminalLine('Harshit Sharma — B.Tech AI & ML Student @ USAR (GGSIPU), New Delhi', 't-info');
+            appendTerminalLine('Building ML valuation models, full-stack applications, and backend systems.', 't-output');
             break;
 
         case 'skills':
-            appendTerminalLine('Core Stack: Python, JavaScript, TypeScript, FastAPI, Flask, Node, React, PostgreSQL, Docker, Linux', 't-output');
+            appendTerminalLine('Languages: Python, JavaScript, TypeScript, C/C++, Bash', 't-output');
+            appendTerminalLine('Stack: FastAPI, Flask, Node, React, PostgreSQL, Scikit-Learn, Docker, Linux', 't-output');
             break;
 
         case 'projects':
-            appendTerminalLine('1. Resilient (Autonomous AI Agent Benchmark)', 't-cmd');
-            appendTerminalLine('2. Used Bike Price Predictor (ML Valuation Engine)', 't-output');
-            appendTerminalLine('3. Carbon Guardian AI (Sustainability Tracker)', 't-output');
-            appendTerminalLine('4. Customizable Browser Startpage (Web Utility)', 't-output');
-            break;
-
-        case 'resilient':
-            appendTerminalLine('[INITIATING RESILIENT BENCHMARK SIMULATION...]', 't-info');
-            appendTerminalLine('  - Tracked Repos: 47 open-source projects', 't-output');
-            appendTerminalLine('  - Candidate Issues: 238 evaluated', 't-output');
-            appendTerminalLine('  - Dispatched Agents: Gemini 2.5, Qwen 2.5 Coder, Groq Llama 3.3', 't-output');
-            appendTerminalLine('  - Test Status: 47/47 tests passing (100% composite score)', 't-output');
+            appendTerminalLine('1. Used Bike Price Predictor (ML Valuation Model & Flask API)', 't-output');
+            appendTerminalLine('2. Carbon Guardian AI (Sustainability & Energy Tracker)', 't-output');
+            appendTerminalLine('3. Customizable Browser Startpage (Minimalist Web Utility)', 't-output');
+            appendTerminalLine('4. Resilient (Autonomous AI Agent Benchmark & Pipeline)', 't-output');
             break;
 
         case 'contact':
@@ -297,7 +269,7 @@ function executeTerminalCommand(cmd) {
 }
 
 /* ---------------------------------------------------------------------
-   6. Contact Form Simulator
+   5. Contact Form Simulator
    --------------------------------------------------------------------- */
 function handleContactSubmit(e) {
     e.preventDefault();
