@@ -1,12 +1,19 @@
 /* =====================================================================
-   Harshit Sharma — Personal Portfolio Application Logic
+   Harshit Sharma — Dev Cool Portfolio Application Engine
    ===================================================================== */
 
 document.addEventListener('DOMContentLoaded', () => {
     initThreeJSBackground();
     initTypingEffect();
+    initCommandPalette();
     renderSkillsGrid('all');
+    switchArchTab('resilient');
     initTerminal();
+
+    setTimeout(() => {
+        calculateBikePrice();
+        calculateCarbon();
+    }, 200);
 });
 
 /* ---------------------------------------------------------------------
@@ -24,20 +31,20 @@ function initThreeJSBackground() {
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
-    const particleCount = 650;
+    const particleCount = 700;
     const geometry = new THREE.BufferGeometry();
     const positions = new Float32Array(particleCount * 3);
     const colors = new Float32Array(particleCount * 3);
 
-    const cyanColor = new THREE.Color('#00F0FF');
-    const indigoColor = new THREE.Color('#6366F1');
+    const cyanColor = new THREE.Color('#38BDF8');
+    const greenColor = new THREE.Color('#10B981');
 
     for (let i = 0; i < particleCount * 3; i += 3) {
-        positions[i] = (Math.random() - 0.5) * 1200;
-        positions[i + 1] = (Math.random() - 0.5) * 1200;
-        positions[i + 2] = (Math.random() - 0.5) * 1200;
+        positions[i] = (Math.random() - 0.5) * 1300;
+        positions[i + 1] = (Math.random() - 0.5) * 1300;
+        positions[i + 2] = (Math.random() - 0.5) * 1300;
 
-        const mixedColor = Math.random() > 0.5 ? cyanColor : indigoColor;
+        const mixedColor = Math.random() > 0.5 ? cyanColor : greenColor;
         colors[i] = mixedColor.r;
         colors[i + 1] = mixedColor.g;
         colors[i + 2] = mixedColor.b;
@@ -50,7 +57,7 @@ function initThreeJSBackground() {
         size: 3,
         vertexColors: true,
         transparent: true,
-        opacity: 0.55,
+        opacity: 0.5,
         blending: THREE.AdditiveBlending
     });
 
@@ -75,7 +82,7 @@ function initThreeJSBackground() {
         requestAnimationFrame(animate);
 
         particleSystem.rotation.x += 0.0004;
-        particleSystem.rotation.y += 0.0006;
+        particleSystem.rotation.y += 0.0005;
 
         camera.position.x += (mouseX - camera.position.x) * 0.04;
         camera.position.y += (-mouseY - camera.position.y) * 0.04;
@@ -98,7 +105,7 @@ function initTypingEffect() {
         "AI & ML Student @ USAR (GGSIPU)",
         "Machine Learning Model Developer",
         "Full-Stack Web & Backend Engineer",
-        "Cybersecurity & Systems Explorer"
+        "Autonomous Agent Systems Builder"
     ];
 
     let titleIndex = 0;
@@ -116,15 +123,15 @@ function initTypingEffect() {
             charIndex++;
         }
 
-        let speed = isDeleting ? 35 : 75;
+        let speed = isDeleting ? 30 : 65;
 
         if (!isDeleting && charIndex === currentTitle.length) {
-            speed = 2000;
+            speed = 2200;
             isDeleting = true;
         } else if (isDeleting && charIndex === 0) {
             isDeleting = false;
             titleIndex = (titleIndex + 1) % titles.length;
-            speed = 350;
+            speed = 300;
         }
 
         setTimeout(type, speed);
@@ -134,7 +141,215 @@ function initTypingEffect() {
 }
 
 /* ---------------------------------------------------------------------
-   3. Skills Matrix & Categorized Filter
+   3. Command Palette Modal Engine (Cmd + K / Ctrl + K)
+   --------------------------------------------------------------------- */
+function initCommandPalette() {
+    window.addEventListener('keydown', (e) => {
+        if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+            e.preventDefault();
+            toggleCommandPalette(true);
+        } else if (e.key === 'Escape') {
+            toggleCommandPalette(false);
+        }
+    });
+
+    const input = document.getElementById('cmd-input');
+    if (!input) return;
+
+    input.addEventListener('input', (e) => {
+        const query = e.target.value.toLowerCase().trim();
+        const items = document.querySelectorAll('.cmd-item');
+        
+        items.forEach(item => {
+            const text = item.textContent.toLowerCase();
+            if (text.includes(query)) {
+                item.style.display = 'flex';
+            } else {
+                item.style.display = 'none';
+            }
+        });
+    });
+}
+
+function toggleCommandPalette(show) {
+    const backdrop = document.getElementById('cmd-palette-backdrop');
+    const input = document.getElementById('cmd-input');
+    if (!backdrop) return;
+
+    if (show) {
+        backdrop.classList.remove('hidden');
+        if (input) {
+            input.value = '';
+            input.focus();
+        }
+    } else {
+        backdrop.classList.add('hidden');
+    }
+}
+
+function navigateAndClose(targetHash) {
+    toggleCommandPalette(false);
+    const el = document.querySelector(targetHash);
+    if (el) el.scrollIntoView({ behavior: 'smooth' });
+}
+
+function copyEmailAndClose() {
+    toggleCommandPalette(false);
+    navigator.clipboard.writeText('codewithharshitsharma@gmail.com');
+    alert('⚡ Copied codewithharshitsharma@gmail.com to clipboard!');
+}
+
+/* ---------------------------------------------------------------------
+   4. Code Inspector Sandbox Switcher
+   --------------------------------------------------------------------- */
+const codeSnippets = {
+    fastapi: `<span class="c-keyword">from</span> fastapi <span class="c-keyword">import</span> FastAPI, Depends, HTTPException
+<span class="c-keyword">from</span> pydantic <span class="c-keyword">import</span> BaseModel
+<span class="c-keyword">import</span> torch
+
+app = FastAPI(title=<span class="c-str">"Resilient AI API Engine"</span>)
+
+<span class="c-decorator">@app.post</span>(<span class="c-str">"/v1/evaluate"</span>)
+<span class="c-keyword">async def</span> <span class="c-func">evaluate_candidate_issue</span>(payload: IssuePayload):
+    <span class="c-str">"""Executes autonomous agent benchmark pipeline"""</span>
+    result = <span class="c-keyword">await</span> agent_dispatcher.run(
+        repo=payload.repo,
+        model=<span class="c-str">"gemini-2.5-flash"</span>,
+        sandbox_isolation=<span class="c-keyword">True</span>
+    )
+    <span class="c-keyword">return</span> {<span class="c-str">"status"</span>: <span class="c-str">"PASSED"</span>, <span class="c-str">"score"</span>: 1.0}`,
+
+    ml: `<span class="c-keyword">import</span> pandas <span class="c-keyword">as</span> pd
+<span class="c-keyword">from</span> sklearn.ensemble <span class="c-keyword">import</span> RandomForestRegressor
+<span class="c-keyword">from</span> sklearn.model_selection <span class="c-keyword">import</span> train_test_split
+
+<span class="c-str"># Used Bike Valuation Model Training Pipeline</span>
+df = pd.read_csv(<span class="c-str">"used_bikes_dataset.csv"</span>)
+X = df[[<span class="c-str">"engine_cc"</span>, <span class="c-str">"age_years"</span>, <span class="c-str">"kms_driven"</span>, <span class="c-str">"brand_encoded"</span>]]
+y = df[<span class="c-str">"price"</span>]
+
+model = RandomForestRegressor(n_estimators=100, random_state=42)
+model.fit(X_train, y_train)
+
+predicted_val = model.predict([[150, 3, 15000, 2]])
+<span class="c-func">print</span>(<span class="c-str">f"Estimated Resale Value: ₹{predicted_val[0]:,.2f}"</span>)`,
+
+    agent: `<span class="c-keyword">class</span> <span class="c-func">AgentDispatcher</span>:
+    <span class="c-keyword">def __init__</span>(self, github_client, db_session):
+        self.github = github_client
+        self.db = db_session
+
+    <span class="c-keyword">async def</span> <span class="c-func">dispatch_fork_sandbox</span>(self, issue_id: str):
+        <span class="c-str">"""Creates isolated git workspace & executes test suite"""</span>
+        fork_uri = <span class="c-keyword">await</span> self.github.create_temp_fork(issue_id)
+        test_exit_code = <span class="c-keyword">await</span> self.run_pytest_suite(fork_uri)
+        <span class="c-keyword">if</span> test_exit_code == 0:
+            <span class="c-keyword">await</span> self.submit_pull_request(fork_uri)
+            <span class="c-keyword">return</span> <span class="c-str">"SUCCESS"</span>`
+};
+
+function switchCodeTab(tabKey) {
+    const tabs = document.querySelectorAll('.ci-tab');
+    tabs.forEach(t => t.classList.remove('active'));
+
+    const activeTab = Array.from(tabs).find(t => t.getAttribute('onclick').includes(tabKey));
+    if (activeTab) activeTab.classList.add('active');
+
+    const display = document.getElementById('code-display');
+    if (display && codeSnippets[tabKey]) {
+        display.innerHTML = codeSnippets[tabKey];
+    }
+}
+
+function copyCodeSnippet() {
+    const display = document.getElementById('code-display');
+    const btn = document.getElementById('btn-copy');
+    if (!display || !btn) return;
+
+    navigator.clipboard.writeText(display.textContent);
+    btn.innerHTML = '<span>Copied!</span> ✅';
+    setTimeout(() => {
+        btn.innerHTML = '<span>Copy</span> 📋';
+    }, 2000);
+}
+
+/* ---------------------------------------------------------------------
+   5. Architecture Inspector Diagram Switcher
+   --------------------------------------------------------------------- */
+const archDiagrams = {
+    resilient: `
+        <div class="arch-flow-grid">
+            <div class="arch-node">
+                <span class="arch-step-num">STEP 01</span>
+                <h4>Discovery Engine</h4>
+                <p>Scans GitHub API for candidate open-source issues with active reproducible unit test suites.</p>
+            </div>
+            <div class="arch-node">
+                <span class="arch-step-num">STEP 02</span>
+                <h4>Fork Isolation Sandbox</h4>
+                <p>Clones repo into isolated temp workspace, dispatches LLM agent retry loops (`pytest`, `npm test`).</p>
+            </div>
+            <div class="arch-node">
+                <span class="arch-step-num">STEP 03</span>
+                <h4>JWT Upstream PR</h4>
+                <p>Authenticated GitHub App RS256 token submits verified PR upstream under rolling rate caps.</p>
+            </div>
+        </div>`,
+
+    bike: `
+        <div class="arch-flow-grid">
+            <div class="arch-node">
+                <span class="arch-step-num">STEP 01</span>
+                <h4>Data Cleaning & Encoding</h4>
+                <p>Processes raw vehicle dataset, encodes categorical brand variables, handles missing value imputation.</p>
+            </div>
+            <div class="arch-node">
+                <span class="arch-step-num">STEP 02</span>
+                <h4>Random Forest Regressor</h4>
+                <p>Trains multi-tree ensemble model predicting non-linear depreciation curves based on age and mileage.</p>
+            </div>
+            <div class="arch-node">
+                <span class="arch-step-num">STEP 03</span>
+                <h4>Flask REST Endpoint</h4>
+                <p>Exposes light JSON API endpoint returning instant vehicle market valuation estimates.</p>
+            </div>
+        </div>`,
+
+    carbon: `
+        <div class="arch-flow-grid">
+            <div class="arch-node">
+                <span class="arch-step-num">STEP 01</span>
+                <h4>Workload Telemetry</h4>
+                <p>Collects active CPU/GPU training hours and server utilization metrics across team workstations.</p>
+            </div>
+            <div class="arch-node">
+                <span class="arch-step-num">STEP 02</span>
+                <h4>Grid Emission Factor</h4>
+                <p>Calculates equivalent kWh energy draw and converts to regional carbon footprint metrics (kg CO₂).</p>
+            </div>
+            <div class="arch-node">
+                <span class="arch-step-num">STEP 03</span>
+                <h4>Optimization Insights</h4>
+                <p>Renders visual recommendations to reduce computing energy consumption and offset emissions.</p>
+            </div>
+        </div>`
+};
+
+function switchArchTab(archKey) {
+    const tabs = document.querySelectorAll('.arch-tab');
+    tabs.forEach(t => t.classList.remove('active'));
+
+    const activeTab = Array.from(tabs).find(t => t.getAttribute('onclick').includes(archKey));
+    if (activeTab) activeTab.classList.add('active');
+
+    const display = document.getElementById('arch-display');
+    if (display && archDiagrams[archKey]) {
+        display.innerHTML = archDiagrams[archKey];
+    }
+}
+
+/* ---------------------------------------------------------------------
+   6. Skills Matrix & Categorized Filter
    --------------------------------------------------------------------- */
 const skillsData = [
     { name: 'Python', category: 'languages', icon: '🐍' },
@@ -190,7 +405,7 @@ function filterSkills(category) {
 }
 
 /* ---------------------------------------------------------------------
-   4. Web Terminal Shell Engine
+   7. Upgraded Hacker Lab Terminal Engine
    --------------------------------------------------------------------- */
 function initTerminal() {
     const input = document.getElementById('terminal-input');
@@ -201,7 +416,7 @@ function initTerminal() {
         if (e.key === 'Enter') {
             const command = input.value.trim().toLowerCase();
             if (command) {
-                appendTerminalLine(`harshit@lab:~$ ${command}`, 't-cmd');
+                appendTerminalLine(`harshit@usar ~ % ${command}`, 't-cmd');
                 executeTerminalCommand(command);
                 input.value = '';
                 body.scrollTop = body.scrollHeight;
@@ -226,11 +441,26 @@ function executeTerminalCommand(cmd) {
     switch (cmd) {
         case 'help':
             appendTerminalLine('Available Commands:', 't-info');
-            appendTerminalLine('  about       - Display Harshit\'s background & education', 't-output');
-            appendTerminalLine('  skills      - List technical stack & tools', 't-output');
-            appendTerminalLine('  projects    - List all 4 featured projects', 't-output');
-            appendTerminalLine('  contact     - Display social links & email', 't-output');
-            appendTerminalLine('  clear       - Clear terminal screen', 't-output');
+            appendTerminalLine('  neofetch    - Display system info & ASCII logo', 't-output');
+            appendTerminalLine('  about       - Display Harshit\'s background & degree', 't-output');
+            appendTerminalLine('  skills      - List technical stack & languages', 't-output');
+            appendTerminalLine('  projects    - List all 4 featured engineering builds', 't-output');
+            appendTerminalLine('  contact     - Display email & social links', 't-output');
+            appendTerminalLine('  sudo        - Request root permissions', 't-output');
+            appendTerminalLine('  clear       - Clear shell prompt', 't-output');
+            break;
+
+        case 'neofetch':
+            appendTerminalLine(`
+<span class="t-cmd">      .---.      </span>  <strong style="color:#00F0FF">harshit@usar-server</strong>
+<span class="t-cmd">     /     \\     </span>  -------------------
+<span class="t-cmd">    |  () () |   </span>  <strong>OS</strong>: Ubuntu 24.04 LTS (x86_64)
+<span class="t-cmd">     \\  ==  /    </span>  <strong>Host</strong>: USAR (GGSIPU), New Delhi 🇮🇳
+<span class="t-cmd">      \`---'      </span>  <strong>Kernel</strong>: 6.8.0-AI-ML-generic
+                   <strong>Uptime</strong>: B.Tech Student (2023 - 2027)
+                   <strong>Shell</strong>: zsh 5.9
+                   <strong>Stack</strong>: Python, FastAPI, React, PyTorch
+            `, 't-system');
             break;
 
         case 'about':
@@ -256,6 +486,10 @@ function executeTerminalCommand(cmd) {
             appendTerminalLine('LinkedIn: https://www.linkedin.com/in/devharshitsharma', 't-output');
             break;
 
+        case 'sudo':
+            appendTerminalLine('harshit is not in the sudoers file. This incident will be reported.', 't-error');
+            break;
+
         case 'clear':
             const body = document.getElementById('terminal-body');
             const lines = body.querySelectorAll('.t-line');
@@ -263,14 +497,61 @@ function executeTerminalCommand(cmd) {
             break;
 
         default:
-            appendTerminalLine(`command not found: ${cmd}. Type 'help' for available commands.`, 't-error');
+            appendTerminalLine(`zsh: command not found: ${cmd}. Type 'help' for commands.`, 't-error');
             break;
     }
 }
 
 /* ---------------------------------------------------------------------
-   5. Contact Form Simulator
+   8. Live Interactive ML Demos Calculation Algorithms
    --------------------------------------------------------------------- */
+function calculateBikePrice() {
+    const brand = document.getElementById('ml-brand')?.value || 'Yamaha';
+    const engine = parseInt(document.getElementById('ml-engine')?.value || '150');
+    const age = parseInt(document.getElementById('ml-age')?.value || '3');
+    const km = parseInt(document.getElementById('ml-km')?.value || '15000');
+
+    const brandMultipliers = {
+        'Royal Enfield': 1.4,
+        'KTM': 1.3,
+        'Yamaha': 1.1,
+        'Honda': 1.0,
+        'Bajaj': 0.85,
+        'TVS': 0.8
+    };
+
+    const basePrice = (engine * 700) * (brandMultipliers[brand] || 1.0);
+    const ageDepreciation = Math.pow(0.88, age);
+    const kmDepreciation = Math.max(0.6, 1 - (km / 120000));
+
+    const estimatedPrice = Math.round((basePrice * ageDepreciation * kmDepreciation) / 100) * 100;
+    
+    const output = document.getElementById('ml-price-output');
+    if (output) {
+        output.textContent = `₹ ${estimatedPrice.toLocaleString('en-IN')}`;
+    }
+}
+
+function calculateCarbon() {
+    const laptopHours = parseInt(document.getElementById('c-laptop')?.value || '8');
+    const gpuHours = parseInt(document.getElementById('c-gpu')?.value || '3');
+
+    const annualKWh = ((laptopHours * 0.05) + (gpuHours * 0.35)) * 365;
+    const co2Kg = Math.round(annualKWh * 0.82);
+
+    const outputEmissions = document.getElementById('c-emissions-output');
+    const outputTip = document.getElementById('c-tip-output');
+
+    if (outputEmissions) {
+        outputEmissions.textContent = `${co2Kg} kg CO₂ / year`;
+    }
+
+    if (outputTip) {
+        const treesRequired = Math.ceil(co2Kg / 20);
+        outputTip.textContent = `💡 Equivalent to planting ${treesRequired} trees annually!`;
+    }
+}
+
 function handleContactSubmit(e) {
     e.preventDefault();
     const status = document.getElementById('form-status');
@@ -286,61 +567,3 @@ function handleContactSubmit(e) {
         status.classList.add('hidden');
     }, 5000);
 }
-
-/* ---------------------------------------------------------------------
-   6. Live Interactive ML Demos Calculation Algorithms
-   --------------------------------------------------------------------- */
-function calculateBikePrice() {
-    const brand = document.getElementById('ml-brand')?.value || 'Yamaha';
-    const engine = parseInt(document.getElementById('ml-engine')?.value || '150');
-    const age = parseInt(document.getElementById('ml-age')?.value || '3');
-    const km = parseInt(document.getElementById('ml-km')?.value || '15000');
-
-    // Base market multiplier by brand
-    const brandMultipliers = {
-        'Royal Enfield': 1.4,
-        'KTM': 1.3,
-        'Yamaha': 1.1,
-        'Honda': 1.0,
-        'Bajaj': 0.85,
-        'TVS': 0.8
-    };
-
-    const basePrice = (engine * 700) * (brandMultipliers[brand] || 1.0);
-    const ageDepreciation = Math.pow(0.88, age); // 12% annual depreciation
-    const kmDepreciation = Math.max(0.6, 1 - (km / 120000));
-
-    const estimatedPrice = Math.round((basePrice * ageDepreciation * kmDepreciation) / 100) * 100;
-    
-    const output = document.getElementById('ml-price-output');
-    if (output) {
-        output.textContent = `₹ ${estimatedPrice.toLocaleString('en-IN')}`;
-    }
-}
-
-function calculateCarbon() {
-    const laptopHours = parseInt(document.getElementById('c-laptop')?.value || '8');
-    const gpuHours = parseInt(document.getElementById('c-gpu')?.value || '3');
-
-    // kWh consumption per hour (Laptop: 0.05 kWh, GPU: 0.35 kWh)
-    const annualKWh = ((laptopHours * 0.05) + (gpuHours * 0.35)) * 365;
-    const co2Kg = Math.round(annualKWh * 0.82); // Grid emission factor ~0.82 kg CO2/kWh
-
-    const outputEmissions = document.getElementById('c-emissions-output');
-    const outputTip = document.getElementById('c-tip-output');
-
-    if (outputEmissions) {
-        outputEmissions.textContent = `${co2Kg} kg CO₂ / year`;
-    }
-
-    if (outputTip) {
-        const treesRequired = Math.ceil(co2Kg / 20); // 1 tree absorbs ~20kg CO2/year
-        outputTip.textContent = `💡 Equivalent to planting ${treesRequired} trees annually!`;
-    }
-}
-
-// Initialize Demos on Load
-setTimeout(() => {
-    calculateBikePrice();
-    calculateCarbon();
-}, 200);
