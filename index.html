@@ -23,8 +23,8 @@
     <canvas id="bg-canvas"></canvas>
 
     <!-- Command Palette Search Modal (Cmd + K / Ctrl + K) -->
-    <div id="cmd-palette-backdrop" class="cmd-palette-backdrop hidden" onclick="toggleCommandPalette(false)">
-        <div class="cmd-palette-modal" onclick="event.stopPropagation()">
+    <div id="cmd-palette-backdrop" class="cmd-palette-backdrop hidden">
+        <div class="cmd-palette-modal">
             <div class="cmd-input-container">
                 <span class="cmd-search-icon">🔍</span>
                 <input type="text" id="cmd-input" placeholder="Type a command or search... (Esc to close)" autocomplete="off">
@@ -33,56 +33,56 @@
             
             <div class="cmd-results" id="cmd-results">
                 <div class="cmd-category">NAVIGATION</div>
-                <div class="cmd-item" onclick="navigateAndClose('#projects')">
+                <div class="cmd-item" data-action="nav" data-target="#projects">
                     <span class="cmd-icon">📂</span>
                     <span class="cmd-title">Go to Featured Projects</span>
                     <span class="cmd-shortcut">#projects</span>
                 </div>
-                <div class="cmd-item" onclick="navigateAndClose('#code-inspector')">
+                <div class="cmd-item" data-action="nav" data-target="#code-inspector">
                     <span class="cmd-icon">💻</span>
                     <span class="cmd-title">Inspect Source Code</span>
                     <span class="cmd-shortcut">#code-inspector</span>
                 </div>
-                <div class="cmd-item" onclick="navigateAndClose('#architecture')">
+                <div class="cmd-item" data-action="nav" data-target="#architecture">
                     <span class="cmd-icon">⚙️</span>
                     <span class="cmd-title">Go to Architecture Inspector</span>
                     <span class="cmd-shortcut">#architecture</span>
                 </div>
-                <div class="cmd-item" onclick="navigateAndClose('#skills')">
+                <div class="cmd-item" data-action="nav" data-target="#skills">
                     <span class="cmd-icon">🛠️</span>
                     <span class="cmd-title">Go to Technical Skills Matrix</span>
                     <span class="cmd-shortcut">#skills</span>
                 </div>
-                <div class="cmd-item" onclick="navigateAndClose('#terminal')">
+                <div class="cmd-item" data-action="nav" data-target="#terminal">
                     <span class="cmd-icon">💻</span>
                     <span class="cmd-title">Open Terminal Shell</span>
                     <span class="cmd-shortcut">#terminal</span>
                 </div>
 
                 <div class="cmd-category">REAL GITHUB REPOSITORIES</div>
-                <div class="cmd-item" onclick="window.open('https://github.com/harshitthek/resilient', '_blank')">
+                <div class="cmd-item" data-action="link" data-url="https://github.com/harshitthek/resilient">
                     <span class="cmd-icon">🤖</span>
                     <span class="cmd-title">Resilient Repository</span>
                     <span class="cmd-shortcut">harshitthek/resilient</span>
                 </div>
-                <div class="cmd-item" onclick="window.open('https://github.com/harshitthek/used-bike-price', '_blank')">
+                <div class="cmd-item" data-action="link" data-url="https://github.com/harshitthek/used-bike-price">
                     <span class="cmd-icon">🚲</span>
                     <span class="cmd-title">Used Bike Price Predictor Repo</span>
                     <span class="cmd-shortcut">harshitthek/used-bike-price</span>
                 </div>
-                <div class="cmd-item" onclick="window.open('https://github.com/harshitthek/carbon-guardian-ai', '_blank')">
+                <div class="cmd-item" data-action="link" data-url="https://github.com/harshitthek/carbon-guardian-ai">
                     <span class="cmd-icon">🌿</span>
                     <span class="cmd-title">Carbon Guardian AI Repo</span>
                     <span class="cmd-shortcut">harshitthek/carbon-guardian-ai</span>
                 </div>
-                <div class="cmd-item" onclick="window.open('https://github.com/harshitthek/Customizable-Browser-Startpage', '_blank')">
+                <div class="cmd-item" data-action="link" data-url="https://github.com/harshitthek/Customizable-Browser-Startpage">
                     <span class="cmd-icon">🖥️</span>
                     <span class="cmd-title">Browser Startpage Repo</span>
                     <span class="cmd-shortcut">harshitthek/Customizable-Browser-Startpage</span>
                 </div>
 
                 <div class="cmd-category">ACTIONS</div>
-                <div class="cmd-item" onclick="copyEmailAndClose()">
+                <div class="cmd-item" data-action="copy-email">
                     <span class="cmd-icon">📧</span>
                     <span class="cmd-title">Copy Email Address</span>
                     <span class="cmd-shortcut">codewithharshitsharma@gmail.com</span>
@@ -106,7 +106,7 @@
                 <a href="#architecture" class="nav-link">Architecture</a>
                 <a href="#skills" class="nav-link">Skills</a>
                 <a href="#terminal" class="nav-link">Terminal</a>
-                <button class="cmd-trigger-btn" onclick="toggleCommandPalette(true)">
+                <button class="cmd-trigger-btn" id="cmd-trigger-btn">
                     <span>Search</span>
                     <kbd>⌘K</kbd>
                 </button>
@@ -145,7 +145,7 @@
                             <span>Explore Projects</span>
                             →
                         </a>
-                        <button onclick="toggleCommandPalette(true)" class="btn btn-secondary">
+                        <button class="btn btn-secondary" id="cmd-hero-btn">
                             <span>Command Palette</span>
                             <kbd class="kbd-badge">⌘K</kbd>
                         </button>
@@ -185,12 +185,12 @@
                                 <span class="f-val">B.Tech in Artificial Intelligence & ML</span>
                             </div>
                             <div class="field-item">
-                                <span class="f-lbl">GitHub Repositories</span>
+                                <span class="f-lbl">GitHub Profile</span>
                                 <span class="f-val"><a href="https://github.com/harshitthek" target="_blank" class="c-link">github.com/harshitthek ↗</a></span>
                             </div>
                             <div class="field-item">
-                                <span class="f-lbl">Primary Languages</span>
-                                <span class="f-val">Python, JavaScript, C++, SQL, Bash</span>
+                                <span class="f-lbl">Primary Stack</span>
+                                <span class="f-val">Python, FastAPI, React, PyTorch, Linux</span>
                             </div>
                         </div>
                     </div>
@@ -294,11 +294,11 @@
             <div class="code-inspector-card glass-card">
                 <div class="ci-header">
                     <div class="ci-tabs">
-                        <button class="ci-tab active" onclick="switchCodeTab('webhook')">webhook_receiver.py</button>
-                        <button class="ci-tab" onclick="switchCodeTab('ml')">used_bike_model.py</button>
-                        <button class="ci-tab" onclick="switchCodeTab('schema')">schema.sql</button>
+                        <button class="ci-tab active" data-tab="webhook">webhook_receiver.py</button>
+                        <button class="ci-tab" data-tab="ml">used_bike_model.py</button>
+                        <button class="ci-tab" data-tab="schema">schema.sql</button>
                     </div>
-                    <button class="btn-copy-code" onclick="copyCodeSnippet()" id="btn-copy">
+                    <button class="btn-copy-code" id="btn-copy">
                         <span>Copy Code</span>
                         📋
                     </button>
@@ -336,9 +336,9 @@ app = Flask(__name__)
 
             <div class="arch-inspector-card glass-card">
                 <div class="arch-tabs">
-                    <button class="arch-tab active" onclick="switchArchTab('resilient')">Resilient Agent Pipeline</button>
-                    <button class="arch-tab" onclick="switchArchTab('bike')">Bike Price ML Engine</button>
-                    <button class="arch-tab" onclick="switchArchTab('carbon')">Carbon Guardian Pipeline</button>
+                    <button class="arch-tab active" data-arch="resilient">Resilient Agent Pipeline</button>
+                    <button class="arch-tab" data-arch="bike">Bike Price ML Engine</button>
+                    <button class="arch-tab" data-arch="carbon">Carbon Guardian Pipeline</button>
                 </div>
 
                 <div class="arch-body" id="arch-display">
@@ -356,11 +356,11 @@ app = Flask(__name__)
             </div>
 
             <div class="skills-filter-tabs">
-                <button class="skill-tab active" onclick="filterSkills('all')">All Stack</button>
-                <button class="skill-tab" onclick="filterSkills('languages')">Languages</button>
-                <button class="skill-tab" onclick="filterSkills('ai-backend')">AI & Backend</button>
-                <button class="skill-tab" onclick="filterSkills('frontend')">Frontend & Web</button>
-                <button class="skill-tab" onclick="filterSkills('devops')">DevOps & Databases</button>
+                <button class="skill-tab active" data-category="all">All Stack</button>
+                <button class="skill-tab" data-category="languages">Languages</button>
+                <button class="skill-tab" data-category="ai-backend">AI & Backend</button>
+                <button class="skill-tab" data-category="frontend">Frontend & Web</button>
+                <button class="skill-tab" data-category="devops">DevOps & Databases</button>
             </div>
 
             <div class="skills-grid" id="skills-container">
@@ -437,7 +437,7 @@ app = Flask(__name__)
                     </div>
                 </div>
 
-                <form class="contact-form" id="contact-form" onsubmit="handleContactSubmit(event)">
+                <form class="contact-form" id="contact-form">
                     <div class="form-group">
                         <label for="c-name">Your Name</label>
                         <input type="text" id="c-name" required placeholder="John Doe">

@@ -1,5 +1,5 @@
 /* =====================================================================
-   Harshit Sharma — Dev Cool Portfolio Application Engine (100% Real Data)
+   Harshit Sharma — Dev Cool Portfolio Application Engine (100% Robust)
    ===================================================================== */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -7,21 +7,23 @@ document.addEventListener('DOMContentLoaded', () => {
     tryInit(initThreeJSBackground, 'Three.js Starfield');
     tryInit(initTypingEffect, 'Cyberpunk Typing');
     tryInit(initCommandPalette, 'Command Palette');
-    tryInit(() => renderSkillsGrid('all'), 'Skills Grid');
-    tryInit(() => switchArchTab('resilient'), 'Architecture Inspector');
+    tryInit(initCodeInspector, 'Code Inspector');
+    tryInit(initArchitectureInspector, 'Architecture Inspector');
+    tryInit(initSkillsMatrix, 'Skills Matrix');
     tryInit(initTerminal, 'Lab Terminal');
+    tryInit(initContactForm, 'Contact Form');
 });
 
 function tryInit(fn, name) {
     try {
         fn();
     } catch (err) {
-        console.warn(`[Portfolio Init Warning] ${name} initialization error:`, err);
+        console.warn(`[Portfolio Init Warning] ${name} error:`, err);
     }
 }
 
 /* ---------------------------------------------------------------------
-   0. Smooth Scrolling Navigation Fallback
+   0. Smooth Scrolling Navigation
    --------------------------------------------------------------------- */
 function initSmoothScrolling() {
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -166,9 +168,23 @@ function initTypingEffect() {
    3. Command Palette Modal Engine (Cmd + K / Ctrl + K / '/' key)
    --------------------------------------------------------------------- */
 function initCommandPalette() {
+    const backdrop = document.getElementById('cmd-palette-backdrop');
+    const input = document.getElementById('cmd-input');
+    const triggerBtns = [document.getElementById('cmd-trigger-btn'), document.getElementById('cmd-hero-btn')];
+
+    triggerBtns.forEach(btn => {
+        if (btn) {
+            btn.addEventListener('click', () => toggleCommandPalette(true));
+        }
+    });
+
+    if (backdrop) {
+        backdrop.addEventListener('click', () => toggleCommandPalette(false));
+    }
+
     window.addEventListener('keydown', (e) => {
-        const activeTagName = document.activeElement ? document.activeElement.tagName : '';
-        if (activeTagName === 'INPUT' || activeTagName === 'TEXTAREA' || activeTagName === 'SELECT') {
+        const activeTag = document.activeElement ? document.activeElement.tagName : '';
+        if (activeTag === 'INPUT' || activeTag === 'TEXTAREA' || activeTag === 'SELECT') {
             if (e.key === 'Escape') toggleCommandPalette(false);
             return;
         }
@@ -184,19 +200,34 @@ function initCommandPalette() {
         }
     });
 
-    const input = document.getElementById('cmd-input');
-    if (!input) return;
+    if (input) {
+        input.addEventListener('input', (e) => {
+            const query = e.target.value.toLowerCase().trim();
+            document.querySelectorAll('.cmd-item').forEach(item => {
+                const text = item.textContent.toLowerCase();
+                item.style.display = text.includes(query) ? 'flex' : 'none';
+            });
+        });
+    }
 
-    input.addEventListener('input', (e) => {
-        const query = e.target.value.toLowerCase().trim();
-        const items = document.querySelectorAll('.cmd-item');
-        
-        items.forEach(item => {
-            const text = item.textContent.toLowerCase();
-            if (text.includes(query)) {
-                item.style.display = 'flex';
-            } else {
-                item.style.display = 'none';
+    document.querySelectorAll('.cmd-item').forEach(item => {
+        item.addEventListener('click', () => {
+            const action = item.getAttribute('data-action');
+            if (action === 'nav') {
+                const target = item.getAttribute('data-target');
+                toggleCommandPalette(false);
+                if (target) {
+                    const el = document.querySelector(target);
+                    if (el) el.scrollIntoView({ behavior: 'smooth' });
+                }
+            } else if (action === 'link') {
+                const url = item.getAttribute('data-url');
+                toggleCommandPalette(false);
+                if (url) window.open(url, '_blank');
+            } else if (action === 'copy-email') {
+                toggleCommandPalette(false);
+                copyTextToClipboard('codewithharshitsharma@gmail.com');
+                alert('⚡ Copied codewithharshitsharma@gmail.com to clipboard!');
             }
         });
     });
@@ -218,20 +249,8 @@ function toggleCommandPalette(show) {
     }
 }
 
-function navigateAndClose(targetHash) {
-    toggleCommandPalette(false);
-    const el = document.querySelector(targetHash);
-    if (el) el.scrollIntoView({ behavior: 'smooth' });
-}
-
-function copyEmailAndClose() {
-    toggleCommandPalette(false);
-    navigator.clipboard.writeText('codewithharshitsharma@gmail.com');
-    alert('⚡ Copied codewithharshitsharma@gmail.com to clipboard!');
-}
-
 /* ---------------------------------------------------------------------
-   4. Real Code Inspector Sandbox Switcher
+   4. Code Inspector Sandbox Switcher
    --------------------------------------------------------------------- */
 const codeSnippets = {
     webhook: `<span class="c-keyword">import</span> hashlib
@@ -286,29 +305,33 @@ rf_model.fit(X_train, y_train)
 );`
 };
 
-function switchCodeTab(tabKey) {
-    const tabs = document.querySelectorAll('.ci-tab');
-    tabs.forEach(t => t.classList.remove('active'));
+function initCodeInspector() {
+    document.querySelectorAll('.ci-tab').forEach(tab => {
+        tab.addEventListener('click', () => {
+            const key = tab.getAttribute('data-tab');
+            document.querySelectorAll('.ci-tab').forEach(t => t.classList.remove('active'));
+            tab.classList.add('active');
 
-    const activeTab = Array.from(tabs).find(t => t.getAttribute('onclick').includes(tabKey));
-    if (activeTab) activeTab.classList.add('active');
+            const display = document.getElementById('code-display');
+            if (display && codeSnippets[key]) {
+                display.innerHTML = codeSnippets[key];
+            }
+        });
+    });
 
-    const display = document.getElementById('code-display');
-    if (display && codeSnippets[tabKey]) {
-        display.innerHTML = codeSnippets[tabKey];
+    const copyBtn = document.getElementById('btn-copy');
+    if (copyBtn) {
+        copyBtn.addEventListener('click', () => {
+            const display = document.getElementById('code-display');
+            if (display) {
+                copyTextToClipboard(display.textContent);
+                copyBtn.innerHTML = '<span>Copied!</span> ✅';
+                setTimeout(() => {
+                    copyBtn.innerHTML = '<span>Copy Code</span> 📋';
+                }, 2000);
+            }
+        });
     }
-}
-
-function copyCodeSnippet() {
-    const display = document.getElementById('code-display');
-    const btn = document.getElementById('btn-copy');
-    if (!display || !btn) return;
-
-    navigator.clipboard.writeText(display.textContent);
-    btn.innerHTML = '<span>Copied!</span> ✅';
-    setTimeout(() => {
-        btn.innerHTML = '<span>Copy Code</span> 📋';
-    }, 2000);
 }
 
 /* ---------------------------------------------------------------------
@@ -373,17 +396,22 @@ const archDiagrams = {
         </div>`
 };
 
-function switchArchTab(archKey) {
-    const tabs = document.querySelectorAll('.arch-tab');
-    tabs.forEach(t => t.classList.remove('active'));
+function initArchitectureInspector() {
+    document.querySelectorAll('.arch-tab').forEach(tab => {
+        tab.addEventListener('click', () => {
+            const key = tab.getAttribute('data-arch');
+            document.querySelectorAll('.arch-tab').forEach(t => t.classList.remove('active'));
+            tab.classList.add('active');
 
-    const activeTab = Array.from(tabs).find(t => t.getAttribute('onclick').includes(archKey));
-    if (activeTab) activeTab.classList.add('active');
+            const display = document.getElementById('arch-display');
+            if (display && archDiagrams[key]) {
+                display.innerHTML = archDiagrams[key];
+            }
+        });
+    });
 
     const display = document.getElementById('arch-display');
-    if (display && archDiagrams[archKey]) {
-        display.innerHTML = archDiagrams[archKey];
-    }
+    if (display) display.innerHTML = archDiagrams.resilient;
 }
 
 /* ---------------------------------------------------------------------
@@ -412,6 +440,19 @@ const skillsData = [
     { name: 'Linux / Ubuntu', category: 'devops', icon: '🐧' }
 ];
 
+function initSkillsMatrix() {
+    document.querySelectorAll('.skill-tab').forEach(tab => {
+        tab.addEventListener('click', () => {
+            const category = tab.getAttribute('data-category');
+            document.querySelectorAll('.skill-tab').forEach(t => t.classList.remove('active'));
+            tab.classList.add('active');
+            renderSkillsGrid(category);
+        });
+    });
+
+    renderSkillsGrid('all');
+}
+
 function renderSkillsGrid(filterCategory) {
     const container = document.getElementById('skills-container');
     if (!container) return;
@@ -430,16 +471,6 @@ function renderSkillsGrid(filterCategory) {
         `;
         container.appendChild(card);
     });
-}
-
-function filterSkills(category) {
-    const tabs = document.querySelectorAll('.skill-tab');
-    tabs.forEach(tab => tab.classList.remove('active'));
-
-    const activeTab = Array.from(tabs).find(t => t.getAttribute('onclick').includes(category));
-    if (activeTab) activeTab.classList.add('active');
-
-    renderSkillsGrid(category);
 }
 
 /* ---------------------------------------------------------------------
@@ -528,8 +559,10 @@ function executeTerminalCommand(cmd) {
 
         case 'clear':
             const body = document.getElementById('terminal-body');
-            const lines = body.querySelectorAll('.t-line');
-            lines.forEach(l => l.remove());
+            if (body) {
+                const lines = body.querySelectorAll('.t-line');
+                lines.forEach(l => l.remove());
+            }
             break;
 
         default:
@@ -538,18 +571,51 @@ function executeTerminalCommand(cmd) {
     }
 }
 
-function handleContactSubmit(e) {
-    e.preventDefault();
-    const status = document.getElementById('form-status');
-    if (!status) return;
+/* ---------------------------------------------------------------------
+   8. Contact Form Simulator & Utility Copy Fallback
+   --------------------------------------------------------------------- */
+function initContactForm() {
+    const form = document.getElementById('contact-form');
+    if (!form) return;
 
-    status.classList.remove('hidden', 'success');
-    status.className = 'form-status success';
-    status.textContent = '⚡ Thank you! Your message has been received. Harshit will get back to you shortly.';
-    
-    document.getElementById('contact-form').reset();
+    form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const status = document.getElementById('form-status');
+        if (!status) return;
 
-    setTimeout(() => {
-        status.classList.add('hidden');
-    }, 5000);
+        status.classList.remove('hidden');
+        status.className = 'form-status success';
+        status.textContent = '⚡ Thank you! Your message has been received. Harshit will get back to you shortly.';
+        
+        form.reset();
+
+        setTimeout(() => {
+            status.classList.add('hidden');
+        }, 5000);
+    });
+}
+
+function copyTextToClipboard(text) {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).catch(() => {
+            fallbackCopyText(text);
+        });
+    } else {
+        fallbackCopyText(text);
+    }
+}
+
+function fallbackCopyText(text) {
+    const textarea = document.createElement('textarea');
+    textarea.value = text;
+    textarea.style.position = 'fixed';
+    textarea.style.opacity = '0';
+    document.body.appendChild(textarea);
+    textarea.select();
+    try {
+        document.execCommand('copy');
+    } catch (err) {
+        console.warn('Fallback copy failed', err);
+    }
+    document.body.removeChild(textarea);
 }
