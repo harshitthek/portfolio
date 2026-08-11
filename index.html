@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Harshit Sharma — Personal Developer Portfolio</title>
-    <meta name="description" content="Personal Portfolio of Harshit Sharma — AI & ML Engineering Student building machine learning models, full-stack web applications, and backend systems.">
+    <title>Harshit Sharma — AI & Systems Engineer</title>
+    <meta name="description" content="Personal Developer Portfolio of Harshit Sharma. AI & ML Engineering student building machine learning models, full-stack web applications, and backend systems.">
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚡</text></svg>">
     
     <!-- Google Fonts -->
@@ -19,12 +19,81 @@
 </head>
 <body>
 
-    <!-- 3D Background Canvas -->
+    <!-- 3D Particle Starfield Background -->
     <canvas id="bg-canvas"></canvas>
 
-    <!-- Ambient Orbs -->
-    <div class="glow-orb orb-1"></div>
-    <div class="glow-orb orb-2"></div>
+    <!-- Command Palette Search Modal (Cmd + K / Ctrl + K) -->
+    <div id="cmd-palette-backdrop" class="cmd-palette-backdrop hidden" onclick="toggleCommandPalette(false)">
+        <div class="cmd-palette-modal" onclick="event.stopPropagation()">
+            <div class="cmd-input-container">
+                <span class="cmd-search-icon">🔍</span>
+                <input type="text" id="cmd-input" placeholder="Type a command or search... (Esc to close)" autocomplete="off">
+                <span class="cmd-badge">ESC</span>
+            </div>
+            
+            <div class="cmd-results" id="cmd-results">
+                <div class="cmd-category">NAVIGATION</div>
+                <div class="cmd-item" onclick="navigateAndClose('#projects')">
+                    <span class="cmd-icon">📂</span>
+                    <span class="cmd-title">Go to Featured Projects</span>
+                    <span class="cmd-shortcut">#projects</span>
+                </div>
+                <div class="cmd-item" onclick="navigateAndClose('#demos')">
+                    <span class="cmd-icon">🤖</span>
+                    <span class="cmd-title">Go to Interactive ML Demos</span>
+                    <span class="cmd-shortcut">#demos</span>
+                </div>
+                <div class="cmd-item" onclick="navigateAndClose('#architecture')">
+                    <span class="cmd-icon">⚙️</span>
+                    <span class="cmd-title">Go to Architecture Inspector</span>
+                    <span class="cmd-shortcut">#architecture</span>
+                </div>
+                <div class="cmd-item" onclick="navigateAndClose('#skills')">
+                    <span class="cmd-icon">🛠️</span>
+                    <span class="cmd-title">Go to Technical Skills Matrix</span>
+                    <span class="cmd-shortcut">#skills</span>
+                </div>
+                <div class="cmd-item" onclick="navigateAndClose('#terminal')">
+                    <span class="cmd-icon">💻</span>
+                    <span class="cmd-title">Open Hacker Lab Terminal</span>
+                    <span class="cmd-shortcut">#terminal</span>
+                </div>
+
+                <div class="cmd-category">ACTIONS & LINKS</div>
+                <div class="cmd-item" onclick="copyEmailAndClose()">
+                    <span class="cmd-icon">📧</span>
+                    <span class="cmd-title">Copy Email Address</span>
+                    <span class="cmd-shortcut">codewithharshitsharma@gmail.com</span>
+                </div>
+                <div class="cmd-item" onclick="window.open('https://github.com/harshitthek', '_blank')">
+                    <span class="cmd-icon">🐙</span>
+                    <span class="cmd-title">Open GitHub Profile</span>
+                    <span class="cmd-shortcut">@harshitthek</span>
+                </div>
+                <div class="cmd-item" onclick="window.open('https://www.linkedin.com/in/devharshitsharma', '_blank')">
+                    <span class="cmd-icon">💼</span>
+                    <span class="cmd-title">Open LinkedIn Profile</span>
+                    <span class="cmd-shortcut">/in/devharshitsharma</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Live Telemetry Status Bar Header -->
+    <div class="telemetry-bar">
+        <div class="telemetry-container">
+            <div class="telemetry-item">
+                <span class="pulse-dot"></span>
+                <span>SYSTEM STATUS: <strong class="text-green">ALL SYSTEMS OPERATIONAL</strong></span>
+            </div>
+            <div class="telemetry-item desktop-only">
+                <span>EDUCATION: <strong>USAR (GGSIPU) B.Tech AI/ML</strong></span>
+            </div>
+            <div class="telemetry-item">
+                <span>PRESS <kbd onclick="toggleCommandPalette(true)">⌘K</kbd> OR <kbd onclick="toggleCommandPalette(true)">CTRL+K</kbd> FOR COMMAND PALETTE</span>
+            </div>
+        </div>
+    </div>
 
     <!-- Header Navigation -->
     <header class="navbar">
@@ -37,8 +106,14 @@
             <nav class="nav-links">
                 <a href="#about" class="nav-link">About</a>
                 <a href="#projects" class="nav-link">Projects</a>
+                <a href="#demos" class="nav-link">Demos</a>
+                <a href="#architecture" class="nav-link">Architecture</a>
                 <a href="#skills" class="nav-link">Skills</a>
                 <a href="#terminal" class="nav-link">Terminal</a>
+                <button class="cmd-trigger-btn" onclick="toggleCommandPalette(true)">
+                    <span>Search</span>
+                    <kbd>⌘K</kbd>
+                </button>
                 <a href="#contact" class="btn btn-nav">Contact</a>
             </nav>
         </div>
@@ -51,33 +126,33 @@
             <div class="hero-container">
                 <div class="hero-text-content">
                     <div class="status-badge">
-                        <span class="pulse-dot"></span>
-                        <span>AI & ML Engineering Student @ USAR (GGSIPU)</span>
+                        <span class="badge-tag">AI & ML STUDENT</span>
+                        <span>USAR (GGSIPU), New Delhi 🇮🇳</span>
                     </div>
 
                     <h1 class="hero-title">
-                        Hi, I'm <span class="gradient-text">Harshit Sharma</span>
+                        Building <span class="gradient-text">AI Systems</span> & Backend Infrastructure.
                     </h1>
 
                     <div class="typing-container">
-                        <span class="terminal-prompt">harshit@lab:~$</span>
+                        <span class="terminal-prompt">harshit@usar ~ %</span>
                         <span id="typing-text" class="typing-text"></span>
                         <span class="cursor">|</span>
                     </div>
 
                     <p class="hero-description">
-                        Building practical AI/ML models, scalable web applications, and backend API systems. Passionate about learning by breaking systems, exploring Linux internals, and shipping real software products.
+                        Software engineer building machine learning pipelines, scalable REST API backends, and autonomous agent frameworks. Powered by Python, FastAPI, PostgreSQL, PyTorch, and Linux systems.
                     </p>
 
                     <div class="hero-actions">
                         <a href="#projects" class="btn btn-primary">
-                            <span>View Projects</span>
+                            <span>Explore Projects</span>
                             →
                         </a>
-                        <a href="#terminal" class="btn btn-secondary">
-                            <span>Launch Lab Terminal</span>
-                            <span class="code-tag">&gt;_</span>
-                        </a>
+                        <button onclick="toggleCommandPalette(true)" class="btn btn-secondary">
+                            <span>Command Palette</span>
+                            <kbd class="kbd-badge">⌘K</kbd>
+                        </button>
                     </div>
 
                     <div class="social-links">
@@ -93,30 +168,38 @@
                     </div>
                 </div>
 
-                <!-- Clean Profile Overview Card -->
+                <!-- Live Code Inspector / API Sandbox Visual -->
                 <div class="hero-visual">
-                    <div class="profile-card glass-card">
-                        <div class="pc-head">
-                            <div class="pc-avatar-placeholder">HS</div>
-                            <div class="pc-info">
-                                <h3>Harshit Sharma</h3>
-                                <span class="pc-loc">📍 New Delhi, India 🇮🇳</span>
+                    <div class="code-inspector-card glass-card">
+                        <div class="ci-header">
+                            <div class="ci-tabs">
+                                <button class="ci-tab active" onclick="switchCodeTab('fastapi')">fastapi_server.py</button>
+                                <button class="ci-tab" onclick="switchCodeTab('ml')">ml_inference.py</button>
+                                <button class="ci-tab" onclick="switchCodeTab('agent')">agent_loop.py</button>
                             </div>
+                            <button class="btn-copy-code" onclick="copyCodeSnippet()" id="btn-copy">
+                                <span>Copy</span>
+                                📋
+                            </button>
                         </div>
-                        <div class="pc-divider"></div>
-                        <div class="pc-fields">
-                            <div class="field-item">
-                                <span class="f-lbl">Degree</span>
-                                <span class="f-val">B.Tech in AI & ML (USAR, GGSIPU)</span>
-                            </div>
-                            <div class="field-item">
-                                <span class="f-lbl">Core Focus</span>
-                                <span class="f-val">AI/ML, Full-Stack Web, Backend APIs</span>
-                            </div>
-                            <div class="field-item">
-                                <span class="f-lbl">Currently Learning</span>
-                                <span class="f-val">Distributed Systems & Security Labs</span>
-                            </div>
+                        <div class="ci-body">
+                            <pre><code id="code-display" class="code-block">
+<span class="c-keyword">from</span> fastapi <span class="c-keyword">import</span> FastAPI, Depends, HTTPException
+<span class="c-keyword">from</span> pydantic <span class="c-keyword">import</span> BaseModel
+<span class="c-keyword">import</span> torch
+
+app = FastAPI(title=<span class="c-str">"Resilient AI API Engine"</span>)
+
+<span class="c-decorator">@app.post</span>(<span class="c-str">"/v1/evaluate"</span>)
+<span class="c-keyword">async def</span> <span class="c-func">evaluate_candidate_issue</span>(payload: IssuePayload):
+    <span class="c-str">"""Executes autonomous agent benchmark pipeline"""</span>
+    result = <span class="c-keyword">await</span> agent_dispatcher.run(
+        repo=payload.repo,
+        model=<span class="c-str">"gemini-2.5-flash"</span>,
+        sandbox_isolation=<span class="c-keyword">True</span>
+    )
+    <span class="c-keyword">return</span> {<span class="c-str">"status"</span>: <span class="c-str">"PASSED"</span>, <span class="c-str">"score"</span>: 1.0}
+                            </code></pre>
                         </div>
                     </div>
                 </div>
@@ -208,7 +291,7 @@
             </div>
         </section>
 
-        <!-- Live Interactive ML Demos & Calculator Section -->
+        <!-- Live Interactive ML Demos Section -->
         <section id="demos" class="section">
             <div class="section-header">
                 <span class="section-tag">// HANDS-ON DEMOS</span>
@@ -301,6 +384,27 @@
             </div>
         </section>
 
+        <!-- System Architecture Inspector Section -->
+        <section id="architecture" class="section">
+            <div class="section-header">
+                <span class="section-tag">// SYSTEM INSPECTOR</span>
+                <h2 class="section-title">Architectural <span class="gradient-text">Flow Diagrams</span></h2>
+                <p class="section-subtitle">Click through pipeline steps to inspect system engineering trade-offs.</p>
+            </div>
+
+            <div class="arch-inspector-card glass-card">
+                <div class="arch-tabs">
+                    <button class="arch-tab active" onclick="switchArchTab('resilient')">Resilient Agent Pipeline</button>
+                    <button class="arch-tab" onclick="switchArchTab('bike')">Bike Price ML Engine</button>
+                    <button class="arch-tab" onclick="switchArchTab('carbon')">Carbon Guardian Pipeline</button>
+                </div>
+
+                <div class="arch-body" id="arch-display">
+                    <!-- Populated via app.js -->
+                </div>
+            </div>
+        </section>
+
         <!-- Tech Stack Matrix with Filter Tabs -->
         <section id="skills" class="section">
             <div class="section-header">
@@ -322,7 +426,7 @@
             </div>
         </section>
 
-        <!-- Interactive Web Terminal Console Section -->
+        <!-- Upgraded Hacker Lab Terminal Console Section -->
         <section id="terminal" class="section">
             <div class="section-header">
                 <span class="section-tag">// LAB CONSOLE</span>
@@ -337,16 +441,16 @@
                         <span class="t-btn btn-minimize"></span>
                         <span class="t-btn btn-maximize"></span>
                     </div>
-                    <div class="terminal-title">harshit@lab-server: ~ (zsh)</div>
+                    <div class="terminal-title">harshit@usar: ~ (zsh)</div>
                 </div>
 
                 <div class="terminal-body" id="terminal-body">
-                    <div class="t-line t-system">Harshit Sharma Developer Shell Console [v4.0.0]</div>
-                    <div class="t-line t-info">Type <span class="t-cmd">'help'</span> for available commands. Try <span class="t-cmd">'about'</span>, <span class="t-cmd">'skills'</span>, or <span class="t-cmd">'projects'</span>.</div>
+                    <div class="t-line t-system">Harshit Sharma Developer Shell Console [v5.0.0]</div>
+                    <div class="t-line t-info">Type <span class="t-cmd">'help'</span> for commands, or try <span class="t-cmd">'neofetch'</span>, <span class="t-cmd">'projects'</span>, <span class="t-cmd">'skills'</span>.</div>
                     <div class="t-line">&nbsp;</div>
 
                     <div class="t-input-row">
-                        <span class="t-user">harshit@lab:~$</span>
+                        <span class="t-user">harshit@usar ~ %</span>
                         <input type="text" id="terminal-input" class="t-input" autocomplete="off" spellcheck="false" placeholder="type 'help'...">
                     </div>
                 </div>
