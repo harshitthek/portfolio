@@ -1,9 +1,8 @@
 /* =====================================================================
-   Harshit Sharma — Dev Cool Portfolio Application Engine (Bulletproof)
+   Harshit Sharma — Dev Cool Portfolio Application Engine (100% Real Data)
    ===================================================================== */
 
 document.addEventListener('DOMContentLoaded', () => {
-    // Wrap every initializer in try...catch so one failure never blocks the rest
     tryInit(initSmoothScrolling, 'Smooth Scrolling');
     tryInit(initThreeJSBackground, 'Three.js Starfield');
     tryInit(initTypingEffect, 'Cyberpunk Typing');
@@ -11,11 +10,6 @@ document.addEventListener('DOMContentLoaded', () => {
     tryInit(() => renderSkillsGrid('all'), 'Skills Grid');
     tryInit(() => switchArchTab('resilient'), 'Architecture Inspector');
     tryInit(initTerminal, 'Lab Terminal');
-
-    setTimeout(() => {
-        tryInit(calculateBikePrice, 'ML Bike Price Model');
-        tryInit(calculateCarbon, 'Carbon Estimator');
-    }, 200);
 });
 
 function tryInit(fn, name) {
@@ -130,9 +124,9 @@ function initTypingEffect() {
     if (!typingElement) return;
 
     const titles = [
-        "AI & ML Student @ USAR (GGSIPU)",
+        "B.Tech AI & ML Student @ USAR (GGSIPU)",
         "Machine Learning Model Developer",
-        "Full-Stack Web & Backend Engineer",
+        "Full-Stack Web & Backend API Engineer",
         "Autonomous Agent Systems Builder"
     ];
 
@@ -237,52 +231,59 @@ function copyEmailAndClose() {
 }
 
 /* ---------------------------------------------------------------------
-   4. Code Inspector Sandbox Switcher
+   4. Real Code Inspector Sandbox Switcher
    --------------------------------------------------------------------- */
 const codeSnippets = {
-    fastapi: `<span class="c-keyword">from</span> fastapi <span class="c-keyword">import</span> FastAPI, Depends, HTTPException
-<span class="c-keyword">from</span> pydantic <span class="c-keyword">import</span> BaseModel
-<span class="c-keyword">import</span> torch
+    webhook: `<span class="c-keyword">import</span> hashlib
+<span class="c-keyword">import</span> hmac
+<span class="c-keyword">import</span> os
+<span class="c-keyword">from</span> flask <span class="c-keyword">import</span> Flask, abort, request
 
-app = FastAPI(title=<span class="c-str">"Resilient AI API Engine"</span>)
+app = Flask(__name__)
+TARGET_LABELS = {<span class="c-str">"bug"</span>, <span class="c-str">"good first issue"</span>, <span class="c-str">"help wanted"</span>}
 
-<span class="c-decorator">@app.post</span>(<span class="c-str">"/v1/evaluate"</span>)
-<span class="c-keyword">async def</span> <span class="c-func">evaluate_candidate_issue</span>(payload: IssuePayload):
-    <span class="c-str">"""Executes autonomous agent benchmark pipeline"""</span>
-    result = <span class="c-keyword">await</span> agent_dispatcher.run(
-        repo=payload.repo,
-        model=<span class="c-str">"gemini-2.5-flash"</span>,
-        sandbox_isolation=<span class="c-keyword">True</span>
-    )
-    <span class="c-keyword">return</span> {<span class="c-str">"status"</span>: <span class="c-str">"PASSED"</span>, <span class="c-str">"score"</span>: 1.0}`,
+<span class="c-keyword">def</span> <span class="c-func">verify_signature</span>(payload_body: bytes, signature_header: str | None) -> bool:
+    <span class="c-keyword">if not</span> signature_header:
+        <span class="c-keyword">return False</span>
+    webhook_secret = os.environ.get(<span class="c-str">"GITHUB_WEBHOOK_SECRET"</span>, <span class="c-str">""</span>).encode()
+    <span class="c-keyword">if not</span> webhook_secret:
+        <span class="c-keyword">return False</span>
+    expected = <span class="c-str">"sha256="</span> + hmac.new(webhook_secret, payload_body, hashlib.sha256).hexdigest()
+    <span class="c-comment"># constant-time compare -- do not use \`==\` here, it leaks timing info</span>
+    <span class="c-keyword">return</span> hmac.compare_digest(expected, signature_header)`,
 
     ml: `<span class="c-keyword">import</span> pandas <span class="c-keyword">as</span> pd
 <span class="c-keyword">from</span> sklearn.ensemble <span class="c-keyword">import</span> RandomForestRegressor
 <span class="c-keyword">from</span> sklearn.model_selection <span class="c-keyword">import</span> train_test_split
 
-<span class="c-str"># Used Bike Valuation Model Training Pipeline</span>
-df = pd.read_csv(<span class="c-str">"used_bikes_dataset.csv"</span>)
-X = df[[<span class="c-str">"engine_cc"</span>, <span class="c-str">"age_years"</span>, <span class="c-str">"kms_driven"</span>, <span class="c-str">"brand_encoded"</span>]]
+<span class="c-comment"># Used Bike Valuation Pipeline</span>
+df = pd.read_csv(<span class="c-str">"used_bikes.csv"</span>)
+X = df[[<span class="c-str">"kms_driven"</span>, <span class="c-str">"age_years"</span>, <span class="c-str">"power_bhp"</span>, <span class="c-str">"brand_code"</span>]]
 y = df[<span class="c-str">"price"</span>]
 
-model = RandomForestRegressor(n_estimators=100, random_state=42)
-model.fit(X_train, y_train)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
-predicted_val = model.predict([[150, 3, 15000, 2]])
-<span class="c-func">print</span>(<span class="c-str">f"Estimated Resale Value: ₹{predicted_val[0]:,.2f}"</span>)`,
+rf_model = RandomForestRegressor(n_estimators=100, max_depth=12, random_state=42)
+rf_model.fit(X_train, y_train)
 
-    agent: `<span class="c-keyword">class</span> <span class="c-func">AgentDispatcher</span>:
-    <span class="c-keyword">def __init__</span>(self, github_client, db_session):
-        self.github = github_client
-        self.db = db_session
+<span class="c-func">print</span>(<span class="c-str">f"Validation R^2 Score: {rf_model.score(X_test, y_test):.4f}"</span>)`,
 
-    <span class="c-keyword">async def</span> <span class="c-func">dispatch_fork_sandbox</span>(self, issue_id: str):
-        <span class="c-str">"""Creates isolated git workspace & executes test suite"""</span>
-        fork_uri = <span class="c-keyword">await</span> self.github.create_temp_fork(issue_id)
-        test_exit_code = <span class="c-keyword">await</span> self.run_pytest_suite(fork_uri)
-        <span class="c-keyword">if</span> test_exit_code == 0:
-            <span class="c-keyword">await</span> self.submit_pull_request(fork_uri)
-            <span class="c-keyword">return</span> <span class="c-str">"SUCCESS"</span>`
+    schema: `<span class="c-keyword">CREATE TABLE IF NOT EXISTS</span> repos (
+    id <span class="c-func">SERIAL PRIMARY KEY</span>,
+    owner_repo <span class="c-func">TEXT UNIQUE NOT NULL</span>,
+    stars <span class="c-func">INTEGER NOT NULL</span>,
+    open_bugs <span class="c-func">INTEGER NOT NULL</span>,
+    language <span class="c-func">TEXT NOT NULL</span>,
+    created_at <span class="c-func">TIMESTAMPTZ DEFAULT NOW()</span>
+);
+
+<span class="c-keyword">CREATE TABLE IF NOT EXISTS</span> issues (
+    id <span class="c-func">SERIAL PRIMARY KEY</span>,
+    repo_id <span class="c-func">INTEGER REFERENCES</span> repos(id),
+    issue_number <span class="c-func">INTEGER NOT NULL</span>,
+    title <span class="c-func">TEXT NOT NULL</span>,
+    status <span class="c-func">TEXT DEFAULT 'DISCOVERED'</span>
+);`
 };
 
 function switchCodeTab(tabKey) {
@@ -306,7 +307,7 @@ function copyCodeSnippet() {
     navigator.clipboard.writeText(display.textContent);
     btn.innerHTML = '<span>Copied!</span> ✅';
     setTimeout(() => {
-        btn.innerHTML = '<span>Copy</span> 📋';
+        btn.innerHTML = '<span>Copy Code</span> 📋';
     }, 2000);
 }
 
@@ -491,12 +492,10 @@ function executeTerminalCommand(cmd) {
             appendTerminalLine(`
 <span class="t-cmd">      .---.      </span>  <strong style="color:#00F0FF">harshit@usar-server</strong>
 <span class="t-cmd">     /     \\     </span>  -------------------
-<span class="t-cmd">    |  () () |   </span>  <strong>OS</strong>: Ubuntu 24.04 LTS (x86_64)
-<span class="t-cmd">     \\  ==  /    </span>  <strong>Host</strong>: USAR (GGSIPU), New Delhi 🇮🇳
-<span class="t-cmd">      \`---'      </span>  <strong>Kernel</strong>: 6.8.0-AI-ML-generic
-                   <strong>Uptime</strong>: B.Tech Student (2023 - 2027)
-                   <strong>Shell</strong>: zsh 5.9
-                   <strong>Stack</strong>: Python, FastAPI, React, PyTorch
+<span class="t-cmd">    |  () () |   </span>  <strong>Degree</strong>: B.Tech AI & ML @ USAR (GGSIPU)
+<span class="t-cmd">     \\  ==  /    </span>  <strong>Location</strong>: New Delhi, India 🇮🇳
+<span class="t-cmd">      \`---'      </span>  <strong>GitHub Repos</strong>: harshitthek/resilient, used-bike-price, carbon-guardian-ai, Customizable-Browser-Startpage
+                   <strong>Primary Stack</strong>: Python, FastAPI, Flask, React, PostgreSQL, Linux
             `, 't-system');
             break;
 
@@ -511,10 +510,10 @@ function executeTerminalCommand(cmd) {
             break;
 
         case 'projects':
-            appendTerminalLine('1. Used Bike Price Predictor (ML Valuation Model & Flask API)', 't-output');
-            appendTerminalLine('2. Carbon Guardian AI (Sustainability & Energy Tracker)', 't-output');
-            appendTerminalLine('3. Customizable Browser Startpage (Minimalist Web Utility)', 't-output');
-            appendTerminalLine('4. Resilient (Autonomous AI Agent Benchmark & Pipeline)', 't-output');
+            appendTerminalLine('1. Resilient -> https://github.com/harshitthek/resilient', 't-output');
+            appendTerminalLine('2. Used Bike Price Predictor -> https://github.com/harshitthek/used-bike-price', 't-output');
+            appendTerminalLine('3. Carbon Guardian AI -> https://github.com/harshitthek/carbon-guardian-ai', 't-output');
+            appendTerminalLine('4. Customizable Browser Startpage -> https://github.com/harshitthek/Customizable-Browser-Startpage', 't-output');
             break;
 
         case 'contact':
@@ -536,56 +535,6 @@ function executeTerminalCommand(cmd) {
         default:
             appendTerminalLine(`zsh: command not found: ${cmd}. Type 'help' for commands.`, 't-error');
             break;
-    }
-}
-
-/* ---------------------------------------------------------------------
-   8. Live Interactive ML Demos Calculation Algorithms
-   --------------------------------------------------------------------- */
-function calculateBikePrice() {
-    const brand = document.getElementById('ml-brand')?.value || 'Yamaha';
-    const engine = parseInt(document.getElementById('ml-engine')?.value || '150');
-    const age = parseInt(document.getElementById('ml-age')?.value || '3');
-    const km = parseInt(document.getElementById('ml-km')?.value || '15000');
-
-    const brandMultipliers = {
-        'Royal Enfield': 1.4,
-        'KTM': 1.3,
-        'Yamaha': 1.1,
-        'Honda': 1.0,
-        'Bajaj': 0.85,
-        'TVS': 0.8
-    };
-
-    const basePrice = (engine * 700) * (brandMultipliers[brand] || 1.0);
-    const ageDepreciation = Math.pow(0.88, age);
-    const kmDepreciation = Math.max(0.6, 1 - (km / 120000));
-
-    const estimatedPrice = Math.round((basePrice * ageDepreciation * kmDepreciation) / 100) * 100;
-    
-    const output = document.getElementById('ml-price-output');
-    if (output) {
-        output.textContent = `₹ ${estimatedPrice.toLocaleString('en-IN')}`;
-    }
-}
-
-function calculateCarbon() {
-    const laptopHours = parseInt(document.getElementById('c-laptop')?.value || '8');
-    const gpuHours = parseInt(document.getElementById('c-gpu')?.value || '3');
-
-    const annualKWh = ((laptopHours * 0.05) + (gpuHours * 0.35)) * 365;
-    const co2Kg = Math.round(annualKWh * 0.82);
-
-    const outputEmissions = document.getElementById('c-emissions-output');
-    const outputTip = document.getElementById('c-tip-output');
-
-    if (outputEmissions) {
-        outputEmissions.textContent = `${co2Kg} kg CO₂ / year`;
-    }
-
-    if (outputTip) {
-        const treesRequired = Math.ceil(co2Kg / 20);
-        outputTip.textContent = `💡 Equivalent to planting ${treesRequired} trees annually!`;
     }
 }
 
