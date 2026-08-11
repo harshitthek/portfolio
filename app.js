@@ -1,9 +1,9 @@
 /* =====================================================================
-   Harshit Sharma — Dev Cool Portfolio Application Engine (100% Robust)
+   Harshit Sharma — Multi-Page SPA Application Router Engine
    ===================================================================== */
 
 document.addEventListener('DOMContentLoaded', () => {
-    tryInit(initSmoothScrolling, 'Smooth Scrolling');
+    tryInit(initSPARouter, 'SPA Router');
     tryInit(initThreeJSBackground, 'Three.js Starfield');
     tryInit(initTypingEffect, 'Cyberpunk Typing');
     tryInit(initCommandPalette, 'Command Palette');
@@ -23,21 +23,48 @@ function tryInit(fn, name) {
 }
 
 /* ---------------------------------------------------------------------
-   0. Smooth Scrolling Navigation
+   0. Multi-Page Single Page Application (SPA) Hash Router
    --------------------------------------------------------------------- */
-function initSmoothScrolling() {
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function (e) {
-            const targetId = this.getAttribute('href');
-            if (targetId && targetId !== '#') {
-                const targetEl = document.querySelector(targetId);
-                if (targetEl) {
-                    e.preventDefault();
-                    targetEl.scrollIntoView({ behavior: 'smooth' });
-                }
-            }
-        });
+function initSPARouter() {
+    window.addEventListener('hashchange', handleHashRouting);
+    handleHashRouting(); // Initial route check on page load
+}
+
+function handleHashRouting() {
+    let hash = window.location.hash || '#about';
+    const validPages = ['#about', '#projects', '#code-inspector', '#architecture', '#skills', '#terminal', '#contact'];
+    
+    if (!validPages.includes(hash)) {
+        hash = '#about';
+    }
+
+    // Hide all page sections
+    document.querySelectorAll('.page-section').forEach(section => {
+        section.classList.remove('active-page');
     });
+
+    // Show selected page section
+    const targetSection = document.querySelector(hash);
+    if (targetSection) {
+        targetSection.classList.add('active-page');
+    }
+
+    // Update Navbar link active states
+    document.querySelectorAll('.nav-link').forEach(link => {
+        if (link.getAttribute('href') === hash) {
+            link.classList.add('active');
+        } else {
+            link.classList.remove('active');
+        }
+    });
+
+    // Scroll smoothly to top of main container on page change
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function navigateToPage(targetHash) {
+    window.location.hash = targetHash;
+    handleHashRouting();
 }
 
 /* ---------------------------------------------------------------------
@@ -217,8 +244,7 @@ function initCommandPalette() {
                 const target = item.getAttribute('data-target');
                 toggleCommandPalette(false);
                 if (target) {
-                    const el = document.querySelector(target);
-                    if (el) el.scrollIntoView({ behavior: 'smooth' });
+                    navigateToPage(target);
                 }
             } else if (action === 'link') {
                 const url = item.getAttribute('data-url');
@@ -250,7 +276,7 @@ function toggleCommandPalette(show) {
 }
 
 /* ---------------------------------------------------------------------
-   4. Code Inspector Sandbox Switcher
+   4. Real Code Inspector Sandbox Switcher
    --------------------------------------------------------------------- */
 const codeSnippets = {
     webhook: `<span class="c-keyword">import</span> hashlib

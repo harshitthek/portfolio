@@ -32,31 +32,41 @@
             </div>
             
             <div class="cmd-results" id="cmd-results">
-                <div class="cmd-category">NAVIGATION</div>
+                <div class="cmd-category">PAGES</div>
+                <div class="cmd-item" data-action="nav" data-target="#about">
+                    <span class="cmd-icon">🏠</span>
+                    <span class="cmd-title">About / Home Page</span>
+                    <span class="cmd-shortcut">#about</span>
+                </div>
                 <div class="cmd-item" data-action="nav" data-target="#projects">
                     <span class="cmd-icon">📂</span>
-                    <span class="cmd-title">Go to Featured Projects</span>
+                    <span class="cmd-title">Featured Projects Page</span>
                     <span class="cmd-shortcut">#projects</span>
                 </div>
                 <div class="cmd-item" data-action="nav" data-target="#code-inspector">
                     <span class="cmd-icon">💻</span>
-                    <span class="cmd-title">Inspect Source Code</span>
+                    <span class="cmd-title">Source Code Inspector Page</span>
                     <span class="cmd-shortcut">#code-inspector</span>
                 </div>
                 <div class="cmd-item" data-action="nav" data-target="#architecture">
                     <span class="cmd-icon">⚙️</span>
-                    <span class="cmd-title">Go to Architecture Inspector</span>
+                    <span class="cmd-title">System Architecture Page</span>
                     <span class="cmd-shortcut">#architecture</span>
                 </div>
                 <div class="cmd-item" data-action="nav" data-target="#skills">
                     <span class="cmd-icon">🛠️</span>
-                    <span class="cmd-title">Go to Technical Skills Matrix</span>
+                    <span class="cmd-title">Skills Matrix Page</span>
                     <span class="cmd-shortcut">#skills</span>
                 </div>
                 <div class="cmd-item" data-action="nav" data-target="#terminal">
                     <span class="cmd-icon">💻</span>
-                    <span class="cmd-title">Open Terminal Shell</span>
+                    <span class="cmd-title">Terminal Shell Page</span>
                     <span class="cmd-shortcut">#terminal</span>
+                </div>
+                <div class="cmd-item" data-action="nav" data-target="#contact">
+                    <span class="cmd-icon">📬</span>
+                    <span class="cmd-title">Contact Page</span>
+                    <span class="cmd-shortcut">#contact</span>
                 </div>
 
                 <div class="cmd-category">REAL GITHUB REPOSITORIES</div>
@@ -91,16 +101,16 @@
         </div>
     </div>
 
-    <!-- Header Navigation -->
+    <!-- Header Navigation Bar -->
     <header class="navbar">
         <div class="nav-container">
-            <a href="#" class="brand-logo">
+            <a href="#about" class="brand-logo">
                 <span class="logo-icon">⚡</span>
                 <span class="logo-text">Harshit<span class="cyan-accent">.dev</span></span>
             </a>
             
             <nav class="nav-links">
-                <a href="#about" class="nav-link">About</a>
+                <a href="#about" class="nav-link active">About</a>
                 <a href="#projects" class="nav-link">Projects</a>
                 <a href="#code-inspector" class="nav-link">Source Code</a>
                 <a href="#architecture" class="nav-link">Architecture</a>
@@ -117,8 +127,8 @@
 
     <main class="main-content">
 
-        <!-- Hero Section -->
-        <section id="about" class="hero-section">
+        <!-- PAGE 1: About / Home Section -->
+        <section id="about" class="page-section active-page">
             <div class="hero-container">
                 <div class="hero-text-content">
                     <div class="status-badge">
@@ -198,8 +208,8 @@
             </div>
         </section>
 
-        <!-- Real Projects Showcase Section -->
-        <section id="projects" class="section">
+        <!-- PAGE 2: Projects Section -->
+        <section id="projects" class="page-section">
             <div class="section-header">
                 <span class="section-tag">// PORTFOLIO REPOSITORIES</span>
                 <h2 class="section-title">Featured <span class="gradient-text">Projects & Software</span></h2>
@@ -283,8 +293,8 @@
             </div>
         </section>
 
-        <!-- Real Source Code Inspector Section -->
-        <section id="code-inspector" class="section">
+        <!-- PAGE 3: Source Code Inspector Section -->
+        <section id="code-inspector" class="page-section">
             <div class="section-header">
                 <span class="section-tag">// SOURCE CODE INSPECTOR</span>
                 <h2 class="section-title">Production <span class="gradient-text">Code Snippets</span></h2>
@@ -326,8 +336,8 @@ app = Flask(__name__)
             </div>
         </section>
 
-        <!-- System Architecture Inspector Section -->
-        <section id="architecture" class="section">
+        <!-- PAGE 4: System Architecture Inspector Section -->
+        <section id="architecture" class="page-section">
             <div class="section-header">
                 <span class="section-tag">// SYSTEM ARCHITECTURE</span>
                 <h2 class="section-title">Architectural <span class="gradient-text">Flow Diagrams</span></h2>
@@ -347,8 +357,8 @@ app = Flask(__name__)
             </div>
         </section>
 
-        <!-- Tech Stack Matrix with Filter Tabs -->
-        <section id="skills" class="section">
+        <!-- PAGE 5: Tech Stack Matrix Section -->
+        <section id="skills" class="page-section">
             <div class="section-header">
                 <span class="section-tag">// TECH ARSENAL</span>
                 <h2 class="section-title">Skills & <span class="gradient-text">Technologies</span></h2>
@@ -368,8 +378,8 @@ app = Flask(__name__)
             </div>
         </section>
 
-        <!-- Interactive Terminal Console Section -->
-        <section id="terminal" class="section">
+        <!-- PAGE 6: Interactive Terminal Console Section -->
+        <section id="terminal" class="page-section">
             <div class="section-header">
                 <span class="section-tag">// LAB CONSOLE</span>
                 <h2 class="section-title">Harshit's <span class="gradient-text">Interactive Shell</span></h2>
@@ -399,8 +409,8 @@ app = Flask(__name__)
             </div>
         </section>
 
-        <!-- Contact Section -->
-        <section id="contact" class="section">
+        <!-- PAGE 7: Contact Section -->
+        <section id="contact" class="page-section">
             <div class="section-header">
                 <span class="section-tag">// CONNECT</span>
                 <h2 class="section-title">Let's <span class="gradient-text">Connect</span></h2>
