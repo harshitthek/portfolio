@@ -438,6 +438,91 @@ kbd {
     transform: translateY(-2px);
 }
 
+/* Personal Profile Card */
+.hero-visual {
+    width: 100%;
+}
+
+.profile-card {
+    padding: 28px;
+    background-color: var(--bg-card);
+    width: 100%;
+}
+
+.pc-head {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 20px;
+}
+
+.pc-avatar-placeholder {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background-color: var(--cyan-primary);
+    color: #000;
+    font-weight: 800;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.pc-info h3 {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.pc-loc {
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-top: 2px;
+    display: block;
+}
+
+.pc-divider {
+    height: 1px;
+    background-color: var(--border-color);
+    margin-bottom: 20px;
+}
+
+.pc-fields {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.field-item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.f-lbl {
+    font-size: 11px;
+    color: var(--text-muted);
+    font-family: var(--font-mono);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.f-val {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.c-link {
+    color: var(--cyan-primary);
+    text-decoration: none;
+}
+
+.c-link:hover {
+    text-decoration: underline;
+}
+
 /* Code Inspector Card (Hero Visual) */
 .code-inspector-card {
     overflow: hidden;
