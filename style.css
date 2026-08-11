@@ -310,97 +310,11 @@ body {
     transform: translateY(-2px);
 }
 
-/* 3D Rotating Cube Visual Stage */
 .hero-visual {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 24px;
     width: 100%;
-}
-
-.cube-stage-card {
-    padding: 24px;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    overflow: hidden;
-}
-
-.stage-label {
-    font-family: var(--font-mono);
-    font-size: 11px;
-    color: var(--cyan-primary);
-    letter-spacing: 1px;
-    font-weight: 700;
-    margin-bottom: 20px;
-}
-
-.cube-wrapper {
-    width: 160px;
-    height: 160px;
-    perspective: 1000px;
-    margin: 10px 0;
-}
-
-.cube {
-    width: 100%;
-    height: 100%;
-    position: relative;
-    transform-style: preserve-3d;
-    animation: rotateCube 18s infinite linear;
-    transition: transform 0.4s ease-out;
-}
-
-.cube-stage-card:hover .cube {
-    animation-play-state: paused;
-}
-
-@keyframes rotateCube {
-    0% { transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg); }
-    100% { transform: rotateX(360deg) rotateY(360deg) rotateZ(360deg); }
-}
-
-.face {
-    position: absolute;
-    width: 140px;
-    height: 140px;
-    background-color: var(--bg-surface);
-    border: 2px solid var(--cyan-primary);
-    box-shadow: inset 0 0 20px rgba(0, 240, 255, 0.15);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 700;
-    font-size: 14px;
-    color: var(--text-primary);
-    border-radius: 12px;
-
-    backdrop-filter: none;
-}
-
-.face span {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-}
-
-.front  { transform: rotateY(  0deg) translateZ(70px); border-color: #38BDF8; }
-.back   { transform: rotateY(180deg) translateZ(70px); border-color: #10B981; }
-.right  { transform: rotateY( 90deg) translateZ(70px); border-color: #6366F1; }
-.left   { transform: rotateY(-90deg) translateZ(70px); border-color: #8B5CF6; }
-.top    { transform: rotateX( 90deg) translateZ(70px); border-color: #F59E0B; }
-.bottom { transform: rotateX(-90deg) translateZ(70px); border-color: #EC4899; }
-
-.cube-pedestal {
-    width: 100px;
-    height: 12px;
-    background: radial-gradient(ellipse at center, rgba(56, 189, 248, 0.4) 0%, transparent 70%);
-    border-radius: 50%;
-    margin-top: 10px;
 }
 
 /* Personal Profile Card */
