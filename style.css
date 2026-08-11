@@ -597,8 +597,102 @@ body {
 .footer a { color: var(--cyan-primary); text-decoration: none; }
 .copyright { font-size: 12px; margin-top: 6px; }
 
+/* Demos Container & Calculator Cards */
+.demos-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 30px;
+}
+
+.demo-card {
+    padding: 32px;
+    background-color: var(--bg-card);
+}
+
+.demo-badge {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--cyan-primary);
+    background-color: var(--bg-surface);
+    padding: 3px 8px;
+    border-radius: 4px;
+    border: 1px solid var(--border-color);
+    display: inline-block;
+    margin-bottom: 8px;
+}
+
+.demo-header h3 {
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+
+.demo-desc {
+    color: var(--text-secondary);
+    font-size: 14px;
+    margin-bottom: 24px;
+}
+
+.demo-form {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+
+.demo-form select, .demo-form input[type="range"] {
+    width: 100%;
+    accent-color: var(--cyan-primary);
+}
+
+.demo-form select {
+    padding: 10px 14px;
+    background-color: var(--bg-surface);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    color: var(--text-primary);
+    font-family: var(--font-sans);
+    font-size: 14px;
+    outline: none;
+}
+
+.result-box {
+    background-color: var(--bg-surface);
+    border: 1px solid var(--border-cyan);
+    border-radius: var(--radius-md);
+    padding: 18px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+
+    margin-top: 10px;
+}
+
+.res-label {
+    font-size: 11px;
+    color: var(--text-muted);
+    font-family: var(--font-mono);
+}
+
+.res-price {
+    font-size: 24px;
+    font-weight: 800;
+    color: var(--cyan-primary);
+}
+
+.res-tip {
+    font-size: 12px;
+    color: #4ADE80;
+    margin-top: 4px;
+}
+
 @media (max-width: 850px) {
-    .hero-container { grid-template-columns: 1fr; }
-    .projects-grid-2x2 { grid-template-columns: 1fr; }
-    .contact-container { grid-template-columns: 1fr; }
+    .demos-container { grid-template-columns: 1fr; }
+    .form-row { grid-template-columns: 1fr; }
 }

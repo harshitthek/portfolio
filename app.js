@@ -286,3 +286,61 @@ function handleContactSubmit(e) {
         status.classList.add('hidden');
     }, 5000);
 }
+
+/* ---------------------------------------------------------------------
+   6. Live Interactive ML Demos Calculation Algorithms
+   --------------------------------------------------------------------- */
+function calculateBikePrice() {
+    const brand = document.getElementById('ml-brand')?.value || 'Yamaha';
+    const engine = parseInt(document.getElementById('ml-engine')?.value || '150');
+    const age = parseInt(document.getElementById('ml-age')?.value || '3');
+    const km = parseInt(document.getElementById('ml-km')?.value || '15000');
+
+    // Base market multiplier by brand
+    const brandMultipliers = {
+        'Royal Enfield': 1.4,
+        'KTM': 1.3,
+        'Yamaha': 1.1,
+        'Honda': 1.0,
+        'Bajaj': 0.85,
+        'TVS': 0.8
+    };
+
+    const basePrice = (engine * 700) * (brandMultipliers[brand] || 1.0);
+    const ageDepreciation = Math.pow(0.88, age); // 12% annual depreciation
+    const kmDepreciation = Math.max(0.6, 1 - (km / 120000));
+
+    const estimatedPrice = Math.round((basePrice * ageDepreciation * kmDepreciation) / 100) * 100;
+    
+    const output = document.getElementById('ml-price-output');
+    if (output) {
+        output.textContent = `₹ ${estimatedPrice.toLocaleString('en-IN')}`;
+    }
+}
+
+function calculateCarbon() {
+    const laptopHours = parseInt(document.getElementById('c-laptop')?.value || '8');
+    const gpuHours = parseInt(document.getElementById('c-gpu')?.value || '3');
+
+    // kWh consumption per hour (Laptop: 0.05 kWh, GPU: 0.35 kWh)
+    const annualKWh = ((laptopHours * 0.05) + (gpuHours * 0.35)) * 365;
+    const co2Kg = Math.round(annualKWh * 0.82); // Grid emission factor ~0.82 kg CO2/kWh
+
+    const outputEmissions = document.getElementById('c-emissions-output');
+    const outputTip = document.getElementById('c-tip-output');
+
+    if (outputEmissions) {
+        outputEmissions.textContent = `${co2Kg} kg CO₂ / year`;
+    }
+
+    if (outputTip) {
+        const treesRequired = Math.ceil(co2Kg / 20); // 1 tree absorbs ~20kg CO2/year
+        outputTip.textContent = `💡 Equivalent to planting ${treesRequired} trees annually!`;
+    }
+}
+
+// Initialize Demos on Load
+setTimeout(() => {
+    calculateBikePrice();
+    calculateCarbon();
+}, 200);
