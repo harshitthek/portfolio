@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Harshit Sharma — AI & Systems Engineer</title>
-    <meta name="description" content="Portfolio of Harshit Sharma. AI & ML Student building autonomous agent orchestration pipelines, backend infrastructure, and high-performance software systems.">
+    <title>Harshit Sharma — AI & ML Engineer | Full-Stack Builder</title>
+    <meta name="description" content="Portfolio of Harshit Sharma. AI & ML Student building autonomous agent orchestration pipelines, backend infrastructure, and 3D web applications.">
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚡</text></svg>">
     
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,400;0,500;0,700;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     
     <link rel="stylesheet" href="style.css">
     
@@ -19,325 +19,371 @@
 </head>
 <body>
 
-    <!-- Subtle Background Canvas -->
+    <!-- 3D Cosmic Particle Background -->
     <canvas id="bg-canvas"></canvas>
 
-    <!-- Top Navigation Bar -->
+    <!-- Ambient Glow Orbs -->
+    <div class="glow-orb orb-1"></div>
+    <div class="glow-orb orb-2"></div>
+
+    <!-- Navigation Bar -->
     <header class="navbar">
         <div class="nav-container">
-            <a href="#" class="nav-logo">
-                <span class="logo-symbol">/&gt;</span>
-                <span class="logo-name">harshit.sharma</span>
+            <a href="#" class="brand-logo">
+                <span class="logo-icon">⚡</span>
+                <span class="logo-text">Harshit<span class="cyan-accent">.dev</span></span>
             </a>
             
             <nav class="nav-links">
-                <a href="#about" class="nav-item">About</a>
-                <a href="#architecture" class="nav-item">Engineering</a>
-                <a href="#stack" class="nav-item">Stack</a>
-                <a href="#lab" class="nav-item">Lab Console</a>
-                <a href="#contact" class="btn btn-outline-cyan">Contact</a>
+                <a href="#about" class="nav-link">About</a>
+                <a href="#projects" class="nav-link">Projects</a>
+                <a href="#skills" class="nav-link">Skills</a>
+                <a href="#terminal" class="nav-link">Terminal</a>
+                <a href="#contact" class="btn btn-nav">Get In Touch</a>
             </nav>
         </div>
     </header>
 
-    <main class="content-wrapper">
+    <main class="main-content">
 
-        <!-- Hero / Intro Section -->
+        <!-- Hero Section with Typing Effect & 3D Rotating Cube -->
         <section id="about" class="hero-section">
-            <div class="hero-grid">
-                <div class="hero-main">
-                    <div class="meta-tag">
-                        <span class="status-indicator"></span>
-                        <span>AI & ML Engineering Student @ USAR (GGSIPU)</span>
+            <div class="hero-container">
+                <div class="hero-text-content">
+                    <div class="status-badge">
+                        <span class="pulse-dot"></span>
+                        <span>Open to AI/ML Internships & Engineering Collaborations</span>
                     </div>
 
-                    <h1 class="hero-name">
-                        Harshit Sharma
+                    <h1 class="hero-title">
+                        Hi, I'm <span class="gradient-text">Harshit Sharma</span>
                     </h1>
 
-                    <div class="hero-role">
-                        <span>Autonomous AI Systems</span> • <span>Backend Architecture</span> • <span>Security</span>
+                    <div class="typing-container">
+                        <span class="terminal-prompt">harshit@usar:~$</span>
+                        <span id="typing-text" class="typing-text"></span>
+                        <span class="cursor">|</span>
                     </div>
 
-                    <p class="hero-bio">
-                        Engineering resilient software pipelines, multi-model AI agent orchestrators, and scalable web architectures. Focused on empirical testing, system security, and reliable software delivery.
+                    <p class="hero-description">
+                        AI & ML Engineering Student at USAR (GGSIPU). I build autonomous AI agent architectures, high-throughput backend APIs, and modern 3D interactive web applications.
                     </p>
 
                     <div class="hero-actions">
-                        <a href="#architecture" class="btn btn-solid">
-                            <span>View Projects & Systems</span>
+                        <a href="#projects" class="btn btn-primary">
+                            <span>Explore Projects & Systems</span>
                             →
                         </a>
-                        <a href="#lab" class="btn btn-ghost">
-                            <span>Open Web Console</span>
-                            <span class="mono-badge">CMD</span>
+                        <a href="#terminal" class="btn btn-secondary">
+                            <span>Launch Lab Terminal</span>
+                            <span class="code-tag">&gt;_</span>
                         </a>
                     </div>
 
-                    <div class="social-bar">
-                        <a href="https://github.com/harshitthek" target="_blank" class="social-link" title="GitHub">
-                            <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
-                            <span>github/harshitthek</span>
+                    <div class="social-links">
+                        <a href="https://github.com/harshitthek" target="_blank" class="social-icon" title="GitHub">
+                            <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
                         </a>
-                        <a href="https://www.linkedin.com/in/devharshitsharma" target="_blank" class="social-link" title="LinkedIn">
-                            <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
-                            <span>in/devharshitsharma</span>
+                        <a href="https://www.linkedin.com/in/devharshitsharma" target="_blank" class="social-icon" title="LinkedIn">
+                            <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
                         </a>
-                        <a href="mailto:codewithharshitsharma@gmail.com" class="social-link" title="Email">
-                            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
-                            <span>Email Me</span>
+                        <a href="mailto:codewithharshitsharma@gmail.com" class="social-icon" title="Email">
+                            <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
                         </a>
                     </div>
                 </div>
 
-                <div class="hero-stats-card panel">
-                    <div class="panel-header">
-                        <span class="panel-dot"></span>
-                        <span class="panel-title">SYSTEM METRICS</span>
+                <div class="hero-visual">
+                    <div class="cube-wrapper">
+                        <div class="cube" id="hero-cube">
+                            <div class="face front"><span>AI/ML</span></div>
+                            <div class="face back"><span>FastAPI</span></div>
+                            <div class="face right"><span>React</span></div>
+                            <div class="face left"><span>Agents</span></div>
+                            <div class="face top"><span>Python</span></div>
+                            <div class="face bottom"><span>Postgres</span></div>
+                        </div>
                     </div>
-                    <div class="metrics-list">
-                        <div class="metric-item">
-                            <span class="m-label">Primary Stack</span>
-                            <span class="m-val">Python, FastAPI, Postgres, React</span>
+
+                    <div class="system-metrics-card glass-card">
+                        <div class="sm-header">
+                            <span class="sm-dot"></span>
+                            <span>ENGINEERING PROFILE METRICS</span>
                         </div>
-                        <div class="metric-item">
-                            <span class="m-label">AI Agent Engines</span>
-                            <span class="m-val">Gemini 2.5, Qwen 2.5, Groq, Ollama</span>
-                        </div>
-                        <div class="metric-item">
-                            <span class="m-label">Engineering Focus</span>
-                            <span class="m-val">System Safety & Automation</span>
-                        </div>
-                        <div class="metric-item">
-                            <span class="m-label">Education</span>
-                            <span class="m-val">USAR, GGSIPU (New Delhi)</span>
+                        <div class="sm-body">
+                            <div class="sm-item">
+                                <span class="sm-lbl">Primary Core</span>
+                                <span class="sm-val">Python, FastAPI, Postgres, React</span>
+                            </div>
+                            <div class="sm-item">
+                                <span class="sm-lbl">AI Agent Engines</span>
+                                <span class="sm-val">Gemini 2.5, Qwen 2.5 Coder, Groq, Ollama</span>
+                            </div>
+                            <div class="sm-item">
+                                <span class="sm-lbl">University</span>
+                                <span class="sm-val">USAR, GGSIPU (New Delhi, India)</span>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Engineering Architecture & Projects Section -->
-        <section id="architecture" class="section">
-            <div class="section-title-bar">
-                <span class="section-mono">01 // SYSTEMS & PROJECTS</span>
-                <h2>Featured <span class="cyan-highlight">Engineering Builds</span></h2>
+        <!-- Featured Architectural Projects Showcase -->
+        <section id="projects" class="section">
+            <div class="section-header">
+                <span class="section-tag">// ENGINEERING SHOWCASE</span>
+                <h2 class="section-title">Featured <span class="gradient-text">Systems & Builds</span></h2>
+                <p class="section-subtitle">Real-world AI systems, full-stack applications, and developer tools.</p>
             </div>
 
-            <!-- Detailed Interactive Project 1: Resilient -->
-            <div class="system-card panel">
-                <div class="system-card-header">
-                    <div class="sys-title-group">
-                        <span class="sys-badge">FLAGSHIP SYSTEM</span>
+            <!-- Flagship Project Card with Interactive Inspector Tabs -->
+            <div class="project-card glass-card flagship-card">
+                <div class="flagship-header">
+                    <div class="flagship-title-group">
+                        <span class="flagship-badge">🔥 FLAGSHIP AI SYSTEM</span>
                         <h3>Resilient — Autonomous AI Agent Benchmark & Pipeline</h3>
                     </div>
-                    <a href="https://github.com/harshitthek/resilient" target="_blank" class="link-btn">
-                        <span>GitHub Repo</span> ↗
-                    </a>
+                    <div class="flagship-actions">
+                        <a href="https://github.com/harshitthek/resilient" target="_blank" class="btn btn-sm btn-outline">
+                            <span>GitHub Repo</span> ↗
+                        </a>
+                    </div>
                 </div>
 
-                <!-- Interactive Tab Inspector -->
-                <div class="sys-tabs">
-                    <button class="sys-tab active" onclick="switchSysTab('resilient', 'overview')">Overview</button>
-                    <button class="sys-tab" onclick="switchSysTab('resilient', 'architecture')">System Architecture</button>
-                    <button class="sys-tab" onclick="switchSysTab('resilient', 'tech')">Tech & Security</button>
+                <div class="inspector-tabs">
+                    <button class="insp-tab active" onclick="switchInspectorTab('overview')">Overview</button>
+                    <button class="insp-tab" onclick="switchInspectorTab('architecture')">Architecture & Pipeline</button>
+                    <button class="insp-tab" onclick="switchInspectorTab('tech')">Tech Stack & Security</button>
                 </div>
 
-                <div class="sys-tab-content" id="resilient-overview">
-                    <p>
+                <div class="inspector-content" id="insp-overview">
+                    <p class="insp-desc">
                         An autonomous, end-to-end multi-agent orchestration pipeline designed to evaluate open-source bug remediation. Automatically scans trending repositories, dispatches zero-cost multi-model AI coding agents, runs automated unit test suites (`pytest`, `npm`, `cargo`, `go`), and submits verified pull requests upstream with mandatory AI disclosure.
                     </p>
-                    <div class="stat-boxes">
-                        <div class="stat-box">
-                            <span class="sb-num">47</span>
-                            <span class="sb-lbl">Tracked Repos</span>
+                    <div class="project-stats">
+                        <div class="p-stat">
+                            <span class="p-val">47</span>
+                            <span class="p-lbl">Tracked Repos</span>
                         </div>
-                        <div class="stat-box">
-                            <span class="sb-num">238</span>
-                            <span class="sb-lbl">Evaluated Issues</span>
+                        <div class="p-stat">
+                            <span class="p-val">238</span>
+                            <span class="p-lbl">Candidate Issues</span>
                         </div>
-                        <div class="stat-box">
-                            <span class="sb-num">100%</span>
-                            <span class="sb-lbl">Automated Test Pass</span>
+                        <div class="p-stat">
+                            <span class="p-val">100%</span>
+                            <span class="p-lbl">Automated Test Pass</span>
                         </div>
                     </div>
                 </div>
 
-                <div class="sys-tab-content hidden" id="resilient-architecture">
-                    <div class="arch-flow">
-                        <div class="flow-step">1. Discovery Stage: Cron Scraper & HMAC Webhook Receiver</div>
-                        <div class="flow-step">2. Dispatch Stage: Multi-Model Agent Retry Loop (Gemini / Qwen / Groq)</div>
-                        <div class="flow-step">3. Evaluation Stage: Test Framework Auto-Detector & Scoring Engine</div>
-                        <div class="flow-step">4. Submission Stage: GitHub App JWT Token Auth & 24h Rolling Rate Caps</div>
+                <div class="inspector-content hidden" id="insp-architecture">
+                    <div class="pipeline-flow">
+                        <div class="p-step">1. Discovery Stage: Cron Scraper & HMAC Webhook Receiver</div>
+                        <div class="p-step">2. Dispatch Stage: Multi-Model Agent Retry Loop (Gemini / Qwen / Groq)</div>
+                        <div class="p-step">3. Evaluation Stage: Test Framework Auto-Detector & Scoring Engine</div>
+                        <div class="p-step">4. Submission Stage: GitHub App JWT Token Auth & 24h Rolling Rate Caps</div>
                     </div>
                 </div>
 
-                <div class="sys-tab-content hidden" id="resilient-tech">
-                    <div class="tech-tags">
-                        <span class="tag">Python 3.12</span>
-                        <span class="tag">FastAPI</span>
-                        <span class="tag">PostgreSQL</span>
-                        <span class="tag">Pytest (47/47 passing)</span>
-                        <span class="tag">GitHub App RS256 Auth</span>
-                        <span class="tag">Three.js Dashboard</span>
+                <div class="inspector-content hidden" id="insp-tech">
+                    <div class="tech-tags-group">
+                        <span class="tech-tag">Python 3.12</span>
+                        <span class="tech-tag">FastAPI</span>
+                        <span class="tech-tag">PostgreSQL</span>
+                        <span class="tech-tag">Pytest (47/47 passing)</span>
+                        <span class="tech-tag">GitHub App RS256 Auth</span>
+                        <span class="tech-tag">Three.js Dashboard</span>
                     </div>
                 </div>
             </div>
 
-            <!-- Grid for Projects 2, 3, 4 -->
+            <!-- Other Projects Grid -->
             <div class="projects-grid">
-                <!-- Project 2 -->
-                <div class="mini-card panel">
-                    <div class="mini-header">
-                        <span class="mini-tag">MACHINE LEARNING</span>
-                        <h4>Used Bike Price Predictor</h4>
-                    </div>
-                    <p class="mini-desc">
-                        End-to-end price valuation engine using Scikit-Learn regression models trained on multi-brand vehicle datasets, deployed via Flask REST API.
-                    </p>
-                    <div class="mini-footer">
-                        <span class="mini-tech">Python • Scikit-Learn • Flask</span>
-                        <a href="https://github.com/harshitthek/used-bike-price" target="_blank" class="mini-link">Repo ↗</a>
-                    </div>
-                </div>
-
-                <!-- Project 3 -->
-                <div class="mini-card panel">
-                    <div class="mini-header">
-                        <span class="mini-tag">AI SUSTAINABILITY</span>
-                        <h4>Carbon Guardian AI</h4>
-                    </div>
-                    <p class="mini-desc">
-                        Intelligent carbon footprint tracking dashboard analyzing organizational energy metrics and calculating AI-driven reduction strategies.
-                    </p>
-                    <div class="mini-footer">
-                        <span class="mini-tech">React • Node.js • Express</span>
-                        <a href="https://github.com/harshitthek/carbon-guardian-ai" target="_blank" class="mini-link">Repo ↗</a>
+                <!-- Card 2 -->
+                <div class="project-card glass-card">
+                    <div class="project-body">
+                        <div class="project-tags">
+                            <span class="tech-pill">Machine Learning</span>
+                            <span class="tech-pill">Python</span>
+                            <span class="tech-pill">Flask</span>
+                        </div>
+                        <h3 class="project-title">Used Bike Price Predictor</h3>
+                        <p class="project-desc">
+                            ML valuation engine trained on extensive vehicle dataset. Predicts accurate market resale prices based on brand, mileage, age, engine capacity, and historical price trends.
+                        </p>
+                        <div class="project-links">
+                            <a href="https://github.com/harshitthek/used-bike-price" target="_blank" class="btn btn-sm btn-outline">
+                                <span>GitHub Repo</span> ↗
+                            </a>
+                        </div>
                     </div>
                 </div>
 
-                <!-- Project 4 -->
-                <div class="mini-card panel">
-                    <div class="mini-header">
-                        <span class="mini-tag">WEB UTILITY</span>
-                        <h4>Customizable Browser Startpage</h4>
-                    </div>
-                    <p class="mini-desc">
-                        High-speed, minimalist web startpage equipped with configurable search engines, live weather API widgets, and custom bookmark keybindings.
-                    </p>
-                    <div class="mini-footer">
-                        <span class="mini-tech">JavaScript • CSS3 • Web APIs</span>
-                        <a href="https://github.com/harshitthek/Customizable-Browser-Startpage" target="_blank" class="mini-link">Repo ↗</a>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Tech Stack Section -->
-        <section id="stack" class="section">
-            <div class="section-title-bar">
-                <span class="section-mono">02 // TECH STACK</span>
-                <h2>Core <span class="cyan-highlight">Capabilities & Tools</span></h2>
-            </div>
-
-            <div class="stack-grid">
-                <div class="stack-category panel">
-                    <h3>Languages</h3>
-                    <div class="stack-list">
-                        <span class="s-item">Python</span>
-                        <span class="s-item">JavaScript</span>
-                        <span class="s-item">TypeScript</span>
-                        <span class="s-item">C / C++</span>
-                        <span class="s-item">Bash / Shell</span>
+                <!-- Card 3 -->
+                <div class="project-card glass-card">
+                    <div class="project-body">
+                        <div class="project-tags">
+                            <span class="tech-pill">Sustainability AI</span>
+                            <span class="tech-pill">React</span>
+                            <span class="tech-pill">Node.js</span>
+                        </div>
+                        <h3 class="project-title">Carbon Guardian AI</h3>
+                        <p class="project-desc">
+                            Smart carbon footprint estimation and AI recommendations engine for individuals and teams, computing actionable energy optimization strategies.
+                        </p>
+                        <div class="project-links">
+                            <a href="https://github.com/harshitthek/carbon-guardian-ai" target="_blank" class="btn btn-sm btn-outline">
+                                <span>GitHub Repo</span> ↗
+                            </a>
+                        </div>
                     </div>
                 </div>
 
-                <div class="stack-category panel">
-                    <h3>AI & Backend Architecture</h3>
-                    <div class="stack-list">
-                        <span class="s-item">FastAPI</span>
-                        <span class="s-item">Flask</span>
-                        <span class="s-item">Node.js / Express</span>
-                        <span class="s-item">PyTorch / Scikit-Learn</span>
-                        <span class="s-item">LLM Function Calling</span>
-                    </div>
-                </div>
-
-                <div class="stack-category panel">
-                    <h3>Databases & Infrastructure</h3>
-                    <div class="stack-list">
-                        <span class="s-item">PostgreSQL</span>
-                        <span class="s-item">MongoDB</span>
-                        <span class="s-item">Docker</span>
-                        <span class="s-item">GitHub Actions CI/CD</span>
-                        <span class="s-item">Linux / System Security</span>
-                    </div>
-                </div>
-
-                <div class="stack-category panel">
-                    <h3>Frontend & 3D Interactive</h3>
-                    <div class="stack-list">
-                        <span class="s-item">React</span>
-                        <span class="s-item">Next.js</span>
-                        <span class="s-item">Vite</span>
-                        <span class="s-item">Three.js</span>
-                        <span class="s-item">Vanilla CSS Systems</span>
+                <!-- Card 4 -->
+                <div class="project-card glass-card">
+                    <div class="project-body">
+                        <div class="project-tags">
+                            <span class="tech-pill">JavaScript</span>
+                            <span class="tech-pill">CSS3</span>
+                            <span class="tech-pill">Productivity</span>
+                        </div>
+                        <h3 class="project-title">Browser Startpage</h3>
+                        <p class="project-desc">
+                            Ultra-minimalist, fast, and customizable new tab startpage featuring live weather widgets, search provider shortcuts, and custom bookmark layouts.
+                        </p>
+                        <div class="project-links">
+                            <a href="https://github.com/harshitthek/Customizable-Browser-Startpage" target="_blank" class="btn btn-sm btn-outline">
+                                <span>GitHub Repo</span> ↗
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Minimalist Web Console Section -->
-        <section id="lab" class="section">
-            <div class="section-title-bar">
-                <span class="section-mono">03 // INTERACTIVE CONSOLE</span>
-                <h2>Developer <span class="cyan-highlight">Lab Shell</span></h2>
+        <!-- Tech Stack Matrix with Filter Tabs -->
+        <section id="skills" class="section">
+            <div class="section-header">
+                <span class="section-tag">// TECH ARSENAL</span>
+                <h2 class="section-title">Skills & <span class="gradient-text">Capabilities</span></h2>
+                <p class="section-subtitle">Categorized technologies and tools I engineer software with.</p>
             </div>
 
-            <div class="lab-shell panel">
-                <div class="shell-bar">
-                    <div class="shell-dots">
-                        <span class="dot red"></span>
-                        <span class="dot yellow"></span>
-                        <span class="dot green"></span>
+            <div class="skills-filter-tabs">
+                <button class="skill-tab active" onclick="filterSkills('all')">All Stack</button>
+                <button class="skill-tab" onclick="filterSkills('languages')">Languages</button>
+                <button class="skill-tab" onclick="filterSkills('ai-backend')">AI & Backend</button>
+                <button class="skill-tab" onclick="filterSkills('frontend')">Frontend & 3D</button>
+                <button class="skill-tab" onclick="filterSkills('devops')">DevOps & Databases</button>
+            </div>
+
+            <div class="skills-grid" id="skills-container">
+                <!-- Dynamically populated via app.js -->
+            </div>
+        </section>
+
+        <!-- Interactive Terminal Console Section -->
+        <section id="terminal" class="section">
+            <div class="section-header">
+                <span class="section-tag">// LAB CONSOLE</span>
+                <h2 class="section-title">Harshit's <span class="gradient-text">Web Shell</span></h2>
+                <p class="section-subtitle">Type commands to query background, inspect stack, or trigger live system demos.</p>
+            </div>
+
+            <div class="terminal-window glass-card">
+                <div class="terminal-header">
+                    <div class="terminal-buttons">
+                        <span class="t-btn btn-close"></span>
+                        <span class="t-btn btn-minimize"></span>
+                        <span class="t-btn btn-maximize"></span>
                     </div>
-                    <span class="shell-title">harshit@lab: ~ (zsh)</span>
+                    <div class="terminal-title">harshit@lab-server: ~ (zsh)</div>
                 </div>
 
-                <div class="shell-output" id="shell-output">
-                    <div class="s-line info">Harshit Sharma Lab Console [v3.1]</div>
-                    <div class="s-line muted">Type 'help' to inspect commands. Try 'summary', 'stack', 'resilient', or 'contact'.</div>
-                    <div class="s-line">&nbsp;</div>
+                <div class="terminal-body" id="terminal-body">
+                    <div class="t-line t-system">Harshit Sharma Web Terminal Console [v3.5.0-hybrid]</div>
+                    <div class="t-line t-info">Type <span class="t-cmd">'help'</span> for available commands. Try <span class="t-cmd">'skills'</span>, <span class="t-cmd">'resilient'</span>, or <span class="t-cmd">'contact'</span>.</div>
+                    <div class="t-line">&nbsp;</div>
 
-                    <div class="s-input-line">
-                        <span class="s-prompt">harshit@lab:~$</span>
-                        <input type="text" id="shell-input" class="s-input" autocomplete="off" spellcheck="false" placeholder="type 'help'...">
+                    <div class="t-input-row">
+                        <span class="t-user">harshit@lab:~$</span>
+                        <input type="text" id="terminal-input" class="t-input" autocomplete="off" spellcheck="false" placeholder="type 'help'...">
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Contact Section -->
+        <!-- Contact Form Section -->
         <section id="contact" class="section">
-            <div class="contact-card panel">
-                <div class="contact-text">
-                    <h2>Get In Touch</h2>
-                    <p>Open to AI/ML engineering internships, open-source collaborations, and backend architecture projects.</p>
+            <div class="section-header">
+                <span class="section-tag">// CONNECT</span>
+                <h2 class="section-title">Let's <span class="gradient-text">Build Together</span></h2>
+                <p class="section-subtitle">Have a project idea, internship opportunity, or want to collaborate? Send me a message!</p>
+            </div>
+
+            <div class="contact-container glass-card">
+                <div class="contact-info">
+                    <h3>Contact Information</h3>
+                    <p>I'm always open to discussing AI/ML engineering, open-source projects, or software opportunities.</p>
+                    
+                    <div class="c-item">
+                        <span class="c-icon">📍</span>
+                        <div class="c-detail">
+                            <span class="c-label">Location</span>
+                            <span class="c-value">New Delhi, India 🇮🇳</span>
+                        </div>
+                    </div>
+
+                    <div class="c-item">
+                        <span class="c-icon">📧</span>
+                        <div class="c-detail">
+                            <span class="c-label">Email</span>
+                            <a href="mailto:codewithharshitsharma@gmail.com" class="c-value c-link">codewithharshitsharma@gmail.com</a>
+                        </div>
+                    </div>
+
+                    <div class="c-item">
+                        <span class="c-icon">💬</span>
+                        <div class="c-detail">
+                            <span class="c-label">Discord</span>
+                            <span class="c-value">harshit0</span>
+                        </div>
+                    </div>
                 </div>
-                <div class="contact-action">
-                    <a href="mailto:codewithharshitsharma@gmail.com" class="btn btn-solid">
-                        <span>Send Email</span> ✉
-                    </a>
-                </div>
+
+                <form class="contact-form" id="contact-form" onsubmit="handleContactSubmit(event)">
+                    <div class="form-group">
+                        <label for="c-name">Your Name</label>
+                        <input type="text" id="c-name" required placeholder="John Doe">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="c-email">Your Email</label>
+                        <input type="email" id="c-email" required placeholder="john@example.com">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="c-message">Message</label>
+                        <textarea id="c-message" rows="4" required placeholder="Hi Harshit, I'd like to collaborate on..."></textarea>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary btn-block">
+                        <span>Send Message</span>
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+                    </button>
+                    
+                    <div id="form-status" class="form-status hidden"></div>
+                </form>
             </div>
         </section>
 
     </main>
 
-    <!-- Footer -->
     <footer class="footer">
         <div class="footer-container">
-            <span>© 2026 Harshit Sharma. Engineered with Vanilla CSS, Three.js & JavaScript.</span>
+            <p>Designed & Engineered with ❤️ by <strong>Harshit Sharma</strong> (<a href="https://github.com/harshitthek" target="_blank">@harshitthek</a>)</p>
+            <p class="copyright">© 2026 Harshit Sharma. Built with Vanilla CSS, Three.js & JavaScript.</p>
         </div>
     </footer>
 
