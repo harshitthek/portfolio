@@ -208,6 +208,99 @@
             </div>
         </section>
 
+        <!-- Live Interactive ML Demos & Calculator Section -->
+        <section id="demos" class="section">
+            <div class="section-header">
+                <span class="section-tag">// HANDS-ON DEMOS</span>
+                <h2 class="section-title">Interactive <span class="gradient-text">ML Model Demos</span></h2>
+                <p class="section-subtitle">Test live machine learning estimation algorithms directly on this page.</p>
+            </div>
+
+            <div class="demos-container">
+                
+                <!-- Demo 1: ML Used Bike Valuation Model -->
+                <div class="demo-card glass-card">
+                    <div class="demo-header">
+                        <span class="demo-badge">🤖 ML PRICE MODEL</span>
+                        <h3>Used Bike Resale Price Calculator</h3>
+                    </div>
+                    <p class="demo-desc">Select vehicle brand, engine capacity, age, and mileage to calculate predicted resale market value.</p>
+                    
+                    <div class="demo-form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="ml-brand">Vehicle Brand</label>
+                                <select id="ml-brand" onchange="calculateBikePrice()">
+                                    <option value="Royal Enfield">Royal Enfield</option>
+                                    <option value="Yamaha">Yamaha</option>
+                                    <option value="KTM">KTM</option>
+                                    <option value="Honda">Honda</option>
+                                    <option value="Bajaj">Bajaj</option>
+                                    <option value="TVS">TVS</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="ml-engine">Engine Capacity</label>
+                                <select id="ml-engine" onchange="calculateBikePrice()">
+                                    <option value="125">125 cc</option>
+                                    <option value="150" selected>150 cc</option>
+                                    <option value="200">200 cc</option>
+                                    <option value="350">350 cc</option>
+                                    <option value="500">500 cc</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="ml-age">Age (Years): <span id="ml-age-val">3</span></label>
+                                <input type="range" id="ml-age" min="1" max="10" value="3" oninput="document.getElementById('ml-age-val').textContent = this.value; calculateBikePrice()">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="ml-km">Driven (KM): <span id="ml-km-val">15,000</span></label>
+                                <input type="range" id="ml-km" min="1000" max="60000" step="1000" value="15000" oninput="document.getElementById('ml-km-val').textContent = Number(this.value).toLocaleString(); calculateBikePrice()">
+                            </div>
+                        </div>
+
+                        <div class="result-box">
+                            <span class="res-label">Predicted Market Resale Value</span>
+                            <span class="res-price" id="ml-price-output">₹ 85,400</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Demo 2: Carbon Footprint AI Estimator -->
+                <div class="demo-card glass-card">
+                    <div class="demo-header">
+                        <span class="demo-badge">🌿 AI SUSTAINABILITY</span>
+                        <h3>Dev Workstation Carbon Footprint Calculator</h3>
+                    </div>
+                    <p class="demo-desc">Calculate estimated annual CO₂ emissions based on daily computing workloads and GPU/server utilization.</p>
+
+                    <div class="demo-form">
+                        <div class="form-group">
+                            <label for="c-laptop">Laptop Active Hours/Day: <span id="c-laptop-val">8</span>h</label>
+                            <input type="range" id="c-laptop" min="1" max="16" value="8" oninput="document.getElementById('c-laptop-val').textContent = this.value; calculateCarbon()">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="c-gpu">GPU Training Hours/Day: <span id="c-gpu-val">3</span>h</label>
+                            <input type="range" id="c-gpu" min="0" max="12" value="3" oninput="document.getElementById('c-gpu-val').textContent = this.value; calculateCarbon()">
+                        </div>
+
+                        <div class="result-box">
+                            <span class="res-label">Estimated Annual Emissions</span>
+                            <span class="res-price" id="c-emissions-output">184 kg CO₂ / year</span>
+                            <span class="res-tip" id="c-tip-output">💡 Equivalent to planting 9 trees annually!</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
         <!-- Tech Stack Matrix with Filter Tabs -->
         <section id="skills" class="section">
             <div class="section-header">
