@@ -1,20 +1,48 @@
 /* =====================================================================
-   Harshit Sharma — Dev Cool Portfolio Application Engine
+   Harshit Sharma — Dev Cool Portfolio Application Engine (Bulletproof)
    ===================================================================== */
 
 document.addEventListener('DOMContentLoaded', () => {
-    initThreeJSBackground();
-    initTypingEffect();
-    initCommandPalette();
-    renderSkillsGrid('all');
-    switchArchTab('resilient');
-    initTerminal();
+    // Wrap every initializer in try...catch so one failure never blocks the rest
+    tryInit(initSmoothScrolling, 'Smooth Scrolling');
+    tryInit(initThreeJSBackground, 'Three.js Starfield');
+    tryInit(initTypingEffect, 'Cyberpunk Typing');
+    tryInit(initCommandPalette, 'Command Palette');
+    tryInit(() => renderSkillsGrid('all'), 'Skills Grid');
+    tryInit(() => switchArchTab('resilient'), 'Architecture Inspector');
+    tryInit(initTerminal, 'Lab Terminal');
 
     setTimeout(() => {
-        calculateBikePrice();
-        calculateCarbon();
+        tryInit(calculateBikePrice, 'ML Bike Price Model');
+        tryInit(calculateCarbon, 'Carbon Estimator');
     }, 200);
 });
+
+function tryInit(fn, name) {
+    try {
+        fn();
+    } catch (err) {
+        console.warn(`[Portfolio Init Warning] ${name} initialization error:`, err);
+    }
+}
+
+/* ---------------------------------------------------------------------
+   0. Smooth Scrolling Navigation Fallback
+   --------------------------------------------------------------------- */
+function initSmoothScrolling() {
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            const targetId = this.getAttribute('href');
+            if (targetId && targetId !== '#') {
+                const targetEl = document.querySelector(targetId);
+                if (targetEl) {
+                    e.preventDefault();
+                    targetEl.scrollIntoView({ behavior: 'smooth' });
+                }
+            }
+        });
+    });
+}
 
 /* ---------------------------------------------------------------------
    1. Three.js Interactive 3D Cosmic Particle Background
@@ -141,11 +169,20 @@ function initTypingEffect() {
 }
 
 /* ---------------------------------------------------------------------
-   3. Command Palette Modal Engine (Cmd + K / Ctrl + K)
+   3. Command Palette Modal Engine (Cmd + K / Ctrl + K / '/' key)
    --------------------------------------------------------------------- */
 function initCommandPalette() {
     window.addEventListener('keydown', (e) => {
-        if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+        const activeTagName = document.activeElement ? document.activeElement.tagName : '';
+        if (activeTagName === 'INPUT' || activeTagName === 'TEXTAREA' || activeTagName === 'SELECT') {
+            if (e.key === 'Escape') toggleCommandPalette(false);
+            return;
+        }
+
+        if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
+            e.preventDefault();
+            toggleCommandPalette(true);
+        } else if (e.key === '/') {
             e.preventDefault();
             toggleCommandPalette(true);
         } else if (e.key === 'Escape') {
@@ -287,7 +324,7 @@ const archDiagrams = {
             <div class="arch-node">
                 <span class="arch-step-num">STEP 02</span>
                 <h4>Fork Isolation Sandbox</h4>
-                <p>Clones repo into isolated temp workspace, dispatches LLM agent retry loops (`pytest`, `npm test`).</p>
+                <p>Clones repo into isolated temp workspace, dispatches LLM agent retry loops (\`pytest\`, \`npm test\`).</p>
             </div>
             <div class="arch-node">
                 <span class="arch-step-num">STEP 03</span>
