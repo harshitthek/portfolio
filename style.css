@@ -286,7 +286,7 @@ body {
 }
 
 .nav-container {
-    max-width: 1140px;
+    max-width: 1360px;
     width: 100%;
     margin: 0 auto;
     padding: 0 24px;
@@ -304,6 +304,7 @@ body {
     font-size: 19px;
     color: var(--text-primary);
     line-height: 1;
+    white-space: nowrap;
 }
 
 .logo-svg {
@@ -320,11 +321,12 @@ body {
 .nav-links {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 6px;
+    white-space: nowrap;
 }
 
 /* Uniform Navbar Control Pill Height (36px) */
-.nav-link, .theme-switcher-btn, .cmd-trigger-btn, .btn-nav {
+.nav-link, .theme-switcher-btn, .cmd-trigger-btn, .sound-toggle-btn, .btn-nav {
     height: 36px;
     display: inline-flex;
     align-items: center;
@@ -337,12 +339,14 @@ body {
     line-height: 1;
     transition: var(--transition);
     border: 1px solid transparent;
+    white-space: nowrap;
 }
 
 .nav-link {
     color: var(--text-secondary);
     text-decoration: none;
-    padding: 0 14px;
+    padding: 0 12px;
+    white-space: nowrap;
 }
 
 .nav-link:hover {
@@ -361,6 +365,7 @@ body {
 .theme-switcher-dropdown {
     position: relative;
     display: inline-block;
+    margin-left: 6px;
 }
 
 .theme-switcher-btn {
@@ -372,6 +377,7 @@ body {
     padding: 0 14px;
     cursor: pointer;
     box-shadow: 0 0 20px rgba(56, 189, 248, 0.18);
+    white-space: nowrap;
 }
 
 .theme-btn-svg {
@@ -1744,27 +1750,30 @@ body {
    6. Web Audio SFX Toggle Button
    --------------------------------------------------------------------- */
 .sound-toggle-btn {
-    background: var(--bg-surface);
+    background: rgba(15, 23, 42, 0.6);
+    backdrop-filter: blur(12px);
     border: 1px solid var(--border-color);
     color: var(--text-primary);
-    width: 38px;
-    height: 38px;
-    border-radius: var(--radius-sm);
-    display: flex;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: inline-flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
     transition: var(--transition-fast);
+    flex-shrink: 0;
 }
 
 .sound-toggle-btn:hover {
     border-color: var(--cyan-primary);
-    box-shadow: 0 0 12px color-mix(in srgb, var(--cyan-primary) 25%, transparent);
+    box-shadow: 0 0 15px color-mix(in srgb, var(--cyan-primary) 30%, transparent);
     transform: translateY(-1px);
 }
 
 .sfx-icon {
-    font-size: 16px;
+    font-size: 14px;
+    line-height: 1;
 }
 
 /* ---------------------------------------------------------------------
