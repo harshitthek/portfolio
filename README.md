@@ -10,24 +10,24 @@ An ultra-modern, high-performance 3D developer portfolio website built with HTML
 
 You can switch between **5 distinct high-impact 3D animation themes** live using the header selector (`🎨 Select 3D Design Theme`):
 
-1. **🌌 Cyberpunk HUD (`cyberpunk`) [MOUSE POINTER TRACKING]**
-   - **3D WebGL Engine**: **ONLY THIS THEME** moves and responds to mouse pointer tracking! Features a 1,200 particle spiral galaxy vortex with **3D Cursor Gravitational Attraction**, camera steering, and Point Light tracking pointer + Double Gyroscope Rings spinning around a morphing core.
+1. **🌌 Cyberpunk HUD (`cyberpunk`) [CURSOR VORTEX GRAVITY ATTRACTOR]**
+   - **3D WebGL Engine**: **ONLY THIS THEME** responds to mouse pointer movement! Features a 1,200 particle spiral galaxy vortex with **3D Cursor Gravitational Attraction**, camera steering, and Point Light tracking pointer + Double Gyroscope Rings spinning around a morphing core.
    - **Aesthetic**: Glassmorphism cards, glowing cyan (`#38BDF8`) & neon purple HUD borders.
 
-2. **🏎️ Synthwave Tron Grid (`synthwave`) [AUTOMATED HIGHWAY WARP]**
-   - **3D WebGL Engine**: **Automated continuous background animation** (no pointer tracking). 2,200px Deforming Terrain Wave Grid advancing in an infinite highway warp (`z = sin(x * 0.015 + time * 2.5) * 25`) + Glowing Retrowave Horizon Wireframe Sun + Dual-axis rotating polyhedra.
+2. **🏎️ Synthwave Tron Grid (`synthwave`) [RETROWAVE HIGHWAY WARP & NEON SUN]**
+   - **3D WebGL Engine**: **Automated background animation (no pointer tracking)**. 2,200px wireframe terrain plane advancing in an infinite highway warp (`grid.position.z += 3.5`) with 3D wave noise + Glowing Retrowave Horizon Wireframe Sun + Dual-axis rotating polyhedra.
    - **Aesthetic**: 80s Retro-futuristic Synthwave, Electric Pink (`#FF007F`) & Cyber Cyan (`#00F0FF`).
 
-3. **⚛️ Quantum Constellation (`constellation`) [AUTOMATED NEURAL WEB]**
-   - **3D WebGL Engine**: **Automated continuous background animation** (no pointer tracking). 120 Floating quantum nodes orbiting in 3D concentric dynamic paths with automated proximity laser lines connecting nearby nodes + Rotating tech cube.
+3. **⚛️ Quantum Constellation (`constellation`) [3D DNA DOUBLE HELIX & ATOM CORE]**
+   - **3D WebGL Engine**: **Automated background animation (no pointer tracking)**. 180 double-helix DNA strand nodes rotating in 3D space (`x = radius * cos(t + strand)`) with real-time hydrogen-bond connection lines + Central atomic nucleus + Rotating wireframe cube.
    - **Aesthetic**: Deep Indigo (`#0B0F19`), Electric Emerald (`#10B981`) & Sapphire (`#3B82F6`).
 
-4. **🚀 Hyperspace Warp Speed (`hyperspace`) [AUTOMATED WARP ACCELERATION]**
-   - **3D WebGL Engine**: **Automated continuous background animation** (no pointer tracking). 1,800 Star tunnel particles accelerating continuously forward at constant hyper-warp speed + Automated camera tunnel roll rotation + Holographic Octahedron Prism.
+4. **🚀 Hyperspace Warp Speed (`hyperspace`) [3D HEXAGON WORMHOLE TUNNEL]**
+   - **3D WebGL Engine**: **Automated background animation (no pointer tracking)**. 20 stacked concentric wireframe hexagon tunnel rings expanding continuously outward toward the camera in a mind-bending 3D wormhole depth effect + Holographic Octahedron Prism.
    - **Aesthetic**: Deep Space Violet (`#0F051D`), Magenta (`#EC4899`) & Supernova Gold (`#F59E0B`).
 
-5. **💻 Hacker Matrix Code Rain (`matrix`) [AUTOMATED DIGITAL WATERFALL]**
-   - **3D WebGL Engine**: **Automated continuous background animation** (no pointer tracking). 1,400 Falling green 3D code particles cascading in a continuous digital waterfall with organic horizontal sine ripples + Torus-Knot Matrix Core & Dodecahedron.
+5. **💻 Hacker Matrix Code Rain (`matrix`) [3D PARTICLE TORUS DONUT & CODE RAIN]**
+   - **3D WebGL Engine**: **Automated background animation (no pointer tracking)**. 1,200 particle 3D Torus Donut spinning on dual axes + Cascading vertical green code streams falling continuously in the background.
    - **Aesthetic**: Deep Obsidian (`#020408`) & Matrix Cyber Green (`#00FF66`).
 
 ---

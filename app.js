@@ -289,7 +289,7 @@ function initThreeJSBackground() {
             };
 
         } else if (mode === 'synthwave') {
-            // Mode 2: Dynamic Deforming Terrain Wave Plane + Glowing Retrowave Sun (AUTOMATED CONTINUOUS WARP)
+            // Mode 2: Neon Sunset Horizon & Dynamic Highway Warp Grid (AUTOMATED RETROWAVE)
             mouseLight.color.setHex(0xFF007F);
 
             const gridGeo = new THREE.PlaneGeometry(2200, 2200, 48, 48);
@@ -326,7 +326,6 @@ function initThreeJSBackground() {
                 grid.position.z += 3.5;
                 if (grid.position.z > 0) grid.position.z = -200;
 
-                // Deform grid vertices in automated dynamic waves (No mouse dependence)
                 for (let i = 0; i < posAttr.count; i++) {
                     const x = posAttr.getX(i);
                     const y = posAttr.getY(i);
@@ -343,159 +342,166 @@ function initThreeJSBackground() {
             };
 
         } else if (mode === 'constellation') {
-            // Mode 3: Quantum Proximity Neural Web & Orbital Pulse (AUTOMATED NEURAL ORBIT)
+            // Mode 3: 3D Rotating DNA Double Helix & Atomic Nucleus (AUTOMATED DNA HELIX)
             mouseLight.color.setHex(0x10B981);
 
-            const count = 120;
-            const pPositions = new Float32Array(count * 3);
-            const velocities = new Float32Array(count * 3);
+            const helixNodeCount = 180;
+            const helixPositions = new Float32Array(helixNodeCount * 3);
+            const helixGeo = new THREE.BufferGeometry();
 
-            for (let i = 0; i < count; i++) {
-                pPositions[i * 3] = (Math.random() - 0.5) * 950;
-                pPositions[i * 3 + 1] = (Math.random() - 0.5) * 950;
-                pPositions[i * 3 + 2] = (Math.random() - 0.5) * 650;
+            // Twin DNA Strands A & B
+            for (let i = 0; i < helixNodeCount / 2; i++) {
+                const t = (i / (helixNodeCount / 2)) * Math.PI * 8;
+                const y = (i / (helixNodeCount / 2)) * 600 - 300;
+                const radius = 140;
 
-                velocities[i * 3] = (Math.random() - 0.5) * 1.5;
-                velocities[i * 3 + 1] = (Math.random() - 0.5) * 1.5;
-                velocities[i * 3 + 2] = (Math.random() - 0.5) * 1.5;
+                // Strand A
+                helixPositions[i * 6] = Math.cos(t) * radius;
+                helixPositions[i * 6 + 1] = y;
+                helixPositions[i * 6 + 2] = Math.sin(t) * radius;
+
+                // Strand B (opposite phase)
+                helixPositions[i * 6 + 3] = Math.cos(t + Math.PI) * radius;
+                helixPositions[i * 6 + 4] = y;
+                helixPositions[i * 6 + 5] = Math.sin(t + Math.PI) * radius;
             }
 
-            const pGeo = new THREE.BufferGeometry();
-            pGeo.setAttribute('position', new THREE.BufferAttribute(pPositions, 3));
-            const pMat = new THREE.PointsMaterial({ color: 0x10B981, size: 6, transparent: true, opacity: 0.95 });
-            const pDots = new THREE.Points(pGeo, pMat);
-            activeMeshGroup.add(pDots);
+            helixGeo.setAttribute('position', new THREE.BufferAttribute(helixPositions, 3));
+            const helixMat = new THREE.PointsMaterial({ color: 0x10B981, size: 7, transparent: true, opacity: 0.95 });
+            const helixPoints = new THREE.Points(helixGeo, helixMat);
+            helixPoints.position.set(240, 0, -100);
+            activeMeshGroup.add(helixPoints);
 
+            // Hydrogen-bond connecting lines between Strand A and Strand B
+            const linePositions = new Float32Array((helixNodeCount / 2) * 6);
             const lineGeo = new THREE.BufferGeometry();
-            const lineMat = new THREE.LineBasicMaterial({ color: 0x3B82F6, transparent: true, opacity: 0.35 });
+            const lineMat = new THREE.LineBasicMaterial({ color: 0x3B82F6, transparent: true, opacity: 0.4, linewidth: 2 });
             const lineMesh = new THREE.LineSegments(lineGeo, lineMat);
+            lineMesh.position.copy(helixPoints.position);
             activeMeshGroup.add(lineMesh);
 
-            const cubeGeo = new THREE.BoxGeometry(120, 120, 120);
-            const cubeMat = new THREE.MeshBasicMaterial({ color: 0x10B981, wireframe: true, transparent: true, opacity: 0.3 });
+            // Atomic Center Nucleus Box
+            const cubeGeo = new THREE.IcosahedronGeometry(90, 1);
+            const cubeMat = new THREE.MeshBasicMaterial({ color: 0x10B981, wireframe: true, transparent: true, opacity: 0.35 });
             const cube = new THREE.Mesh(cubeGeo, cubeMat);
-            cube.position.set(280, 80, -100);
+            cube.position.set(-280, 40, -120);
             activeMeshGroup.add(cube);
 
             updateAnimationStep = (time) => {
-                const posArr = pGeo.attributes.position.array;
+                helixPoints.rotation.y = time * 0.4;
+                helixPoints.rotation.z = Math.sin(time * 0.2) * 0.15;
 
-                for (let i = 0; i < count; i++) {
-                    posArr[i * 3] += velocities[i * 3];
-                    posArr[i * 3 + 1] += velocities[i * 3 + 1];
-                    posArr[i * 3 + 2] += velocities[i * 3 + 2];
+                // Recompute line bonds
+                const posArr = helixPositions;
+                const lArr = linePositions;
+                for (let i = 0; i < helixNodeCount / 2; i++) {
+                    lArr[i * 6] = posArr[i * 6];
+                    lArr[i * 6 + 1] = posArr[i * 6 + 1];
+                    lArr[i * 6 + 2] = posArr[i * 6 + 2];
 
-                    if (Math.abs(posArr[i * 3]) > 480) velocities[i * 3] *= -1;
-                    if (Math.abs(posArr[i * 3 + 1]) > 480) velocities[i * 3 + 1] *= -1;
-                    if (Math.abs(posArr[i * 3 + 2]) > 320) velocities[i * 3 + 2] *= -1;
+                    lArr[i * 6 + 3] = posArr[i * 6 + 3];
+                    lArr[i * 6 + 4] = posArr[i * 6 + 4];
+                    lArr[i * 6 + 5] = posArr[i * 6 + 5];
                 }
-                pGeo.attributes.position.needsUpdate = true;
-
-                // Build automated line connections between close nodes
-                const linePositions = [];
-                for (let i = 0; i < count; i++) {
-                    for (let j = i + 1; j < count; j++) {
-                        const dx = posArr[i * 3] - posArr[j * 3];
-                        const dy = posArr[i * 3 + 1] - posArr[j * 3 + 1];
-                        const dz = posArr[i * 3 + 2] - posArr[j * 3 + 2];
-                        const dist = Math.sqrt(dx * dx + dy * dy + dz * dz);
-                        if (dist < 160) {
-                            linePositions.push(posArr[i * 3], posArr[i * 3 + 1], posArr[i * 3 + 2]);
-                            linePositions.push(posArr[j * 3], posArr[j * 3 + 1], posArr[j * 3 + 2]);
-                        }
-                    }
-                }
-                lineGeo.setAttribute('position', new THREE.Float32BufferAttribute(linePositions, 3));
+                lineGeo.setAttribute('position', new THREE.BufferAttribute(lArr, 3));
                 lineGeo.attributes.position.needsUpdate = true;
+                lineMesh.rotation.y = helixPoints.rotation.y;
+                lineMesh.rotation.z = helixPoints.rotation.z;
 
                 cube.rotation.x = time * 0.5;
                 cube.rotation.y = time * 0.6;
             };
 
         } else if (mode === 'hyperspace') {
-            // Mode 4: Hyperdrive Warp Tunnel (AUTOMATED CONSTANT WARP SPEED)
+            // Mode 4: 3D Concentric Hexagon Wormhole Tunnel (AUTOMATED CONCENTRIC WORMHOLE)
             mouseLight.color.setHex(0xEC4899);
 
-            const count = 1800;
-            const geo = new THREE.BufferGeometry();
-            const pos = new Float32Array(count * 3);
-            for (let i = 0; i < count * 3; i += 3) {
-                pos[i] = (Math.random() - 0.5) * 1100;
-                pos[i + 1] = (Math.random() - 0.5) * 1100;
-                pos[i + 2] = Math.random() * 1200 - 600;
+            const ringCount = 20;
+            const rings = [];
+            const ringGroup = new THREE.Group();
+
+            for (let i = 0; i < ringCount; i++) {
+                const rGeo = new THREE.TorusGeometry(80 + i * 18, 2, 6, 6);
+                const rMat = new THREE.MeshBasicMaterial({ 
+                    color: i % 2 === 0 ? 0xEC4899 : 0xF59E0B, 
+                    wireframe: true, 
+                    transparent: true, 
+                    opacity: 0.4 - (i * 0.015) 
+                });
+                const rMesh = new THREE.Mesh(rGeo, rMat);
+                rMesh.position.z = -i * 55;
+                rings.push(rMesh);
+                ringGroup.add(rMesh);
             }
-            geo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
-            const pMat = new THREE.PointsMaterial({ color: 0xEC4899, size: 4.5, transparent: true, opacity: 0.85, blending: THREE.AdditiveBlending });
-            const starTunnel = new THREE.Points(geo, pMat);
-            activeMeshGroup.add(starTunnel);
+            ringGroup.position.set(0, 0, 100);
+            activeMeshGroup.add(ringGroup);
 
             const prismGeo = new THREE.OctahedronGeometry(110, 0);
-            const prismMat = new THREE.MeshBasicMaterial({ color: 0xF59E0B, wireframe: true, transparent: true, opacity: 0.35 });
+            const prismMat = new THREE.MeshBasicMaterial({ color: 0xF59E0B, wireframe: true, transparent: true, opacity: 0.4 });
             const prism = new THREE.Mesh(prismGeo, prismMat);
-            prism.position.set(-300, 60, -100);
+            prism.position.set(0, 0, -350);
             activeMeshGroup.add(prism);
 
             updateAnimationStep = (time) => {
-                const speed = 14.0;
-                const posArr = geo.attributes.position.array;
-                for (let i = 2; i < count * 3; i += 3) {
-                    posArr[i] += speed;
-                    if (posArr[i] > 600) posArr[i] = -600;
-                }
-                geo.attributes.position.needsUpdate = true;
+                rings.forEach((r, idx) => {
+                    r.rotation.z = time * 0.3 * (idx % 2 === 0 ? 1 : -1);
+                    r.position.z += 3.0;
+                    if (r.position.z > 200) r.position.z = -((ringCount - 1) * 55);
+                });
 
-                starTunnel.rotation.z = Math.sin(time * 0.4) * 0.25;
+                ringGroup.rotation.z = Math.sin(time * 0.2) * 0.2;
                 prism.rotation.y = time * 0.8;
                 prism.rotation.x = time * 0.6;
             };
 
         } else if (mode === 'matrix') {
-            // Mode 5: 3D Matrix Digital Waterfall (AUTOMATED MATRIX RAIN FLOW)
+            // Mode 5: 3D Particle Torus Donut & Digital Waterfall (AUTOMATED 3D DONUT & RAIN)
             mouseLight.color.setHex(0x00FF66);
 
-            const count = 1400;
-            const geo = new THREE.BufferGeometry();
-            const pos = new Float32Array(count * 3);
-            const origX = new Float32Array(count);
+            const torusCount = 1200;
+            const torusGeo = new THREE.BufferGeometry();
+            const torusPos = new Float32Array(torusCount * 3);
+            const R = 180, r = 60; // Major & minor radius
 
-            for (let i = 0; i < count; i++) {
-                pos[i * 3] = (Math.random() - 0.5) * 1300;
-                pos[i * 3 + 1] = Math.random() * 1200 - 600;
-                pos[i * 3 + 2] = (Math.random() - 0.5) * 900;
-                origX[i] = pos[i * 3];
+            for (let i = 0; i < torusCount; i++) {
+                const u = Math.random() * Math.PI * 2;
+                const v = Math.random() * Math.PI * 2;
+
+                torusPos[i * 3] = (R + r * Math.cos(u)) * Math.cos(v);
+                torusPos[i * 3 + 1] = (R + r * Math.cos(u)) * Math.sin(v);
+                torusPos[i * 3 + 2] = r * Math.sin(u);
             }
-            geo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
-            const pMat = new THREE.PointsMaterial({ color: 0x00FF66, size: 4.0, transparent: true, opacity: 0.9 });
-            const rain = new THREE.Points(geo, pMat);
-            activeMeshGroup.add(rain);
 
-            // Matrix Torus Knot Core
-            const torusGeo = new THREE.TorusKnotGeometry(95, 26, 100, 16);
-            const torusMat = new THREE.MeshBasicMaterial({ color: 0x00FF66, wireframe: true, transparent: true, opacity: 0.3 });
-            const torus = new THREE.Mesh(torusGeo, torusMat);
-            torus.position.set(300, 40, -120);
-            activeMeshGroup.add(torus);
+            torusGeo.setAttribute('position', new THREE.BufferAttribute(torusPos, 3));
+            const torusMat = new THREE.PointsMaterial({ color: 0x00FF66, size: 4.5, transparent: true, opacity: 0.85 });
+            const torusPoints = new THREE.Points(torusGeo, torusMat);
+            torusPoints.position.set(280, 20, -120);
+            activeMeshGroup.add(torusPoints);
 
-            const dodecGeo = new THREE.DodecahedronGeometry(85);
-            const dodecMat = new THREE.MeshBasicMaterial({ color: 0x10B981, wireframe: true, transparent: true, opacity: 0.25 });
-            const dodec = new THREE.Mesh(dodecGeo, dodecMat);
-            dodec.position.set(-320, -30, -150);
-            activeMeshGroup.add(dodec);
+            // Cascade rain particles
+            const rainCount = 800;
+            const rainGeo = new THREE.BufferGeometry();
+            const rainPos = new Float32Array(rainCount * 3);
+            for (let i = 0; i < rainCount * 3; i += 3) {
+                rainPos[i] = (Math.random() - 0.5) * 1200;
+                rainPos[i + 1] = Math.random() * 1000 - 500;
+                rainPos[i + 2] = (Math.random() - 0.5) * 800;
+            }
+            rainGeo.setAttribute('position', new THREE.BufferAttribute(rainPos, 3));
+            const rainMat = new THREE.PointsMaterial({ color: 0x10B981, size: 3.5, transparent: true, opacity: 0.7 });
+            const rainPoints = new THREE.Points(rainGeo, rainMat);
+            activeMeshGroup.add(rainPoints);
 
             updateAnimationStep = (time) => {
-                const posArr = geo.attributes.position.array;
-                for (let i = 0; i < count; i++) {
-                    posArr[i * 3 + 1] -= 5.0;
-                    if (posArr[i * 3 + 1] < -600) posArr[i * 3 + 1] = 600;
+                torusPoints.rotation.x = time * 0.5;
+                torusPoints.rotation.y = time * 0.7;
 
-                    // Automated organic horizontal wave ripple
-                    posArr[i * 3] = origX[i] + Math.sin(posArr[i * 3 + 1] * 0.02 + time * 3) * 15;
+                const rArr = rainGeo.attributes.position.array;
+                for (let i = 1; i < rainCount * 3; i += 3) {
+                    rArr[i] -= 4.5;
+                    if (rArr[i] < -500) rArr[i] = 500;
                 }
-                geo.attributes.position.needsUpdate = true;
-
-                torus.rotation.x = time * 0.5;
-                torus.rotation.y = time * 0.6;
-                dodec.rotation.y = time * 0.4;
+                rainGeo.attributes.position.needsUpdate = true;
             };
         }
     }
