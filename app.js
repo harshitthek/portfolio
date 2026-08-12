@@ -991,11 +991,23 @@ function initTerminal() {
             e.preventDefault();
             const curr = input.value.trim().toLowerCase();
             if (!curr) return;
-            const matches = availableCmds.filter(c => c.startsWith(curr));
-            if (matches.length === 1) {
-                input.value = matches[0];
-            } else if (matches.length > 1) {
-                appendTerminalLine(`Matches: ${matches.join('  ')}`, 't-info');
+
+            if (curr.startsWith('cat ')) {
+                const argPart = curr.slice(4).trim();
+                const availableFiles = ['used_bike_model.py', 'webhook_receiver.py', 'schema.sql'];
+                const fileMatches = availableFiles.filter(f => f.startsWith(argPart));
+                if (fileMatches.length === 1) {
+                    input.value = `cat ${fileMatches[0]}`;
+                } else if (fileMatches.length > 1) {
+                    appendTerminalLine(`File Matches: ${fileMatches.join('  ')}`, 't-info');
+                }
+            } else {
+                const matches = availableCmds.filter(c => c.startsWith(curr));
+                if (matches.length === 1) {
+                    input.value = matches[0];
+                } else if (matches.length > 1) {
+                    appendTerminalLine(`Matches: ${matches.join('  ')}`, 't-info');
+                }
             }
         } else if (e.key === 'Enter') {
             const command = input.value.trim();
@@ -1373,13 +1385,13 @@ function initCustomCursor() {
     window.addEventListener('mousemove', (e) => {
         mouseX = e.clientX;
         mouseY = e.clientY;
-        dot.style.transform = `translate(${mouseX}px, ${mouseY}px)`;
+        dot.style.transform = `translate3d(calc(${mouseX}px - 50%), calc(${mouseY}px - 50%), 0)`;
     });
 
     function animateCursor() {
         cursorX += (mouseX - cursorX) * 0.2;
         cursorY += (mouseY - cursorY) * 0.2;
-        cursor.style.transform = `translate(${cursorX}px, ${cursorY}px)`;
+        cursor.style.transform = `translate3d(calc(${cursorX}px - 50%), calc(${cursorY}px - 50%), 0)`;
         requestAnimationFrame(animateCursor);
     }
     animateCursor();
@@ -1474,14 +1486,9 @@ function initProjectModals() {
     document.querySelectorAll('.project-card').forEach(card => {
         card.style.cursor = 'pointer';
         card.addEventListener('click', (e) => {
-            if (e.target.tagName === 'A') return; // Don't intercept direct repo link click
+            if (e.target.closest('a')) return; // Don't intercept direct repo link click
             
-            const link = card.querySelector('.p-link-icon');
-            const href = link ? link.getAttribute('href') : '';
-            let matchedKey = 'resilient';
-            if (href.includes('used-bike-price')) matchedKey = 'used-bike-price';
-            else if (href.includes('carbon-guardian-ai')) matchedKey = 'carbon-guardian-ai';
-            else if (href.includes('Customizable-Browser-Startpage')) matchedKey = 'customizable-browser-startpage';
+            const matchedKey = card.dataset.projectId || 'resilient';
 
             const details = projectDetailsMap[matchedKey];
             if (!details) return;
