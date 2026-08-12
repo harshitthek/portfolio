@@ -19,6 +19,10 @@
 </head>
 <body>
 
+    <!-- Custom Morphing Fluid Cursor -->
+    <div id="custom-cursor" class="custom-cursor" aria-hidden="true"></div>
+    <div id="custom-cursor-dot" class="custom-cursor-dot" aria-hidden="true"></div>
+
     <!-- 3D Particle Starfield Background -->
     <canvas id="bg-canvas"></canvas>
 
@@ -646,6 +650,41 @@ app = Flask(__name__)
             <p class="copyright">© 2026 Harshit Sharma. All rights reserved.</p>
         </div>
     </footer>
+
+    <!-- Interactive Project Expansion Modal -->
+    <div id="project-modal-backdrop" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-label="Project Details Modal">
+        <div class="project-modal-card glass-card">
+            <div class="pm-header">
+                <div class="pm-title-group">
+                    <span id="pm-category" class="pm-category">MACHINE LEARNING</span>
+                    <h2 id="pm-title" class="pm-title">Project Name</h2>
+                </div>
+                <button id="pm-close-btn" class="pm-close-btn" aria-label="Close modal">✕</button>
+            </div>
+            <div class="pm-body">
+                <p id="pm-description" class="pm-description"></p>
+                <div class="pm-stats-strip">
+                    <div class="pm-stat"><span class="pm-stat-num" id="pm-stat1">Python 3.12</span><span class="pm-stat-lbl">LANGUAGE</span></div>
+                    <div class="pm-stat"><span class="pm-stat-num" id="pm-stat2">98.4% R²</span><span class="pm-stat-lbl">BENCHMARK</span></div>
+                    <div class="pm-stat"><span class="pm-stat-num" id="pm-stat3">MIT</span><span class="pm-stat-lbl">LICENSE</span></div>
+                </div>
+                <div class="pm-section">
+                    <h4>KEY ARCHITECTURAL HIGHLIGHTS</h4>
+                    <ul id="pm-highlights" class="pm-highlights-list"></ul>
+                </div>
+                <div class="pm-section">
+                    <h4>TECH STACK & TOOLS</h4>
+                    <div id="pm-stack" class="pm-stack-tags"></div>
+                </div>
+            </div>
+            <div class="pm-footer">
+                <a id="pm-github-link" href="#" target="_blank" class="btn btn-primary">
+                    <span>View Full Source on GitHub</span>
+                    ↗
+                </a>
+            </div>
+        </div>
+    </div>
 
     <script src="app.js"></script>
 </body>

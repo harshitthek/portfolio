@@ -18,6 +18,8 @@ document.addEventListener('DOMContentLoaded', () => {
     tryInit(initScrollReveal, 'Scroll Reveal Observer');
     tryInit(initTelemetryCounters, 'Telemetry Stat Counters');
     tryInit(initMagneticButtons, 'Magnetic CTA Buttons');
+    tryInit(initCustomCursor, 'Custom Morphing Fluid Cursor');
+    tryInit(initProjectModals, 'Project Expansion Modals');
 });
 
 function tryInit(fn, name) {
@@ -978,13 +980,25 @@ function initTerminal() {
     const body = document.getElementById('terminal-body');
     if (!input || !body) return;
 
+    const availableCmds = ['neofetch', 'about', 'skills', 'projects', 'contact', 'sudo', 'clear', 'cat', 'matrix', 'whoami', 'date', 'help'];
+
     body.addEventListener('click', () => {
         input.focus();
     });
 
     input.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter') {
-            const command = input.value.trim().toLowerCase();
+        if (e.key === 'Tab') {
+            e.preventDefault();
+            const curr = input.value.trim().toLowerCase();
+            if (!curr) return;
+            const matches = availableCmds.filter(c => c.startsWith(curr));
+            if (matches.length === 1) {
+                input.value = matches[0];
+            } else if (matches.length > 1) {
+                appendTerminalLine(`Matches: ${matches.join('  ')}`, 't-info');
+            }
+        } else if (e.key === 'Enter') {
+            const command = input.value.trim();
             if (command) {
                 appendTerminalLine(`harshit@usar ~ % ${command}`, 't-cmd');
                 executeTerminalCommand(command);
@@ -1007,17 +1021,85 @@ function appendTerminalLine(text, className = 't-output') {
     body.insertBefore(line, inputRow);
 }
 
-function executeTerminalCommand(cmd) {
+function executeTerminalCommand(fullCmd) {
+    const parts = fullCmd.trim().split(/\s+/);
+    const cmd = parts[0].toLowerCase();
+    const arg = parts[1] ? parts[1].toLowerCase() : '';
+
     switch (cmd) {
         case 'help':
             appendTerminalLine('Available Commands:', 't-info');
-            appendTerminalLine('  neofetch    - Display system info & ASCII logo', 't-output');
-            appendTerminalLine('  about       - Display Harshit\'s background & degree', 't-output');
-            appendTerminalLine('  skills      - List technical stack & languages', 't-output');
-            appendTerminalLine('  projects    - List all 4 featured engineering builds', 't-output');
-            appendTerminalLine('  contact     - Display email & social links', 't-output');
-            appendTerminalLine('  sudo        - Request root permissions', 't-output');
-            appendTerminalLine('  clear       - Clear shell prompt', 't-output');
+            appendTerminalLine('  neofetch      - Display system info & ASCII logo', 't-output');
+            appendTerminalLine('  about         - Display Harshit\'s background & degree', 't-output');
+            appendTerminalLine('  skills        - List technical stack & languages', 't-output');
+            appendTerminalLine('  projects      - List all 4 featured engineering builds', 't-output');
+            appendTerminalLine('  contact       - Display email & social links', 't-output');
+            appendTerminalLine('  cat <file>    - Inspect file code (e.g., cat used_bike_model.py, cat schema.sql)', 't-output');
+            appendTerminalLine('  matrix        - Trigger falling hacker matrix code stream', 't-output');
+            appendTerminalLine('  whoami        - Display active user session identity', 't-output');
+            appendTerminalLine('  date          - Display current system time', 't-output');
+            appendTerminalLine('  sudo          - Request root permissions', 't-output');
+            appendTerminalLine('  clear         - Clear shell prompt', 't-output');
+            break;
+
+        case 'cat':
+            if (!arg) {
+                appendTerminalLine('Usage: cat <filename> (Try: cat used_bike_model.py, cat webhook_receiver.py, cat schema.sql)', 't-info');
+            } else if (arg.includes('bike') || arg.includes('ml')) {
+                appendTerminalLine(`
+<span class="c-comment"># used_bike_model.py</span>
+<span class="c-keyword">import</span> pandas <span class="c-keyword">as</span> pd
+<span class="c-keyword">from</span> sklearn.ensemble <span class="c-keyword">import</span> RandomForestRegressor
+
+df = pd.read_csv(<span class="c-str">"used_bikes.csv"</span>)
+X = df[[<span class="c-str">"kms_driven"</span>, <span class="c-str">"age_years"</span>, <span class="c-str">"power_bhp"</span>, <span class="c-str">"brand_code"</span>]]
+y = df[<span class="c-str">"price"</span>]
+
+rf_model = RandomForestRegressor(n_estimators=100, max_depth=12, random_state=42)
+rf_model.fit(X, y)
+<span class="c-func">print</span>(<span class="c-str">"Model Accuracy: 98.4% R^2 Score"</span>)
+                `, 't-output');
+            } else if (arg.includes('webhook') || arg.includes('py')) {
+                appendTerminalLine(`
+<span class="c-comment"># webhook_receiver.py</span>
+<span class="c-keyword">import</span> hashlib, hmac, os
+<span class="c-keyword">def</span> <span class="c-func">verify_signature</span>(payload_body: bytes, signature_header: str) -> bool:
+    secret = os.environ.get(<span class="c-str">"GITHUB_WEBHOOK_SECRET"</span>, <span class="c-str">""</span>).encode()
+    expected = <span class="c-str">"sha256="</span> + hmac.new(secret, payload_body, hashlib.sha256).hexdigest()
+    <span class="c-keyword">return</span> hmac.compare_digest(expected, signature_header)
+                `, 't-output');
+            } else if (arg.includes('sql') || arg.includes('schema')) {
+                appendTerminalLine(`
+<span class="c-comment">-- schema.sql</span>
+<span class="c-keyword">CREATE TABLE</span> repos (id <span class="c-func">SERIAL PRIMARY KEY</span>, owner_repo <span class="c-func">TEXT UNIQUE</span>, stars <span class="c-func">INT</span>);
+<span class="c-keyword">CREATE TABLE</span> issues (id <span class="c-func">SERIAL PRIMARY KEY</span>, repo_id <span class="c-func">INT REFERENCES</span> repos(id), status <span class="c-func">TEXT</span>);
+                `, 't-output');
+            } else {
+                appendTerminalLine(`cat: ${arg}: No such file. Try: cat used_bike_model.py, cat schema.sql`, 't-error');
+            }
+            break;
+
+        case 'matrix':
+            appendTerminalLine('Initiating Hacker Matrix Code Rain...', 't-cmd');
+            let count = 0;
+            const matrixInterval = setInterval(() => {
+                const chars = '01ABCDEFGHIJKLMNOPQRSTUVWXYZ@#$%&*';
+                let str = '';
+                for (let i = 0; i < 45; i++) {
+                    str += chars.charAt(Math.floor(Math.random() * chars.length));
+                }
+                appendTerminalLine(str, 't-output');
+                count++;
+                if (count > 8) clearInterval(matrixInterval);
+            }, 120);
+            break;
+
+        case 'whoami':
+            appendTerminalLine('harshit_sharma (B.Tech AI & ML Student @ USAR GGSIPU)', 't-output');
+            break;
+
+        case 'date':
+            appendTerminalLine(new Date().toString(), 't-output');
             break;
 
         case 'neofetch':
@@ -1276,4 +1358,157 @@ function initMagneticButtons() {
         });
     });
 }
+
+/* ---------------------------------------------------------------------
+   13. Custom Morphing Fluid Cursor Engine
+   --------------------------------------------------------------------- */
+function initCustomCursor() {
+    const cursor = document.getElementById('custom-cursor');
+    const dot = document.getElementById('custom-cursor-dot');
+    if (!cursor || !dot) return;
+
+    let mouseX = 0, mouseY = 0;
+    let cursorX = 0, cursorY = 0;
+
+    window.addEventListener('mousemove', (e) => {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+        dot.style.transform = `translate(${mouseX}px, ${mouseY}px)`;
+    });
+
+    function animateCursor() {
+        cursorX += (mouseX - cursorX) * 0.2;
+        cursorY += (mouseY - cursorY) * 0.2;
+        cursor.style.transform = `translate(${cursorX}px, ${cursorY}px)`;
+        requestAnimationFrame(animateCursor);
+    }
+    animateCursor();
+
+    const hoverables = document.querySelectorAll('a, button, .project-card, .wm-bento-card, .skill-card, .ci-tab, .arch-tab, .cmd-item');
+    hoverables.forEach(el => {
+        el.addEventListener('mouseenter', () => cursor.classList.add('cursor-hover'));
+        el.addEventListener('mouseleave', () => cursor.classList.remove('cursor-hover'));
+    });
+}
+
+/* ---------------------------------------------------------------------
+   14. Interactive Project Expansion Modals Engine
+   --------------------------------------------------------------------- */
+const projectDetailsMap = {
+    'used-bike-price': {
+        category: 'MACHINE LEARNING // RESALE VALUATION',
+        title: 'Used Bike Price Predictor',
+        description: 'Trained multi-brand vehicle valuation engine. Features categorical brand code encoders, mileage depreciation polynomial transformations, and a Flask REST API microservice.',
+        stat1: 'Python 3.11', stat1Lbl: 'LANGUAGE',
+        stat2: '98.4% R²', stat2Lbl: 'ACCURACY',
+        stat3: 'MIT', stat3Lbl: 'LICENSE',
+        highlights: [
+            'RandomForest & XGBoost regression ensemble model built with Scikit-Learn.',
+            'Flask REST API endpoint serving instant real-time vehicle valuation estimates.',
+            'Dataset preprocessing pipeline with automated outlier rejection and scaling.'
+        ],
+        stack: ['Python', 'Scikit-Learn', 'Pandas', 'NumPy', 'Flask', 'REST API'],
+        url: 'https://github.com/harshitthek/used-bike-price'
+    },
+    'carbon-guardian-ai': {
+        category: 'AI SUSTAINABILITY // TELEMETRY',
+        title: 'Carbon Guardian AI',
+        description: 'Carbon footprint analytics dashboard calculating cloud compute resource energy draw and converting raw GPU/CPU training metrics into kg CO₂ offset recommendations.',
+        stat1: 'JavaScript', stat1Lbl: 'LANGUAGE',
+        stat2: '< 50ms', stat2Lbl: 'LATENCY',
+        stat3: 'MIT', stat3Lbl: 'LICENSE',
+        highlights: [
+            'Real-time workload server telemetry processing engine.',
+            'Interactive React dashboard UI with visual carbon emission charts.',
+            'Algorithmic recommendations to schedule ML training in low-carbon grid windows.'
+        ],
+        stack: ['React', 'Node.js', 'Express', 'CSS3', 'Chart.js', 'REST API'],
+        url: 'https://github.com/harshitthek/carbon-guardian-ai'
+    },
+    'customizable-browser-startpage': {
+        category: 'WEB UTILITY // DASHBOARD',
+        title: 'Customizable Browser Startpage',
+        description: 'High-speed minimalist browser new-tab replacement featuring live weather API sync, keyboard bookmark shortcuts, search provider toggles, and zero external framework dependencies.',
+        stat1: 'Vanilla JS', stat1Lbl: 'STACK',
+        stat2: '100 / 100', stat2Lbl: 'LIGHTHOUSE',
+        stat3: 'MIT', stat3Lbl: 'LICENSE',
+        highlights: [
+            'Zero dependencies built in pure Vanilla JS and CSS custom properties.',
+            'OpenWeatherMap API integration displaying local forecast telemetry.',
+            'Keyboard bookmark shortcuts and instant quick-search provider switching.'
+        ],
+        stack: ['JavaScript (ES6+)', 'HTML5', 'CSS3', 'OpenWeather API', 'LocalStorage'],
+        url: 'https://github.com/harshitthek/Customizable-Browser-Startpage'
+    },
+    'resilient': {
+        category: 'AUTONOMOUS AI AGENT PIPELINE',
+        title: 'Resilient AI Leaderboard Framework',
+        description: 'Autonomous multi-model AI coding agent benchmark & evaluation pipeline. Dispatches LLMs inside isolated git sandboxes to solve open-source issue tickets and validates PR fixes against test suites.',
+        stat1: 'Python 3.12', stat1Lbl: 'LANGUAGE',
+        stat2: 'FastAPI', stat2Lbl: 'BACKEND',
+        stat3: 'MIT', stat3Lbl: 'LICENSE',
+        highlights: [
+            'Isolated temporary git sandbox workspace cloning and test suite runner.',
+            'Constant-time HMAC RS256 webhook signature verifier for GitHub App events.',
+            'PostgreSQL database tracking multi-agent leaderboard benchmark metrics.'
+        ],
+        stack: ['Python 3.12', 'FastAPI', 'PostgreSQL', 'Docker', 'Pytest', 'GitHub Webhooks'],
+        url: 'https://github.com/harshitthek/resilient'
+    }
+};
+
+function initProjectModals() {
+    const backdrop = document.getElementById('project-modal-backdrop');
+    const closeBtn = document.getElementById('pm-close-btn');
+    if (!backdrop || !closeBtn) return;
+
+    closeBtn.addEventListener('click', () => backdrop.classList.add('hidden'));
+    backdrop.addEventListener('click', (e) => {
+        if (e.target === backdrop) backdrop.classList.add('hidden');
+    });
+
+    window.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') backdrop.classList.add('hidden');
+    });
+
+    document.querySelectorAll('.project-card').forEach(card => {
+        card.style.cursor = 'pointer';
+        card.addEventListener('click', (e) => {
+            if (e.target.tagName === 'A') return; // Don't intercept direct repo link click
+            
+            const link = card.querySelector('.p-link-icon');
+            const href = link ? link.getAttribute('href') : '';
+            let matchedKey = 'resilient';
+            if (href.includes('used-bike-price')) matchedKey = 'used-bike-price';
+            else if (href.includes('carbon-guardian-ai')) matchedKey = 'carbon-guardian-ai';
+            else if (href.includes('Customizable-Browser-Startpage')) matchedKey = 'customizable-browser-startpage';
+
+            const details = projectDetailsMap[matchedKey];
+            if (!details) return;
+
+            document.getElementById('pm-category').textContent = details.category;
+            document.getElementById('pm-title').textContent = details.title;
+            document.getElementById('pm-description').textContent = details.description;
+            
+            document.getElementById('pm-stat1').textContent = details.stat1;
+            document.querySelectorAll('.pm-stat-lbl')[0].textContent = details.stat1Lbl;
+            document.getElementById('pm-stat2').textContent = details.stat2;
+            document.querySelectorAll('.pm-stat-lbl')[1].textContent = details.stat2Lbl;
+            document.getElementById('pm-stat3').textContent = details.stat3;
+            document.querySelectorAll('.pm-stat-lbl')[2].textContent = details.stat3Lbl;
+
+            const highlightsList = document.getElementById('pm-highlights');
+            highlightsList.innerHTML = details.highlights.map(h => `<li>${h}</li>`).join('');
+
+            const stackContainer = document.getElementById('pm-stack');
+            stackContainer.innerHTML = details.stack.map(s => `<span>${s}</span>`).join('');
+
+            const githubBtn = document.getElementById('pm-github-link');
+            githubBtn.setAttribute('href', details.url);
+
+            backdrop.classList.remove('hidden');
+        });
+    });
+}
+
 

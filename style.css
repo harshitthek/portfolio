@@ -1528,3 +1528,216 @@ body {
     opacity: 1;
 }
 
+/* 4. Custom Morphing Fluid Cursor Styles */
+.custom-cursor {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 32px;
+    height: 32px;
+    border: 1.5px solid var(--cyan-primary);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%, -50%);
+    transition: width 0.25s ease, height 0.25s ease, background-color 0.25s ease, border-color 0.25s ease;
+    box-shadow: 0 0 15px color-mix(in srgb, var(--cyan-primary) 30%, transparent);
+}
+
+.custom-cursor-dot {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 6px;
+    height: 6px;
+    background-color: var(--cyan-primary);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 10000;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 0 10px var(--cyan-primary);
+}
+
+.custom-cursor.cursor-hover {
+    width: 52px;
+    height: 52px;
+    background-color: color-mix(in srgb, var(--cyan-primary) 12%, transparent);
+    border-color: var(--cyan-primary);
+}
+
+@media (pointer: coarse), (max-width: 900px) {
+    .custom-cursor, .custom-cursor-dot { display: none !important; }
+}
+
+/* 5. Interactive Project Expansion Modal Styles */
+.modal-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.75);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.project-modal-card {
+    width: 100%;
+    max-width: 720px;
+    max-height: 88vh;
+    overflow-y: auto;
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    padding: 32px;
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8);
+    animation: modalScaleIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes modalScaleIn {
+    from { opacity: 0; transform: scale(0.94); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+.pm-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 20px;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 16px;
+}
+
+.pm-category {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--cyan-primary);
+    font-weight: 700;
+    letter-spacing: 1.5px;
+}
+
+.pm-title {
+    font-size: 26px;
+    font-weight: 800;
+    color: var(--text-primary);
+    margin-top: 4px;
+}
+
+.pm-close-btn {
+    background: transparent;
+    border: 1px solid var(--border-color);
+    color: var(--text-muted);
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    font-size: 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: var(--transition);
+}
+
+.pm-close-btn:hover {
+    border-color: var(--cyan-primary);
+    color: var(--cyan-primary);
+    transform: rotate(90deg);
+}
+
+.pm-description {
+    font-size: 15px;
+    color: var(--text-secondary);
+    line-height: 1.7;
+    margin-bottom: 24px;
+}
+
+.pm-stats-strip {
+    display: flex;
+    justify-content: space-around;
+    background: var(--bg-surface);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    padding: 16px;
+    margin-bottom: 24px;
+    text-align: center;
+}
+
+.pm-stat-num {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--cyan-primary);
+}
+
+.pm-stat-lbl {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--text-muted);
+    letter-spacing: 1px;
+}
+
+.pm-section {
+    margin-bottom: 20px;
+}
+
+.pm-section h4 {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--text-muted);
+    letter-spacing: 1px;
+    margin-bottom: 10px;
+}
+
+.pm-highlights-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+.pm-highlights-list li {
+    font-size: 14px;
+    color: var(--text-primary);
+    margin-bottom: 8px;
+    padding-left: 20px;
+    position: relative;
+    line-height: 1.5;
+}
+
+.pm-highlights-list li::before {
+    content: "⚡";
+    position: absolute;
+    left: 0;
+    top: 0;
+    font-size: 12px;
+}
+
+.pm-stack-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.pm-stack-tags span {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    background: var(--bg-surface);
+    border: 1px solid var(--border-color);
+    color: var(--cyan-primary);
+    padding: 4px 10px;
+    border-radius: 4px;
+}
+
+.pm-footer {
+    margin-top: 24px;
+    padding-top: 16px;
+    border-top: 1px solid var(--border-color);
+    display: flex;
+    justify-content: flex-end;
+}
+
+
