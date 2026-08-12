@@ -3,8 +3,10 @@
    ===================================================================== */
 
 document.addEventListener('DOMContentLoaded', () => {
+    tryInit(initThemeSwitcher, '3D Theme Switcher');
     tryInit(initSPARouter, 'SPA Router');
-    tryInit(initThreeJSBackground, 'Three.js Starfield');
+    tryInit(initThreeJSBackground, 'Three.js 3D Engine');
+    tryInit(initCard3DTilt, '3D Card Tilt');
     tryInit(initTypingEffect, 'Cyberpunk Typing');
     tryInit(initCommandPalette, 'Command Palette');
     tryInit(initCodeInspector, 'Code Inspector');
@@ -70,6 +72,74 @@ function navigateToPage(targetHash) {
 /* ---------------------------------------------------------------------
    1. Three.js Interactive 3D Cosmic Particle Background
    --------------------------------------------------------------------- */
+/* ---------------------------------------------------------------------
+   0.1 Theme Switcher & 3D Engine State Management
+   --------------------------------------------------------------------- */
+let currentThemeMode = localStorage.getItem('portfolio_theme') || 'cyberpunk';
+let switchThreeJSScene = null;
+
+const themeInfo = {
+    cyberpunk: { name: 'Cyberpunk HUD', icon: '🌌' },
+    synthwave: { name: 'Synthwave Grid', icon: '🏎️' },
+    constellation: { name: 'Quantum Constellation', icon: '⚛️' },
+    hyperspace: { name: 'Hyperspace Warp', icon: '🚀' },
+    matrix: { name: 'Hacker Matrix Rain', icon: '💻' }
+};
+
+function initThemeSwitcher() {
+    const btn = document.getElementById('theme-btn');
+    const menu = document.getElementById('theme-menu');
+
+    if (!btn || !menu) return;
+
+    applyTheme(currentThemeMode);
+
+    btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        menu.classList.toggle('hidden');
+    });
+
+    document.addEventListener('click', () => {
+        menu.classList.add('hidden');
+    });
+
+    document.querySelectorAll('.theme-option').forEach(opt => {
+        opt.addEventListener('click', () => {
+            const selected = opt.getAttribute('data-theme');
+            applyTheme(selected);
+            menu.classList.add('hidden');
+        });
+    });
+}
+
+function applyTheme(themeMode) {
+    currentThemeMode = themeMode;
+    localStorage.setItem('portfolio_theme', themeMode);
+    document.documentElement.setAttribute('data-theme', themeMode);
+
+    const nameSpan = document.querySelector('.theme-current-name');
+    const iconSpan = document.querySelector('.theme-icon');
+    if (nameSpan && themeInfo[themeMode]) nameSpan.textContent = themeInfo[themeMode].name;
+    if (iconSpan && themeInfo[themeMode]) iconSpan.textContent = themeInfo[themeMode].icon;
+
+    document.querySelectorAll('.theme-option').forEach(opt => {
+        if (opt.getAttribute('data-theme') === themeMode) {
+            opt.classList.add('active');
+        } else {
+            opt.classList.remove('active');
+        }
+    });
+
+    if (switchThreeJSScene) {
+        switchThreeJSScene(themeMode);
+    }
+}
+
+/* ---------------------------------------------------------------------
+   1. Multi-Mode Three.js Interactive 3D Canvas Engine
+   ------------------------------------------------------/* ---------------------------------------------------------------------
+   1. High-Potency Multi-Mode Three.js Interactive 3D WebGL Physics Engine
+   --------------------------------------------------------------------- */
 function initThreeJSBackground() {
     const canvas = document.getElementById('bg-canvas');
     if (!canvas || typeof THREE === 'undefined') return;
@@ -82,46 +152,35 @@ function initThreeJSBackground() {
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
-    const particleCount = 700;
-    const geometry = new THREE.BufferGeometry();
-    const positions = new Float32Array(particleCount * 3);
-    const colors = new Float32Array(particleCount * 3);
+    // Dynamic Cursor Tracking & Interactive Physics Vectors
+    let targetMouseX = 0, targetMouseY = 0;
+    let currMouseX = 0, currMouseY = 0;
 
-    const cyanColor = new THREE.Color('#38BDF8');
-    const greenColor = new THREE.Color('#10B981');
+    // Interactive 3D Point Light following cursor
+    const mouseLight = new THREE.PointLight(0x38BDF8, 3, 800);
+    scene.add(mouseLight);
 
-    for (let i = 0; i < particleCount * 3; i += 3) {
-        positions[i] = (Math.random() - 0.5) * 1300;
-        positions[i + 1] = (Math.random() - 0.5) * 1300;
-        positions[i + 2] = (Math.random() - 0.5) * 1300;
-
-        const mixedColor = Math.random() > 0.5 ? cyanColor : greenColor;
-        colors[i] = mixedColor.r;
-        colors[i + 1] = mixedColor.g;
-        colors[i + 2] = mixedColor.b;
-    }
-
-    geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-    geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
-
-    const material = new THREE.PointsMaterial({
-        size: 3,
-        vertexColors: true,
-        transparent: true,
-        opacity: 0.5,
-        blending: THREE.AdditiveBlending
-    });
-
-    const particleSystem = new THREE.Points(geometry, material);
-    scene.add(particleSystem);
-
-    let mouseX = 0;
-    let mouseY = 0;
+    let activeMeshGroup = new THREE.Group();
+    scene.add(activeMeshGroup);
 
     window.addEventListener('mousemove', (e) => {
-        mouseX = (e.clientX - window.innerWidth / 2) * 0.04;
-        mouseY = (e.clientY - window.innerHeight / 2) * 0.04;
+        targetMouseX = (e.clientX - window.innerWidth / 2);
+        targetMouseY = -(e.clientY - window.innerHeight / 2);
     });
+
+    window.addEventListener('touchmove', (e) => {
+        if (e.touches && e.touches.length > 0) {
+            targetMouseX = (e.touches[0].clientX - window.innerWidth / 2);
+            targetMouseY = -(e.touches[0].clientY - window.innerHeight / 2);
+        }
+    }, { passive: true });
+
+    window.addEventListener('touchstart', (e) => {
+        if (e.touches && e.touches.length > 0) {
+            targetMouseX = (e.touches[0].clientX - window.innerWidth / 2);
+            targetMouseY = -(e.touches[0].clientY - window.innerHeight / 2);
+        }
+    }, { passive: true });
 
     window.addEventListener('resize', () => {
         camera.aspect = window.innerWidth / window.innerHeight;
@@ -129,20 +188,390 @@ function initThreeJSBackground() {
         renderer.setSize(window.innerWidth, window.innerHeight);
     });
 
+    let updateAnimationStep = null;
+    let clock = new THREE.Clock();
+
+    function buildScene(mode) {
+        // Dispose existing geometries and materials safely
+        while(activeMeshGroup.children.length > 0){ 
+            const obj = activeMeshGroup.children[0];
+            activeMeshGroup.remove(obj);
+            if (obj.geometry) obj.geometry.dispose();
+            if (obj.material) {
+                if (Array.isArray(obj.material)) obj.material.forEach(m => m.dispose());
+                else obj.material.dispose();
+            }
+        }
+
+        if (mode === 'cyberpunk') {
+            // Mode 1: Quantum Vortex Gravity Attractor & Pulsing Morphing Sphere
+            mouseLight.color.setHex(0x38BDF8);
+
+            const count = 1200;
+            const geo = new THREE.BufferGeometry();
+            const pos = new Float32Array(count * 3);
+            const origPos = new Float32Array(count * 3);
+            const cols = new Float32Array(count * 3);
+            const c1 = new THREE.Color('#38BDF8');
+            const c2 = new THREE.Color('#8B5CF6');
+
+            for (let i = 0; i < count * 3; i += 3) {
+                const radius = 250 + Math.random() * 450;
+                const theta = Math.random() * Math.PI * 2;
+                const phi = Math.random() * Math.PI;
+
+                pos[i] = radius * Math.sin(phi) * Math.cos(theta);
+                pos[i + 1] = radius * Math.sin(phi) * Math.sin(theta);
+                pos[i + 2] = radius * Math.cos(phi);
+
+                origPos[i] = pos[i];
+                origPos[i + 1] = pos[i + 1];
+                origPos[i + 2] = pos[i + 2];
+
+                const col = Math.random() > 0.4 ? c1 : c2;
+                cols[i] = col.r; cols[i + 1] = col.g; cols[i + 2] = col.b;
+            }
+
+            geo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+            geo.setAttribute('color', new THREE.BufferAttribute(cols, 3));
+            const pMat = new THREE.PointsMaterial({ size: 4.2, vertexColors: true, transparent: true, opacity: 0.8, blending: THREE.AdditiveBlending });
+            const pSys = new THREE.Points(geo, pMat);
+            activeMeshGroup.add(pSys);
+
+            // Morphing Wireframe Sphere Core
+            const orbGeo = new THREE.IcosahedronGeometry(130, 3);
+            const orbMat = new THREE.MeshBasicMaterial({ color: 0x38BDF8, wireframe: true, transparent: true, opacity: 0.25 });
+            const orb = new THREE.Mesh(orbGeo, orbMat);
+            orb.position.set(280, 40, -150);
+            activeMeshGroup.add(orb);
+
+            // Double Gyroscope Rings
+            const ring1Geo = new THREE.TorusGeometry(180, 2, 16, 100);
+            const ring1Mat = new THREE.MeshBasicMaterial({ color: 0x8B5CF6, wireframe: true, transparent: true, opacity: 0.35 });
+            const ring1 = new THREE.Mesh(ring1Geo, ring1Mat);
+            ring1.position.copy(orb.position);
+            activeMeshGroup.add(ring1);
+
+            const ring2Geo = new THREE.TorusGeometry(220, 1.8, 16, 100);
+            const ring2Mat = new THREE.MeshBasicMaterial({ color: 0x38BDF8, wireframe: true, transparent: true, opacity: 0.25 });
+            const ring2 = new THREE.Mesh(ring2Geo, ring2Mat);
+            ring2.position.copy(orb.position);
+            ring2.rotation.x = Math.PI / 3;
+            activeMeshGroup.add(ring2);
+
+            updateAnimationStep = (time) => {
+                pSys.rotation.y = time * 0.15;
+                pSys.rotation.x = time * 0.08;
+
+                // Vortex Gravity Pull toward Cursor
+                const pArr = geo.attributes.position.array;
+                for (let i = 0; i < count * 3; i += 3) {
+                    const dx = currMouseX - pArr[i];
+                    const dy = currMouseY - pArr[i + 1];
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+
+                    if (dist < 220) {
+                        const force = (220 - dist) / 220;
+                        pArr[i] += dx * force * 0.08;
+                        pArr[i + 1] += dy * force * 0.08;
+                    } else {
+                        // Return slowly to origin
+                        pArr[i] += (origPos[i] - pArr[i]) * 0.04;
+                        pArr[i + 1] += (origPos[i + 1] - pArr[i + 1]) * 0.04;
+                    }
+                }
+                geo.attributes.position.needsUpdate = true;
+
+                orb.rotation.x = time * 0.4;
+                orb.rotation.y = time * 0.6;
+                ring1.rotation.z = -time * 0.8;
+                ring2.rotation.x = time * 0.5;
+            };
+
+        } else if (mode === 'synthwave') {
+            // Mode 2: Dynamic Deforming Terrain Wave Plane + Glowing Retrowave Sun
+            mouseLight.color.setHex(0xFF007F);
+
+            const gridGeo = new THREE.PlaneGeometry(2200, 2200, 48, 48);
+            const gridMat = new THREE.MeshBasicMaterial({ color: 0xFF007F, wireframe: true, transparent: true, opacity: 0.45 });
+            const grid = new THREE.Mesh(gridGeo, gridMat);
+            grid.rotation.x = -Math.PI / 2.2;
+            grid.position.y = -220;
+            grid.position.z = -200;
+            activeMeshGroup.add(grid);
+
+            // Wireframe Horizon Sun
+            const sunGeo = new THREE.SphereGeometry(180, 28, 28);
+            const sunMat = new THREE.MeshBasicMaterial({ color: 0xFF007F, wireframe: true, transparent: true, opacity: 0.22 });
+            const sun = new THREE.Mesh(sunGeo, sunMat);
+            sun.position.set(0, 80, -650);
+            activeMeshGroup.add(sun);
+
+            // Floating Polyhedrons
+            const polyGeo = new THREE.IcosahedronGeometry(95, 1);
+            const polyMat = new THREE.MeshBasicMaterial({ color: 0x00F0FF, wireframe: true, transparent: true, opacity: 0.4 });
+            const poly = new THREE.Mesh(polyGeo, polyMat);
+            poly.position.set(-300, 110, -120);
+            activeMeshGroup.add(poly);
+
+            const knotGeo = new THREE.TorusKnotGeometry(75, 20, 80, 12);
+            const knotMat = new THREE.MeshBasicMaterial({ color: 0xD946EF, wireframe: true, transparent: true, opacity: 0.35 });
+            const knot = new THREE.Mesh(knotGeo, knotMat);
+            knot.position.set(320, -40, -150);
+            activeMeshGroup.add(knot);
+
+            const posAttr = gridGeo.attributes.position;
+            const initZ = new Float32Array(posAttr.count);
+            for (let i = 0; i < posAttr.count; i++) {
+                initZ[i] = posAttr.getZ(i);
+            }
+
+            updateAnimationStep = (time) => {
+                grid.position.z += 1.8;
+                if (grid.position.z > 0) grid.position.z = -200;
+
+                // Deform grid vertices dynamically like dynamic waves
+                for (let i = 0; i < posAttr.count; i++) {
+                    const x = posAttr.getX(i);
+                    const y = posAttr.getY(i);
+                    const z = Math.sin(x * 0.015 + time * 2) * 25 + Math.cos(y * 0.015 + time * 1.5) * 20;
+                    posAttr.setZ(i, z);
+                }
+                posAttr.needsUpdate = true;
+
+                sun.rotation.y = time * 0.05;
+                poly.rotation.x = time * 0.5;
+                poly.rotation.y = time * 0.7;
+                knot.rotation.x = time * 0.6;
+                knot.rotation.z = time * 0.4;
+            };
+
+        } else if (mode === 'constellation') {
+            // Mode 3: Quantum Proximity Neural Web & Particle Repulsion
+            mouseLight.color.setHex(0x10B981);
+
+            const count = 120;
+            const pPositions = new Float32Array(count * 3);
+            const velocities = new Float32Array(count * 3);
+
+            for (let i = 0; i < count; i++) {
+                pPositions[i * 3] = (Math.random() - 0.5) * 950;
+                pPositions[i * 3 + 1] = (Math.random() - 0.5) * 950;
+                pPositions[i * 3 + 2] = (Math.random() - 0.5) * 650;
+
+                velocities[i * 3] = (Math.random() - 0.5) * 1.2;
+                velocities[i * 3 + 1] = (Math.random() - 0.5) * 1.2;
+                velocities[i * 3 + 2] = (Math.random() - 0.5) * 1.2;
+            }
+
+            const pGeo = new THREE.BufferGeometry();
+            pGeo.setAttribute('position', new THREE.BufferAttribute(pPositions, 3));
+            const pMat = new THREE.PointsMaterial({ color: 0x10B981, size: 6, transparent: true, opacity: 0.95 });
+            const pDots = new THREE.Points(pGeo, pMat);
+            activeMeshGroup.add(pDots);
+
+            const lineGeo = new THREE.BufferGeometry();
+            const lineMat = new THREE.LineBasicMaterial({ color: 0x3B82F6, transparent: true, opacity: 0.35 });
+            const lineMesh = new THREE.LineSegments(lineGeo, lineMat);
+            activeMeshGroup.add(lineMesh);
+
+            const cubeGeo = new THREE.BoxGeometry(120, 120, 120);
+            const cubeMat = new THREE.MeshBasicMaterial({ color: 0x10B981, wireframe: true, transparent: true, opacity: 0.3 });
+            const cube = new THREE.Mesh(cubeGeo, cubeMat);
+            cube.position.set(280, 80, -100);
+            activeMeshGroup.add(cube);
+
+            updateAnimationStep = (time) => {
+                const posArr = pGeo.attributes.position.array;
+
+                for (let i = 0; i < count; i++) {
+                    posArr[i * 3] += velocities[i * 3];
+                    posArr[i * 3 + 1] += velocities[i * 3 + 1];
+                    posArr[i * 3 + 2] += velocities[i * 3 + 2];
+
+                    if (Math.abs(posArr[i * 3]) > 480) velocities[i * 3] *= -1;
+                    if (Math.abs(posArr[i * 3 + 1]) > 480) velocities[i * 3 + 1] *= -1;
+                    if (Math.abs(posArr[i * 3 + 2]) > 320) velocities[i * 3 + 2] *= -1;
+
+                    // Repel nodes near mouse
+                    const dx = posArr[i * 3] - currMouseX;
+                    const dy = posArr[i * 3 + 1] - currMouseY;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+                    if (dist < 180) {
+                        posArr[i * 3] += (dx / dist) * 4;
+                        posArr[i * 3 + 1] += (dy / dist) * 4;
+                    }
+                }
+                pGeo.attributes.position.needsUpdate = true;
+
+                // Build line connections including mouse laser connections!
+                const linePositions = [];
+                for (let i = 0; i < count; i++) {
+                    // Connect to mouse
+                    const mdx = posArr[i * 3] - currMouseX;
+                    const mdy = posArr[i * 3 + 1] - currMouseY;
+                    const mdist = Math.sqrt(mdx * mdx + mdy * mdy);
+                    if (mdist < 240) {
+                        linePositions.push(posArr[i * 3], posArr[i * 3 + 1], posArr[i * 3 + 2]);
+                        linePositions.push(currMouseX, currMouseY, 0);
+                    }
+
+                    for (let j = i + 1; j < count; j++) {
+                        const dx = posArr[i * 3] - posArr[j * 3];
+                        const dy = posArr[i * 3 + 1] - posArr[j * 3 + 1];
+                        const dz = posArr[i * 3 + 2] - posArr[j * 3 + 2];
+                        const dist = Math.sqrt(dx * dx + dy * dy + dz * dz);
+                        if (dist < 160) {
+                            linePositions.push(posArr[i * 3], posArr[i * 3 + 1], posArr[i * 3 + 2]);
+                            linePositions.push(posArr[j * 3], posArr[j * 3 + 1], posArr[j * 3 + 2]);
+                        }
+                    }
+                }
+                lineGeo.setAttribute('position', new THREE.Float32BufferAttribute(linePositions, 3));
+                lineGeo.attributes.position.needsUpdate = true;
+
+                cube.rotation.x = time * 0.4;
+                cube.rotation.y = time * 0.5;
+            };
+
+        } else if (mode === 'hyperspace') {
+            // Mode 4: Hyperdrive Warp Tunnel with Dynamic Mouse Acceleration Steering
+            mouseLight.color.setHex(0xEC4899);
+
+            const count = 1800;
+            const geo = new THREE.BufferGeometry();
+            const pos = new Float32Array(count * 3);
+            for (let i = 0; i < count * 3; i += 3) {
+                pos[i] = (Math.random() - 0.5) * 1100;
+                pos[i + 1] = (Math.random() - 0.5) * 1100;
+                pos[i + 2] = Math.random() * 1200 - 600;
+            }
+            geo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+            const pMat = new THREE.PointsMaterial({ color: 0xEC4899, size: 4.5, transparent: true, opacity: 0.85, blending: THREE.AdditiveBlending });
+            const starTunnel = new THREE.Points(geo, pMat);
+            activeMeshGroup.add(starTunnel);
+
+            const prismGeo = new THREE.OctahedronGeometry(110, 0);
+            const prismMat = new THREE.MeshBasicMaterial({ color: 0xF59E0B, wireframe: true, transparent: true, opacity: 0.35 });
+            const prism = new THREE.Mesh(prismGeo, prismMat);
+            prism.position.set(-300, 60, -100);
+            activeMeshGroup.add(prism);
+
+            updateAnimationStep = (time) => {
+                const speed = 7.5 + (Math.abs(currMouseX) + Math.abs(currMouseY)) * 0.03;
+                const posArr = geo.attributes.position.array;
+                for (let i = 2; i < count * 3; i += 3) {
+                    posArr[i] += speed;
+                    if (posArr[i] > 600) posArr[i] = -600;
+                }
+                geo.attributes.position.needsUpdate = true;
+
+                starTunnel.rotation.z = currMouseX * 0.001;
+                prism.rotation.y = time * 0.8;
+                prism.rotation.z = time * 0.5;
+            };
+
+        } else if (mode === 'matrix') {
+            // Mode 5: 3D Matrix Waterfall & Kinetic Mouse Forcefield Repulsion
+            mouseLight.color.setHex(0x00FF66);
+
+            const count = 1400;
+            const geo = new THREE.BufferGeometry();
+            const pos = new Float32Array(count * 3);
+            for (let i = 0; i < count * 3; i += 3) {
+                pos[i] = (Math.random() - 0.5) * 1300;
+                pos[i + 1] = Math.random() * 1200 - 600;
+                pos[i + 2] = (Math.random() - 0.5) * 900;
+            }
+            geo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+            const pMat = new THREE.PointsMaterial({ color: 0x00FF66, size: 4.0, transparent: true, opacity: 0.9 });
+            const rain = new THREE.Points(geo, pMat);
+            activeMeshGroup.add(rain);
+
+            // Matrix Torus Knot Core
+            const torusGeo = new THREE.TorusKnotGeometry(95, 26, 100, 16);
+            const torusMat = new THREE.MeshBasicMaterial({ color: 0x00FF66, wireframe: true, transparent: true, opacity: 0.3 });
+            const torus = new THREE.Mesh(torusGeo, torusMat);
+            torus.position.set(300, 40, -120);
+            activeMeshGroup.add(torus);
+
+            const dodecGeo = new THREE.DodecahedronGeometry(85);
+            const dodecMat = new THREE.MeshBasicMaterial({ color: 0x10B981, wireframe: true, transparent: true, opacity: 0.25 });
+            const dodec = new THREE.Mesh(dodecGeo, dodecMat);
+            dodec.position.set(-320, -30, -150);
+            activeMeshGroup.add(dodec);
+
+            updateAnimationStep = (time) => {
+                const posArr = geo.attributes.position.array;
+                for (let i = 0; i < count * 3; i += 3) {
+                    posArr[i + 1] -= 4.2;
+                    if (posArr[i + 1] < -600) posArr[i + 1] = 600;
+
+                    // Kinetic Forcefield Repulsion on Mouse
+                    const dx = posArr[i] - currMouseX;
+                    const dy = posArr[i + 1] - currMouseY;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+                    if (dist < 160) {
+                        posArr[i] += (dx / dist) * 8;
+                    }
+                }
+                geo.attributes.position.needsUpdate = true;
+
+                torus.rotation.x = time * 0.5;
+                torus.rotation.y = time * 0.6;
+                dodec.rotation.y = time * 0.4;
+            };
+        }
+    }
+
+    switchThreeJSScene = (newMode) => {
+        buildScene(newMode);
+    };
+
+    buildScene(currentThemeMode);
+
     function animate() {
         requestAnimationFrame(animate);
 
-        particleSystem.rotation.x += 0.0004;
-        particleSystem.rotation.y += 0.0005;
+        const elapsedTime = clock.getElapsedTime();
 
-        camera.position.x += (mouseX - camera.position.x) * 0.04;
-        camera.position.y += (-mouseY - camera.position.y) * 0.04;
+        // Smooth Mouse Inertia Interpolation
+        currMouseX += (targetMouseX - currMouseX) * 0.08;
+        currMouseY += (targetMouseY - currMouseY) * 0.08;
+
+        // Position 3D Point Light to track mouse in 3D space
+        mouseLight.position.set(currMouseX, currMouseY, 150);
+
+        if (updateAnimationStep) updateAnimationStep(elapsedTime);
+
+        // High-impact Camera Steering
+        camera.position.x = currMouseX * 0.25;
+        camera.position.y = currMouseY * 0.25;
         camera.lookAt(scene.position);
 
         renderer.render(scene, camera);
     }
 
     animate();
+}
+
+function initCard3DTilt() {
+    const cards = document.querySelectorAll('.glass-card, .project-card, .profile-card, .skill-card');
+    cards.forEach(card => {
+        card.addEventListener('mousemove', (e) => {
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left - rect.width / 2;
+            const y = e.clientY - rect.top - rect.height / 2;
+            const rotateX = (-y / rect.height) * 12;
+            const rotateY = (x / rect.width) * 12;
+
+            card.style.transform = `perspective(1000px) rotateX(${rotateX.toFixed(2)}deg) rotateY(${rotateY.toFixed(2)}deg) translateY(-4px)`;
+        });
+
+        card.addEventListener('mouseleave', () => {
+            card.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0px)`;
+        });
+    });
 }
 
 /* ---------------------------------------------------------------------
@@ -506,6 +935,10 @@ function initTerminal() {
     const input = document.getElementById('terminal-input');
     const body = document.getElementById('terminal-body');
     if (!input || !body) return;
+
+    body.addEventListener('click', () => {
+        input.focus();
+    });
 
     input.addEventListener('keydown', (e) => {
         if (e.key === 'Enter') {
