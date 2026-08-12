@@ -14,6 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
     tryInit(initSkillsMatrix, 'Skills Matrix');
     tryInit(initTerminal, 'Lab Terminal');
     tryInit(initContactForm, 'Contact Form');
+    tryInit(initWatermelonUIComponent, 'Watermelon UI AI Assistant');
 });
 
 function tryInit(fn, name) {
@@ -1077,4 +1078,74 @@ function fallbackCopyText(text) {
         console.warn('Fallback copy failed', err);
     }
     document.body.removeChild(textarea);
+}
+
+/* ---------------------------------------------------------------------
+   9. Watermelon UI Interactive AI Assistant Component
+   --------------------------------------------------------------------- */
+function initWatermelonUIComponent() {
+    const input = document.getElementById('wm-ai-input');
+    const sendBtn = document.getElementById('wm-ai-send');
+    const chips = document.querySelectorAll('.wm-chip');
+    const responseBox = document.getElementById('wm-ai-response');
+    const responseText = document.getElementById('wm-response-text');
+    const copyBtn = document.getElementById('wm-copy-response');
+
+    if (!input || !sendBtn || !responseBox || !responseText) return;
+
+    const knowledgeBase = {
+        resilient: "🤖 <strong>Resilient AI Pipeline</strong><br>An autonomous multi-agent AI benchmark and stress-testing framework. Built with Python 3.11, FastAPI backends, and modular evaluation agents to test LLM robustness, hallucination resistance, and fault tolerance.<br><br><code>Repository: github.com/harshitthek/resilient</code>",
+        bike: "🚲 <strong>Used Bike Price Predictor</strong><br>Machine learning valuation model trained on Indian used motorcycle market datasets. Built with Scikit-Learn (RandomForest & XGBoost), Flask REST APIs, and automated hyperparameter tuning to achieve a 98.4% R² valuation accuracy.<br><br><code>Repository: github.com/harshitthek/used-bike-price</code>",
+        stack: "⚡ <strong>Primary Tech Stack</strong><br>• <strong>Languages</strong>: Python, JavaScript (ES6+), TypeScript, C++, SQL<br>• <strong>AI & Backend</strong>: FastAPI, Flask, PyTorch, Scikit-Learn, NumPy, PostgreSQL<br>• <strong>Frontend & 3D</strong>: HTML5, Vanilla CSS3, Three.js WebGL, React<br>• <strong>Tools & DevOps</strong>: Git, Linux, Docker, Bash Shell",
+        contact: "📬 <strong>Contact & Social Connections</strong><br>• <strong>Email</strong>: codewithharshitsharma@gmail.com<br>• <strong>GitHub</strong>: github.com/harshitthek<br>• <strong>LinkedIn</strong>: linkedin.com/in/devharshitsharma<br>• <strong>University</strong>: USAR (GGSIPU), New Delhi"
+    };
+
+    function triggerAIResponse(queryKey, customQuery = '') {
+        responseBox.classList.remove('hidden');
+        
+        let answer = knowledgeBase[queryKey];
+        if (!answer) {
+            answer = `⚡ <strong>AI Query Result for "${customQuery}"</strong><br>Harshit Sharma is an AI & ML student at USAR (GGSIPU), New Delhi specializing in Python machine learning pipelines, FastAPI REST APIs, and multi-agent AI systems. Explore the <strong>Projects</strong> and <strong>Skills</strong> sections above to view full source code!`;
+        }
+
+        responseText.innerHTML = answer;
+    }
+
+    chips.forEach(chip => {
+        chip.addEventListener('click', () => {
+            const key = chip.getAttribute('data-prompt');
+            triggerAIResponse(key);
+        });
+    });
+
+    sendBtn.addEventListener('click', () => {
+        const query = input.value.trim().toLowerCase();
+        if (!query) return;
+
+        let matchedKey = null;
+        if (query.includes('resilient') || query.includes('agent') || query.includes('pipeline')) matchedKey = 'resilient';
+        else if (query.includes('bike') || query.includes('price') || query.includes('model')) matchedKey = 'bike';
+        else if (query.includes('stack') || query.includes('python') || query.includes('skills')) matchedKey = 'stack';
+        else if (query.includes('contact') || query.includes('email') || query.includes('github')) matchedKey = 'contact';
+
+        triggerAIResponse(matchedKey, input.value.trim());
+        input.value = '';
+    });
+
+    input.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+            sendBtn.click();
+        }
+    });
+
+    if (copyBtn) {
+        copyBtn.addEventListener('click', () => {
+            const textToCopy = responseText.innerText;
+            copyTextToClipboard(textToCopy);
+            copyBtn.textContent = 'Copied!';
+            setTimeout(() => {
+                copyBtn.textContent = 'Copy';
+            }, 2000);
+        });
+    }
 }

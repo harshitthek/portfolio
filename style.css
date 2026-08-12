@@ -669,9 +669,174 @@ body {
     line-height: 1.7;
 }
 
-.hero-actions { display: flex; gap: 16px; margin-bottom: 40px; }
+.hero-actions { display: flex; gap: 16px; margin-bottom: 24px; }
 
-.social-links { display: flex; gap: 14px; }
+/* Watermelon UI Interactive Component */
+.watermelon-ui-component {
+    background: rgba(11, 16, 29, 0.75);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    border: 1px solid rgba(255, 59, 92, 0.35);
+    border-radius: var(--radius-lg);
+    padding: 20px;
+    margin-bottom: 30px;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5), inset 0 1px 1px rgba(255, 255, 255, 0.08);
+    transition: var(--transition);
+}
+
+.watermelon-ui-component:hover {
+    border-color: rgba(255, 59, 92, 0.6);
+    box-shadow: 0 20px 50px rgba(255, 59, 92, 0.15);
+}
+
+.wm-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 14px;
+}
+
+.wm-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 4px 12px;
+    background: linear-gradient(135deg, rgba(255, 59, 92, 0.15), rgba(16, 185, 129, 0.15));
+    border: 1px solid rgba(255, 59, 92, 0.3);
+    border-radius: 9999px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 700;
+    color: #FF3B5C;
+    letter-spacing: 0.8px;
+}
+
+.wm-icon { font-size: 14px; }
+
+.wm-status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: #10B981;
+    box-shadow: 0 0 10px #10B981;
+}
+
+.wm-prompt-chips {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 14px;
+}
+
+.wm-chip {
+    padding: 5px 12px;
+    background: rgba(15, 23, 42, 0.6);
+    border: 1px solid var(--border-color);
+    border-radius: 9999px;
+    color: var(--text-secondary);
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.wm-chip:hover {
+    border-color: #FF3B5C;
+    color: var(--text-primary);
+    background: rgba(255, 59, 92, 0.1);
+    transform: translateY(-1px);
+}
+
+.wm-input-box {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(15, 23, 42, 0.9);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    padding: 6px 6px 6px 14px;
+    transition: var(--transition);
+}
+
+.wm-input-box:focus-within {
+    border-color: #FF3B5C;
+    box-shadow: 0 0 15px rgba(255, 59, 92, 0.2);
+}
+
+.wm-input-box input {
+    background: transparent;
+    border: none;
+    outline: none;
+    color: var(--text-primary);
+    font-family: var(--font-sans);
+    font-size: 13.5px;
+    width: 100%;
+}
+
+.wm-send-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 14px;
+    background: linear-gradient(135deg, #FF3B5C, #E11D48);
+    border: none;
+    border-radius: var(--radius-sm);
+    color: #FFF;
+    font-weight: 700;
+    font-size: 12px;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.wm-send-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 0 15px rgba(255, 59, 92, 0.5);
+}
+
+.wm-response-box {
+    margin-top: 14px;
+    padding: 14px;
+    background: rgba(8, 12, 21, 0.9);
+    border: 1px solid rgba(16, 185, 129, 0.3);
+    border-radius: var(--radius-md);
+    animation: fadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.wm-response-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: #10B981;
+    font-weight: 700;
+    margin-bottom: 8px;
+    border-bottom: 1px solid rgba(16, 185, 129, 0.15);
+    padding-bottom: 6px;
+}
+
+.wm-copy-btn {
+    background: transparent;
+    border: 1px solid rgba(16, 185, 129, 0.4);
+    color: #10B981;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 10px;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.wm-copy-btn:hover {
+    background: rgba(16, 185, 129, 0.2);
+}
+
+.wm-response-text {
+    font-size: 13px;
+    color: var(--text-primary);
+    line-height: 1.6;
+}
+
+.social-links { display: flex; gap: 14px; margin-bottom: 40px; }
 
 .social-icon {
     width: 42px;
