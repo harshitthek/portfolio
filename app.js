@@ -1229,42 +1229,86 @@ function initWatermelonUIComponent() {
     if (!input || !sendBtn || !responseBox || !responseText) return;
 
     const knowledgeBase = {
-        resilient: "🤖 <strong>Resilient AI Pipeline</strong><br>An autonomous multi-agent AI benchmark and stress-testing framework. Built with Python 3.11, FastAPI backends, and modular evaluation agents to test LLM robustness, hallucination resistance, and fault tolerance.<br><br><code>Repository: github.com/harshitthek/resilient</code>",
-        bike: "🚲 <strong>Used Bike Price Predictor</strong><br>Machine learning valuation model trained on Indian used motorcycle market datasets. Built with Scikit-Learn (RandomForest & XGBoost), Flask REST APIs, and automated hyperparameter tuning to achieve a 98.4% R² valuation accuracy.<br><br><code>Repository: github.com/harshitthek/used-bike-price</code>",
-        stack: "⚡ <strong>Primary Tech Stack</strong><br>• <strong>Languages</strong>: Python, JavaScript (ES6+), TypeScript, C++, SQL<br>• <strong>AI & Backend</strong>: FastAPI, Flask, PyTorch, Scikit-Learn, NumPy, PostgreSQL<br>• <strong>Frontend & 3D</strong>: HTML5, Vanilla CSS3, Three.js WebGL, React<br>• <strong>Tools & DevOps</strong>: Git, Linux, Docker, Bash Shell",
-        contact: "📬 <strong>Contact & Social Connections</strong><br>• <strong>Email</strong>: codewithharshitsharma@gmail.com<br>• <strong>GitHub</strong>: github.com/harshitthek<br>• <strong>LinkedIn</strong>: linkedin.com/in/devharshitsharma<br>• <strong>University</strong>: USAR (GGSIPU), New Delhi"
+        resilient: "🤖 <strong>Resilient AI Leaderboard & Pipeline</strong><br>An autonomous multi-agent AI benchmark and stress-testing framework. Built with <strong>Python 3.12</strong>, <strong>FastAPI</strong>, and modular evaluation agents to test LLM code generation robustness in isolated git sandboxes.<br><br><code>🔗 Repository: github.com/harshitthek/resilient</code>",
+        
+        bike: "🚲 <strong>Used Bike Price Predictor</strong><br>Machine learning valuation engine trained on Indian motorcycle market datasets. Implements <strong>Scikit-Learn (RandomForest & XGBoost)</strong> regression with custom feature scaling and a <strong>Flask REST API</strong> (98.4% R² accuracy).<br><br><code>🔗 Repository: github.com/harshitthek/used-bike-price</code>",
+        
+        carbon: "🌱 <strong>Carbon Guardian AI</strong><br>Carbon footprint analytics engine calculating cloud compute GPU/CPU energy draw and outputting actionable CO₂ offset recommendations. Built with <strong>React</strong>, <strong>Node.js</strong>, and real-time server telemetry charts.<br><br><code>🔗 Repository: github.com/harshitthek/carbon-guardian-ai</code>",
+        
+        startpage: "💻 <strong>Customizable Browser Startpage</strong><br>Ultra-fast minimalist browser new-tab replacement featuring live <strong>OpenWeather API sync</strong>, custom search provider toggles, and keyboard bookmarking. Zero external framework dependencies.<br><br><code>🔗 Repository: github.com/harshitthek/Customizable-Browser-Startpage</code>",
+        
+        stack: "⚡ <strong>Primary Technical Stack</strong><br>• <strong>Languages</strong>: Python, JavaScript (ES6+), TypeScript, C/C++, SQL, Bash<br>• <strong>AI & ML</strong>: PyTorch, Scikit-Learn, NumPy, Pandas, Scipy<br>• <strong>Backend & APIs</strong>: FastAPI, Flask, PostgreSQL, REST APIs, Webhooks<br>• <strong>Frontend & UI</strong>: HTML5, CSS3, Three.js WebGL, React<br>• <strong>DevOps & Tools</strong>: Git, Linux, Docker, Webpack, Vercel",
+        
+        education: "🎓 <strong>Education & Credentials</strong><br>• <strong>Degree</strong>: B.Tech in Artificial Intelligence & Machine Learning<br>• <strong>University</strong>: USAR (University School of Automation & Robotics), GGSIPU, New Delhi<br>• <strong>Focus Areas</strong>: Machine Learning Systems, Neural Networks, Full-Stack Web Architecture, Autonomous Agents",
+        
+        projects: "🚀 <strong>Featured Engineering Projects</strong><br>1. <strong>Resilient</strong>: Autonomous AI Agent Pipeline<br>2. <strong>Used Bike Price Predictor</strong>: ML Valuation Engine (98.4% R²)<br>3. <strong>Carbon Guardian AI</strong>: Cloud Compute Carbon Telemetry<br>4. <strong>Customizable Startpage</strong>: High-speed Web Browser Dashboard<br><br><em>Click any project card above to view architectural deep-dives!</em>",
+        
+        contact: "📬 <strong>Contact & Social Profiles</strong><br>• <strong>Email</strong>: codewithharshitsharma@gmail.com<br>• <strong>GitHub</strong>: <a href='https://github.com/harshitthek' target='_blank' style='color:var(--cyan-primary)'>github.com/harshitthek</a><br>• <strong>LinkedIn</strong>: <a href='https://www.linkedin.com/in/devharshitsharma' target='_blank' style='color:var(--cyan-primary)'>linkedin.com/in/devharshitsharma</a><br>• <strong>Location</strong>: New Delhi, India 🇮🇳",
+        
+        bio: "👨‍💻 <strong>About Harshit Sharma</strong><br>AI & Machine Learning engineer pursuing B.Tech at USAR (GGSIPU), New Delhi. Passionate about building robust ML valuation models, high-concurrency FastAPI backends, WebGL 3D interactive interfaces, and autonomous agent pipelines.",
+        
+        terminal: "🖥️ <strong>Interactive Lab Terminal</strong><br>Try out shell commands in the terminal window above! Supported commands: <code>neofetch</code>, <code>matrix</code>, <code>cat used_bike_model.py</code>, <code>cat webhook_receiver.py</code>, <code>cat schema.sql</code>, <code>whoami</code>, <code>date</code>, <code>skills</code>, <code>projects</code>, and <code>clear</code>."
     };
+
+    function matchQueryIntent(rawQuery) {
+        const q = rawQuery.toLowerCase();
+        
+        if (/resilient|agent|pipeline|benchmark|sandbox|eval|leaderboard|llm/.test(q)) return 'resilient';
+        if (/bike|price|motorcycle|valuation|regressor|sklearn|xgboost/.test(q)) return 'bike';
+        if (/carbon|guardian|co2|sustainability|footprint|green|energy|telemetry/.test(q)) return 'carbon';
+        if (/startpage|browser|newtab|weather|dashboard|shortcut/.test(q)) return 'startpage';
+        if (/stack|python|javascript|typescript|cpp|c\+\+|fastapi|flask|react|docker|skills|technology|technologies|tools/.test(q)) return 'stack';
+        if (/education|college|usar|ggsipu|degree|university|btech|study|student|academics/.test(q)) return 'education';
+        if (/project|projects|repo|repository|repositories|portfolio|work|built|apps/.test(q)) return 'projects';
+        if (/contact|email|linkedin|github|social|reach|message|hire|connect/.test(q)) return 'contact';
+        if (/who|about|harshit|bio|background|location|delhi|experience/.test(q)) return 'bio';
+        if (/terminal|cmd|shell|matrix|command|neofetch|cat/.test(q)) return 'terminal';
+
+        return null;
+    }
 
     function triggerAIResponse(queryKey, customQuery = '') {
         responseBox.classList.remove('hidden');
-        
-        let answer = knowledgeBase[queryKey];
-        if (!answer) {
-            answer = `⚡ <strong>AI Query Result for "${customQuery}"</strong><br>Harshit Sharma is an AI & ML student at USAR (GGSIPU), New Delhi specializing in Python machine learning pipelines, FastAPI REST APIs, and multi-agent AI systems. Explore the <strong>Projects</strong> and <strong>Skills</strong> sections above to view full source code!`;
+
+        let fullAnswer = knowledgeBase[queryKey];
+
+        if (!fullAnswer) {
+            const isML = /model|ai|ml|learning|data|train|python/i.test(customQuery);
+            const isWeb = /web|site|css|html|js|frontend|ui/i.test(customQuery);
+
+            fullAnswer = `⚡ <strong>AI Query Result for "${customQuery}"</strong><br>Harshit Sharma is an AI & Machine Learning engineer at USAR (GGSIPU), New Delhi.${
+                isML ? ' He specializes in Scikit-Learn valuation models, PyTorch pipelines, and FastAPI REST backends.' : ''
+            }${
+                isWeb ? ' He builds responsive 3D WebGL interfaces, interactive dashboards, and modern UI components.' : ''
+            }<br><br>Explore the <strong>Projects</strong>, <strong>Skills</strong>, and <strong>Interactive Terminal</strong> sections on this page for complete source code and technical breakdowns!`;
         }
 
-        responseText.innerHTML = answer;
+        responseText.innerHTML = fullAnswer;
+        responseText.style.opacity = '0';
+        responseText.style.transform = 'translateY(6px)';
+        responseText.style.transition = 'opacity 0.25s ease, transform 0.25s ease';
+        
+        requestAnimationFrame(() => {
+            responseText.style.opacity = '1';
+            responseText.style.transform = 'translateY(0px)';
+        });
     }
 
     chips.forEach(chip => {
         chip.addEventListener('click', () => {
             const key = chip.getAttribute('data-prompt');
-            triggerAIResponse(key);
+            const chipText = chip.textContent.replace(/^[^\s]+\s*/, '');
+            input.value = chipText;
+            triggerAIResponse(key, chipText);
         });
     });
 
     sendBtn.addEventListener('click', () => {
-        const query = input.value.trim().toLowerCase();
+        const query = input.value.trim();
         if (!query) return;
 
-        let matchedKey = null;
-        if (query.includes('resilient') || query.includes('agent') || query.includes('pipeline')) matchedKey = 'resilient';
-        else if (query.includes('bike') || query.includes('price') || query.includes('model')) matchedKey = 'bike';
-        else if (query.includes('stack') || query.includes('python') || query.includes('skills')) matchedKey = 'stack';
-        else if (query.includes('contact') || query.includes('email') || query.includes('github')) matchedKey = 'contact';
-
-        triggerAIResponse(matchedKey, input.value.trim());
-        input.value = '';
+        const matchedKey = matchQueryIntent(query);
+        triggerAIResponse(matchedKey, query);
     });
 
     input.addEventListener('keydown', (e) => {
