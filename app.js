@@ -205,7 +205,7 @@ function initThreeJSBackground() {
         }
 
         if (mode === 'cyberpunk') {
-            // Mode 1: Quantum Vortex Gravity Attractor & Pulsing Morphing Sphere
+            // Mode 1: Quantum Vortex Gravity Attractor & Pulsing Morphing Sphere (POINTER TRACKING)
             mouseLight.color.setHex(0x38BDF8);
 
             const count = 1200;
@@ -276,7 +276,6 @@ function initThreeJSBackground() {
                         pArr[i] += dx * force * 0.08;
                         pArr[i + 1] += dy * force * 0.08;
                     } else {
-                        // Return slowly to origin
                         pArr[i] += (origPos[i] - pArr[i]) * 0.04;
                         pArr[i + 1] += (origPos[i + 1] - pArr[i + 1]) * 0.04;
                     }
@@ -290,7 +289,7 @@ function initThreeJSBackground() {
             };
 
         } else if (mode === 'synthwave') {
-            // Mode 2: Dynamic Deforming Terrain Wave Plane + Glowing Retrowave Sun
+            // Mode 2: Dynamic Deforming Terrain Wave Plane + Glowing Retrowave Sun (AUTOMATED CONTINUOUS WARP)
             mouseLight.color.setHex(0xFF007F);
 
             const gridGeo = new THREE.PlaneGeometry(2200, 2200, 48, 48);
@@ -322,33 +321,29 @@ function initThreeJSBackground() {
             activeMeshGroup.add(knot);
 
             const posAttr = gridGeo.attributes.position;
-            const initZ = new Float32Array(posAttr.count);
-            for (let i = 0; i < posAttr.count; i++) {
-                initZ[i] = posAttr.getZ(i);
-            }
 
             updateAnimationStep = (time) => {
-                grid.position.z += 1.8;
+                grid.position.z += 3.5;
                 if (grid.position.z > 0) grid.position.z = -200;
 
-                // Deform grid vertices dynamically like dynamic waves
+                // Deform grid vertices in automated dynamic waves (No mouse dependence)
                 for (let i = 0; i < posAttr.count; i++) {
                     const x = posAttr.getX(i);
                     const y = posAttr.getY(i);
-                    const z = Math.sin(x * 0.015 + time * 2) * 25 + Math.cos(y * 0.015 + time * 1.5) * 20;
+                    const z = Math.sin(x * 0.015 + time * 2.5) * 25 + Math.cos(y * 0.015 + time * 2.0) * 20;
                     posAttr.setZ(i, z);
                 }
                 posAttr.needsUpdate = true;
 
-                sun.rotation.y = time * 0.05;
-                poly.rotation.x = time * 0.5;
-                poly.rotation.y = time * 0.7;
-                knot.rotation.x = time * 0.6;
-                knot.rotation.z = time * 0.4;
+                sun.rotation.y = time * 0.1;
+                poly.rotation.x = time * 0.6;
+                poly.rotation.y = time * 0.8;
+                knot.rotation.x = time * 0.7;
+                knot.rotation.z = time * 0.5;
             };
 
         } else if (mode === 'constellation') {
-            // Mode 3: Quantum Proximity Neural Web & Particle Repulsion
+            // Mode 3: Quantum Proximity Neural Web & Orbital Pulse (AUTOMATED NEURAL ORBIT)
             mouseLight.color.setHex(0x10B981);
 
             const count = 120;
@@ -360,9 +355,9 @@ function initThreeJSBackground() {
                 pPositions[i * 3 + 1] = (Math.random() - 0.5) * 950;
                 pPositions[i * 3 + 2] = (Math.random() - 0.5) * 650;
 
-                velocities[i * 3] = (Math.random() - 0.5) * 1.2;
-                velocities[i * 3 + 1] = (Math.random() - 0.5) * 1.2;
-                velocities[i * 3 + 2] = (Math.random() - 0.5) * 1.2;
+                velocities[i * 3] = (Math.random() - 0.5) * 1.5;
+                velocities[i * 3 + 1] = (Math.random() - 0.5) * 1.5;
+                velocities[i * 3 + 2] = (Math.random() - 0.5) * 1.5;
             }
 
             const pGeo = new THREE.BufferGeometry();
@@ -393,30 +388,12 @@ function initThreeJSBackground() {
                     if (Math.abs(posArr[i * 3]) > 480) velocities[i * 3] *= -1;
                     if (Math.abs(posArr[i * 3 + 1]) > 480) velocities[i * 3 + 1] *= -1;
                     if (Math.abs(posArr[i * 3 + 2]) > 320) velocities[i * 3 + 2] *= -1;
-
-                    // Repel nodes near mouse
-                    const dx = posArr[i * 3] - currMouseX;
-                    const dy = posArr[i * 3 + 1] - currMouseY;
-                    const dist = Math.sqrt(dx * dx + dy * dy);
-                    if (dist < 180) {
-                        posArr[i * 3] += (dx / dist) * 4;
-                        posArr[i * 3 + 1] += (dy / dist) * 4;
-                    }
                 }
                 pGeo.attributes.position.needsUpdate = true;
 
-                // Build line connections including mouse laser connections!
+                // Build automated line connections between close nodes
                 const linePositions = [];
                 for (let i = 0; i < count; i++) {
-                    // Connect to mouse
-                    const mdx = posArr[i * 3] - currMouseX;
-                    const mdy = posArr[i * 3 + 1] - currMouseY;
-                    const mdist = Math.sqrt(mdx * mdx + mdy * mdy);
-                    if (mdist < 240) {
-                        linePositions.push(posArr[i * 3], posArr[i * 3 + 1], posArr[i * 3 + 2]);
-                        linePositions.push(currMouseX, currMouseY, 0);
-                    }
-
                     for (let j = i + 1; j < count; j++) {
                         const dx = posArr[i * 3] - posArr[j * 3];
                         const dy = posArr[i * 3 + 1] - posArr[j * 3 + 1];
@@ -431,12 +408,12 @@ function initThreeJSBackground() {
                 lineGeo.setAttribute('position', new THREE.Float32BufferAttribute(linePositions, 3));
                 lineGeo.attributes.position.needsUpdate = true;
 
-                cube.rotation.x = time * 0.4;
-                cube.rotation.y = time * 0.5;
+                cube.rotation.x = time * 0.5;
+                cube.rotation.y = time * 0.6;
             };
 
         } else if (mode === 'hyperspace') {
-            // Mode 4: Hyperdrive Warp Tunnel with Dynamic Mouse Acceleration Steering
+            // Mode 4: Hyperdrive Warp Tunnel (AUTOMATED CONSTANT WARP SPEED)
             mouseLight.color.setHex(0xEC4899);
 
             const count = 1800;
@@ -459,7 +436,7 @@ function initThreeJSBackground() {
             activeMeshGroup.add(prism);
 
             updateAnimationStep = (time) => {
-                const speed = 7.5 + (Math.abs(currMouseX) + Math.abs(currMouseY)) * 0.03;
+                const speed = 14.0;
                 const posArr = geo.attributes.position.array;
                 for (let i = 2; i < count * 3; i += 3) {
                     posArr[i] += speed;
@@ -467,22 +444,25 @@ function initThreeJSBackground() {
                 }
                 geo.attributes.position.needsUpdate = true;
 
-                starTunnel.rotation.z = currMouseX * 0.001;
+                starTunnel.rotation.z = Math.sin(time * 0.4) * 0.25;
                 prism.rotation.y = time * 0.8;
-                prism.rotation.z = time * 0.5;
+                prism.rotation.x = time * 0.6;
             };
 
         } else if (mode === 'matrix') {
-            // Mode 5: 3D Matrix Waterfall & Kinetic Mouse Forcefield Repulsion
+            // Mode 5: 3D Matrix Digital Waterfall (AUTOMATED MATRIX RAIN FLOW)
             mouseLight.color.setHex(0x00FF66);
 
             const count = 1400;
             const geo = new THREE.BufferGeometry();
             const pos = new Float32Array(count * 3);
-            for (let i = 0; i < count * 3; i += 3) {
-                pos[i] = (Math.random() - 0.5) * 1300;
-                pos[i + 1] = Math.random() * 1200 - 600;
-                pos[i + 2] = (Math.random() - 0.5) * 900;
+            const origX = new Float32Array(count);
+
+            for (let i = 0; i < count; i++) {
+                pos[i * 3] = (Math.random() - 0.5) * 1300;
+                pos[i * 3 + 1] = Math.random() * 1200 - 600;
+                pos[i * 3 + 2] = (Math.random() - 0.5) * 900;
+                origX[i] = pos[i * 3];
             }
             geo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
             const pMat = new THREE.PointsMaterial({ color: 0x00FF66, size: 4.0, transparent: true, opacity: 0.9 });
@@ -504,17 +484,12 @@ function initThreeJSBackground() {
 
             updateAnimationStep = (time) => {
                 const posArr = geo.attributes.position.array;
-                for (let i = 0; i < count * 3; i += 3) {
-                    posArr[i + 1] -= 4.2;
-                    if (posArr[i + 1] < -600) posArr[i + 1] = 600;
+                for (let i = 0; i < count; i++) {
+                    posArr[i * 3 + 1] -= 5.0;
+                    if (posArr[i * 3 + 1] < -600) posArr[i * 3 + 1] = 600;
 
-                    // Kinetic Forcefield Repulsion on Mouse
-                    const dx = posArr[i] - currMouseX;
-                    const dy = posArr[i + 1] - currMouseY;
-                    const dist = Math.sqrt(dx * dx + dy * dy);
-                    if (dist < 160) {
-                        posArr[i] += (dx / dist) * 8;
-                    }
+                    // Automated organic horizontal wave ripple
+                    posArr[i * 3] = origX[i] + Math.sin(posArr[i * 3 + 1] * 0.02 + time * 3) * 15;
                 }
                 geo.attributes.position.needsUpdate = true;
 
@@ -525,7 +500,10 @@ function initThreeJSBackground() {
         }
     }
 
+    let activeSceneMode = currentThemeMode;
+
     switchThreeJSScene = (newMode) => {
+        activeSceneMode = newMode;
         buildScene(newMode);
     };
 
@@ -536,19 +514,25 @@ function initThreeJSBackground() {
 
         const elapsedTime = clock.getElapsedTime();
 
-        // Smooth Mouse Inertia Interpolation
-        currMouseX += (targetMouseX - currMouseX) * 0.08;
-        currMouseY += (targetMouseY - currMouseY) * 0.08;
+        if (activeSceneMode === 'cyberpunk') {
+            // ONLY Cyberpunk HUD tracks mouse pointer movement!
+            currMouseX += (targetMouseX - currMouseX) * 0.08;
+            currMouseY += (targetMouseY - currMouseY) * 0.08;
+            mouseLight.position.set(currMouseX, currMouseY, 150);
+            camera.position.x = currMouseX * 0.25;
+            camera.position.y = currMouseY * 0.25;
+        } else {
+            // All other 4 themes have stable automated background animations without pointer tracking
+            currMouseX = 0;
+            currMouseY = 0;
+            mouseLight.position.set(0, 0, 250);
+            camera.position.x = 0;
+            camera.position.y = 0;
+        }
 
-        // Position 3D Point Light to track mouse in 3D space
-        mouseLight.position.set(currMouseX, currMouseY, 150);
+        camera.lookAt(scene.position);
 
         if (updateAnimationStep) updateAnimationStep(elapsedTime);
-
-        // High-impact Camera Steering
-        camera.position.x = currMouseX * 0.25;
-        camera.position.y = currMouseY * 0.25;
-        camera.lookAt(scene.position);
 
         renderer.render(scene, camera);
     }
