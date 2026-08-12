@@ -503,6 +503,46 @@ function initThreeJSBackground() {
                 }
                 rainGeo.attributes.position.needsUpdate = true;
             };
+
+        } else if (mode === 'watermelon') {
+            // Mode 6: Watermelon UI Lime (Landing-01) Floating Electric Crystal Matrix
+            mouseLight.color.setHex(0xA3E635);
+
+            const wmCount = 1000;
+            const wmGeo = new THREE.BufferGeometry();
+            const wmPos = new Float32Array(wmCount * 3);
+            for (let i = 0; i < wmCount * 3; i += 3) {
+                wmPos[i] = (Math.random() - 0.5) * 1200;
+                wmPos[i + 1] = (Math.random() - 0.5) * 1000;
+                wmPos[i + 2] = (Math.random() - 0.5) * 700;
+            }
+            wmGeo.setAttribute('position', new THREE.BufferAttribute(wmPos, 3));
+            const wmMat = new THREE.PointsMaterial({ color: 0xA3E635, size: 4.8, transparent: true, opacity: 0.9, blending: THREE.AdditiveBlending });
+            const wmPoints = new THREE.Points(wmGeo, wmMat);
+            activeMeshGroup.add(wmPoints);
+
+            // Watermelon Central Crystal Octahedron
+            const octGeo = new THREE.OctahedronGeometry(120, 2);
+            const octMat = new THREE.MeshBasicMaterial({ color: 0x84CC16, wireframe: true, transparent: true, opacity: 0.35 });
+            const crystal = new THREE.Mesh(octGeo, octMat);
+            crystal.position.set(260, 40, -120);
+            activeMeshGroup.add(crystal);
+
+            const ringGeo = new THREE.TorusGeometry(190, 2, 16, 100);
+            const ringMat = new THREE.MeshBasicMaterial({ color: 0xFF3B5C, wireframe: true, transparent: true, opacity: 0.3 });
+            const ring = new THREE.Mesh(ringGeo, ringMat);
+            ring.position.copy(crystal.position);
+            ring.rotation.x = Math.PI / 3;
+            activeMeshGroup.add(ring);
+
+            updateAnimationStep = (time) => {
+                wmPoints.rotation.y = time * 0.12;
+                wmPoints.rotation.x = Math.sin(time * 0.2) * 0.1;
+
+                crystal.rotation.x = time * 0.5;
+                crystal.rotation.y = time * 0.7;
+                ring.rotation.z = -time * 0.6;
+            };
         }
     }
 

@@ -111,6 +111,21 @@
     --radial-overlay: radial-gradient(circle at 50% 50%, rgba(0, 255, 102, 0.12) 0%, transparent 75%);
 }
 
+/* 6. Watermelon UI (Landing-01) */
+[data-theme="watermelon"] {
+    --bg-dark: #080C14;
+    --bg-surface: #0E1422;
+    --bg-card: rgba(14, 20, 34, 0.85);
+    --border-color: rgba(132, 204, 22, 0.4);
+    --border-cyan: #84CC16;
+    --cyan-primary: #A3E635;
+    --green-accent: #84CC16;
+    --purple-accent: #FF3B5C;
+    --text-primary: #F8FAFC;
+    --card-glow: 0 0 35px rgba(163, 230, 53, 0.35);
+    --radial-overlay: radial-gradient(circle at 50% 30%, rgba(163, 230, 53, 0.18) 0%, rgba(255, 59, 92, 0.08) 55%, transparent 85%);
+}
+
 body::before {
     content: '';
     position: fixed;
