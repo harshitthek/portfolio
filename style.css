@@ -1329,13 +1329,14 @@ body {
     display: flex;
     align-items: center;
     justify-content: space-around;
-    padding: 24px 32px;
-    margin-top: 40px;
-    margin-bottom: 48px;
-    background: rgba(14, 20, 34, 0.65);
+    padding: 28px 40px;
+    margin: 48px 0;
+    width: 100%;
+    background: rgba(14, 20, 34, 0.75);
     border: 1px solid var(--border-color);
     border-radius: var(--radius-lg);
-    box-shadow: 0 12px 36px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(12px);
 }
 
 .wm-stat-item {
@@ -1347,108 +1348,113 @@ body {
 
 .wm-stat-val {
     font-family: var(--font-mono);
-    font-size: 28px;
+    font-size: 32px;
     font-weight: 800;
     color: var(--cyan-primary);
-    text-shadow: 0 0 16px rgba(163, 230, 53, 0.4);
+    text-shadow: 0 0 20px rgba(163, 230, 53, 0.5);
+    letter-spacing: -0.5px;
 }
 
 .wm-stat-lbl {
     font-family: var(--font-mono);
-    font-size: 10.5px;
+    font-size: 11px;
     font-weight: 700;
     color: var(--text-muted);
-    letter-spacing: 1.5px;
-    margin-top: 4px;
+    letter-spacing: 1.8px;
+    margin-top: 6px;
 }
 
 .wm-stat-divider {
     width: 1px;
-    height: 40px;
-    background: rgba(255, 255, 255, 0.1);
+    height: 48px;
+    background: rgba(255, 255, 255, 0.12);
 }
 
 /* WATERMELON UI FEATURE BENTO GRID */
 .wm-bento-section {
-    margin-top: 48px;
-    margin-bottom: 64px;
+    margin: 48px 0 64px 0;
+    width: 100%;
 }
 
 .wm-section-title-wrap {
-    margin-bottom: 32px;
+    margin-bottom: 36px;
 }
 
 .wm-section-tag {
     font-family: var(--font-mono);
-    font-size: 11px;
+    font-size: 11.5px;
     color: var(--cyan-primary);
-    letter-spacing: 2px;
+    letter-spacing: 2.5px;
     font-weight: 700;
 }
 
 .wm-section-title {
-    font-size: 28px;
+    font-size: 32px;
     font-weight: 800;
-    margin-top: 6px;
+    margin-top: 8px;
+    letter-spacing: -0.5px;
 }
 
 .wm-bento-grid {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
-    gap: 20px;
+    gap: 24px;
+    width: 100%;
 }
 
 .wm-bento-card {
     position: relative;
-    padding: 28px;
+    padding: 32px;
     border: 1px solid var(--border-color);
     border-radius: var(--radius-md);
-    background: rgba(14, 20, 34, 0.7);
-    transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+    background: rgba(14, 20, 34, 0.75);
+    backdrop-filter: blur(12px);
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .wm-bento-card:hover {
-    transform: translateY(-4px);
+    transform: translateY(-6px);
     border-color: var(--cyan-primary);
-    box-shadow: var(--card-glow);
+    box-shadow: 0 12px 30px rgba(163, 230, 53, 0.15);
 }
 
 .wm-col-2 { grid-column: span 2; }
 .wm-col-3 { grid-column: span 3; }
 
 .wm-bento-icon {
-    font-size: 24px;
-    margin-bottom: 12px;
+    font-size: 28px;
+    margin-bottom: 16px;
 }
 
 .wm-bento-card h3 {
-    font-size: 18px;
+    font-size: 20px;
     font-weight: 700;
     color: var(--text-primary);
-    margin-bottom: 10px;
+    margin-bottom: 12px;
+    letter-spacing: -0.2px;
 }
 
 .wm-bento-card p {
-    font-size: 13.5px;
+    font-size: 14px;
     color: var(--text-muted);
-    line-height: 1.6;
+    line-height: 1.65;
 }
 
 .wm-corner-accent {
     position: absolute;
-    width: 6px;
-    height: 6px;
+    width: 8px;
+    height: 8px;
     border-color: var(--cyan-primary);
-    opacity: 0.6;
+    opacity: 0.7;
 }
 
-.wm-corner-accent.top-left { top: 0; left: 0; border-top: 1.5px solid; border-left: 1.5px solid; }
-.wm-corner-accent.top-right { top: 0; right: 0; border-top: 1.5px solid; border-right: 1.5px solid; }
-.wm-corner-accent.bottom-left { bottom: 0; left: 0; border-bottom: 1.5px solid; border-left: 1.5px solid; }
-.wm-corner-accent.bottom-right { bottom: 0; right: 0; border-bottom: 1.5px solid; border-right: 1.5px solid; }
+.wm-corner-accent.top-left { top: 0; left: 0; border-top: 2px solid; border-left: 2px solid; }
+.wm-corner-accent.top-right { top: 0; right: 0; border-top: 2px solid; border-right: 2px solid; }
+.wm-corner-accent.bottom-left { bottom: 0; left: 0; border-bottom: 2px solid; border-left: 2px solid; }
+.wm-corner-accent.bottom-right { bottom: 0; right: 0; border-bottom: 2px solid; border-right: 2px solid; }
 
 @media (max-width: 900px) {
-    .wm-telemetry-strip { flex-direction: column; gap: 20px; text-align: center; }
+    .wm-telemetry-strip { flex-direction: column; gap: 24px; text-align: center; padding: 24px; }
     .wm-stat-divider { display: none; }
     .wm-bento-grid { grid-template-columns: 1fr; }
     .wm-col-2, .wm-col-3 { grid-column: span 1; }
