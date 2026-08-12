@@ -1,14 +1,14 @@
 # Harshit Sharma — 3D Interactive WebGL Developer Portfolio
 
-An ultra-modern, high-performance 3D developer portfolio website built with HTML5, Vanilla CSS3, Three.js WebGL physics engines, an interactive zsh Web Terminal, and a 5-in-1 Design Switcher aligned with **`design-taste-frontend`** anti-slop guidelines.
+An ultra-modern, high-performance 3D developer portfolio website built with HTML5, Vanilla CSS3, Three.js WebGL physics engines, an interactive zsh Web Terminal, and a 6-in-1 Design Switcher aligned with **`design-taste-frontend`** anti-slop guidelines.
 
 🌐 **Live Demo**: [https://harshitthek.github.io/portfolio/](https://harshitthek.github.io/portfolio/)
 
 ---
 
-## 🌌 5 Live 3D WebGL Physics Design Modes
+## 🌌 6 Live 3D WebGL Physics Design Modes
 
-You can switch between **5 distinct high-impact 3D animation themes** live using the header selector (`🎨 Select 3D Design Theme`):
+You can switch between **6 distinct high-impact 3D animation themes** live using the header selector (`🎨 Select 3D Design Theme`):
 
 1. **🌌 Cyberpunk HUD (`cyberpunk`) [CURSOR VORTEX GRAVITY ATTRACTOR]**
    - **3D WebGL Engine**: **ONLY THIS THEME** responds to mouse pointer movement! Features a 1,200 particle spiral galaxy vortex with **3D Cursor Gravitational Attraction**, camera steering, and Point Light tracking pointer + Double Gyroscope Rings spinning around a morphing core.
@@ -30,12 +30,18 @@ You can switch between **5 distinct high-impact 3D animation themes** live using
    - **3D WebGL Engine**: **Automated background animation (no pointer tracking)**. 1,200 particle 3D Torus Donut spinning on dual axes + Cascading vertical green code streams falling continuously in the background.
    - **Aesthetic**: Deep Obsidian (`#020408`) & Matrix Cyber Green (`#00FF66`).
 
+6. **🍉 Watermelon UI (`watermelon`) [ELECTRIC LIME GLOW & FLOATING MESH]**
+   - **3D WebGL Engine**: **Automated background animation (no pointer tracking)**. 1,000 particle floating electric crystal matrix + central wireframe crystal octahedron wrapped in a pink torus ring.
+   - **Aesthetic**: Dark Glassmorphism, Electric Lime (`#A3E635`), Green (`#84CC16`) & Magenta (`#FF3B5C`).
+
 ---
 
 ## ⚡ Key Architectural Features
 
-- **🎨 5-in-1 Live Design Switcher**: Real-time theme switcher persisted in `localStorage`.
-- **🎲 Interactive 3D Perspective Card Tilt**: Every card tilts dynamically in true 3D space (`perspective(1000px) rotateX(...) rotateY(...)`) on mouse move.
+- **🎨 6-in-1 Live Design Switcher**: Real-time theme switcher persisted in `localStorage`.
+- **🤖 Watermelon AI Assistant Component**: Interactive chatbot client populated with local LLM response maps to answers queries regarding project leaderboards, custom models, and resume credentials.
+- **🎲 Interactive 3D Perspective Card Tilt & Glare**: Cards tilt dynamically in 3D space (`perspective(1000px)`) on mouse move while projecting a dynamic cursor-following light glare sheen.
+- **✨ Premium Micro-Animations**: Native scroll reveals, automatic telemetry stat counters (counting up from 0), and magnetic physics for CTA buttons.
 - **🔍 Spotlight Command Palette (`⌘K` / `Ctrl+K` / `/`)**: Modal keyboard navigation filtering pages, direct GitHub repositories, and clipboard email shortcuts.
 - **💻 Interactive Lab Terminal (`harshit@usar ~ %`)**: Embedded zsh shell executing `help`, `neofetch`, `about`, `skills`, `projects`, `contact`, `sudo`, `clear`.
 - **🚀 Featured Engineering Showcase**: Deep-dive cards for flagship open-source repositories including **Resilient** (Autonomous AI Benchmark).
@@ -72,3 +78,4 @@ Open `http://localhost:3000` in your browser!
 ---
 
 Created & Maintained with ❤️ by **Harshit Sharma** ([@harshitthek](https://github.com/harshitthek))
+

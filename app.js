@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
     tryInit(initThemeSwitcher, '3D Theme Switcher');
     tryInit(initSPARouter, 'SPA Router');
     tryInit(initThreeJSBackground, 'Three.js 3D Engine');
-    tryInit(initCard3DTilt, '3D Card Tilt');
+    tryInit(initCard3DTilt, '3D Card Tilt & Glare');
     tryInit(initTypingEffect, 'Cyberpunk Typing');
     tryInit(initCommandPalette, 'Command Palette');
     tryInit(initCodeInspector, 'Code Inspector');
@@ -15,6 +15,9 @@ document.addEventListener('DOMContentLoaded', () => {
     tryInit(initTerminal, 'Lab Terminal');
     tryInit(initContactForm, 'Contact Form');
     tryInit(initWatermelonUIComponent, 'Watermelon UI AI Assistant');
+    tryInit(initScrollReveal, 'Scroll Reveal Observer');
+    tryInit(initTelemetryCounters, 'Telemetry Stat Counters');
+    tryInit(initMagneticButtons, 'Magnetic CTA Buttons');
 });
 
 function tryInit(fn, name) {
@@ -84,7 +87,8 @@ const themeInfo = {
     synthwave: { name: 'Synthwave Grid', icon: '🏎️' },
     constellation: { name: 'Quantum Constellation', icon: '⚛️' },
     hyperspace: { name: 'Hyperspace Warp', icon: '🚀' },
-    matrix: { name: 'Hacker Matrix Rain', icon: '💻' }
+    matrix: { name: 'Hacker Matrix Rain', icon: '💻' },
+    watermelon: { name: 'Watermelon UI', icon: '🍉' }
 };
 
 function initThemeSwitcher() {
@@ -587,14 +591,21 @@ function initThreeJSBackground() {
 }
 
 function initCard3DTilt() {
-    const cards = document.querySelectorAll('.glass-card, .project-card, .profile-card, .skill-card');
+    const cards = document.querySelectorAll('.glass-card, .project-card, .profile-card, .skill-card, .wm-bento-card');
     cards.forEach(card => {
+        card.classList.add('glass-glare-card');
         card.addEventListener('mousemove', (e) => {
             const rect = card.getBoundingClientRect();
-            const x = e.clientX - rect.left - rect.width / 2;
-            const y = e.clientY - rect.top - rect.height / 2;
-            const rotateX = (-y / rect.height) * 12;
-            const rotateY = (x / rect.width) * 12;
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+
+            card.style.setProperty('--glare-x', `${(x / rect.width) * 100}%`);
+            card.style.setProperty('--glare-y', `${(y / rect.height) * 100}%`);
+
+            const centerX = x - rect.width / 2;
+            const centerY = y - rect.height / 2;
+            const rotateX = (-centerY / rect.height) * 10;
+            const rotateY = (centerX / rect.width) * 10;
 
             card.style.transform = `perspective(1000px) rotateX(${rotateX.toFixed(2)}deg) rotateY(${rotateY.toFixed(2)}deg) translateY(-4px)`;
         });
@@ -1179,3 +1190,90 @@ function initWatermelonUIComponent() {
         });
     }
 }
+
+/* ---------------------------------------------------------------------
+   10. Scroll Reveal Observer Engine
+   --------------------------------------------------------------------- */
+function initScrollReveal() {
+    const targets = document.querySelectorAll('.wm-bento-card, .project-card, .skill-card, .arch-node, .wm-stat-item, .contact-container, .watermelon-ui-component');
+    targets.forEach(el => el.classList.add('reveal-on-scroll'));
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('revealed');
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.12 });
+
+    targets.forEach(el => observer.observe(el));
+}
+
+/* ---------------------------------------------------------------------
+   11. Animated Telemetry Stat Counters
+   --------------------------------------------------------------------- */
+function initTelemetryCounters() {
+    const statsContainer = document.querySelector('.wm-telemetry-strip');
+    if (!statsContainer) return;
+
+    let hasAnimated = false;
+
+    const observer = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting && !hasAnimated) {
+            hasAnimated = true;
+            document.querySelectorAll('.wm-stat-val').forEach(el => {
+                const text = el.textContent.trim();
+                const match = text.match(/^([\d.]+)(.*)$/);
+                if (!match) return;
+
+                const targetVal = parseFloat(match[1]);
+                const suffix = match[2];
+                const isFloat = match[1].includes('.');
+                let startVal = 0;
+                const duration = 1600;
+                const startTime = performance.now();
+
+                function updateCounter(now) {
+                    const elapsed = now - startTime;
+                    const progress = Math.min(elapsed / duration, 1);
+                    const easeProgress = progress === 1 ? 1 : 1 - Math.pow(2, -10 * progress);
+                    const current = startVal + (targetVal - startVal) * easeProgress;
+
+                    el.textContent = (isFloat ? current.toFixed(1) : Math.floor(current)) + suffix;
+
+                    if (progress < 1) {
+                        requestAnimationFrame(updateCounter);
+                    } else {
+                        el.textContent = text;
+                    }
+                }
+
+                requestAnimationFrame(updateCounter);
+            });
+        }
+    }, { threshold: 0.3 });
+
+    observer.observe(statsContainer);
+}
+
+/* ---------------------------------------------------------------------
+   12. Magnetic Physics CTA Buttons
+   --------------------------------------------------------------------- */
+function initMagneticButtons() {
+    const btns = document.querySelectorAll('.btn-primary, .btn-secondary, .btn-nav, .wm-send-btn');
+    btns.forEach(btn => {
+        btn.classList.add('btn-magnetic');
+        btn.addEventListener('mousemove', (e) => {
+            const rect = btn.getBoundingClientRect();
+            const x = e.clientX - rect.left - rect.width / 2;
+            const y = e.clientY - rect.top - rect.height / 2;
+            btn.style.transform = `translate(${x * 0.25}px, ${y * 0.25}px)`;
+        });
+
+        btn.addEventListener('mouseleave', () => {
+            btn.style.transform = `translate(0px, 0px)`;
+        });
+    });
+}
+
