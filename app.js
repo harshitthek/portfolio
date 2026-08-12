@@ -1225,30 +1225,67 @@ function initWatermelonUIComponent() {
     const responseBox = document.getElementById('wm-ai-response');
     const responseText = document.getElementById('wm-response-text');
     const copyBtn = document.getElementById('wm-copy-response');
+    const statusBadge = document.querySelector('.wm-badge span:last-child');
 
     if (!input || !sendBtn || !responseBox || !responseText) return;
 
+    // Full pre-trained Knowledge Base indexing harshitthek's GitHub Profile
     const knowledgeBase = {
         resilient: "🤖 <strong>Resilient AI Leaderboard & Pipeline</strong><br>An autonomous multi-agent AI benchmark and stress-testing framework. Built with <strong>Python 3.12</strong>, <strong>FastAPI</strong>, and modular evaluation agents to test LLM code generation robustness in isolated git sandboxes.<br><br><code>🔗 Repository: github.com/harshitthek/resilient</code>",
         
         bike: "🚲 <strong>Used Bike Price Predictor</strong><br>Machine learning valuation engine trained on Indian motorcycle market datasets. Implements <strong>Scikit-Learn (RandomForest & XGBoost)</strong> regression with custom feature scaling and a <strong>Flask REST API</strong> (98.4% R² accuracy).<br><br><code>🔗 Repository: github.com/harshitthek/used-bike-price</code>",
         
-        carbon: "🌱 <strong>Carbon Guardian AI</strong><br>Carbon footprint analytics engine calculating cloud compute GPU/CPU energy draw and outputting actionable CO₂ offset recommendations. Built with <strong>React</strong>, <strong>Node.js</strong>, and real-time server telemetry charts.<br><br><code>🔗 Repository: github.com/harshitthek/carbon-guardian-ai</code>",
+        carbon: "🌱 <strong>Carbon Guardian AI</strong><br>Carbon footprint analytics engine calculating cloud compute GPU/CPU energy draw and outputting actionable CO₂ offset recommendations. Built with <strong>React</strong>, <strong>FastAPI</strong>, <strong>SQLite</strong>, and <strong>TensorFlow Recommenders</strong>.<br><br><code>🔗 Repository: github.com/harshitthek/carbon-guardian-ai</code>",
         
         startpage: "💻 <strong>Customizable Browser Startpage</strong><br>Ultra-fast minimalist browser new-tab replacement featuring live <strong>OpenWeather API sync</strong>, custom search provider toggles, and keyboard bookmarking. Zero external framework dependencies.<br><br><code>🔗 Repository: github.com/harshitthek/Customizable-Browser-Startpage</code>",
+
+        openclaw: "🦞 <strong>openclaw</strong><br>Personal AI assistant framework designed to run across any OS and platform with modular agent skills. Built with <strong>TypeScript</strong>.<br><br><code>🔗 Repository: github.com/harshitthek/openclaw</code>",
+
+        ecc: "⚡ <strong>ECC (Agent Harness Optimization System)</strong><br>Agent harness performance optimization system incorporating skills, instincts, memory, security, and research-first development for Claude Code, Codex, Opencode, Cursor, and agentic workflows.<br><br><code>🔗 Repository: github.com/harshitthek/ECC</code>",
+
+        ticket: "🎫 <strong>Customer Support Ticket Dispatcher ML</strong><br>Machine learning NLP ticket classification system that automatically categorizes and routes customer support requests to designated support queues. Built with <strong>Python & Jupyter Notebooks</strong>.<br><br><code>🔗 Repository: github.com/harshitthek/Customer-Support-Ticket-Dispatcher-ML</code>",
+
+        cake: "🎂 <strong>cake-blow (Interactive Birthday Cake)</strong><br>Interactive web application where users can add digital birthday candles and blow them out using their device microphone input! Built with <strong>HTML5, CSS3, and JavaScript</strong>.<br><br><code>🔗 Repository: github.com/harshitthek/cake-blow</code>",
+
+        letter: "🔤 <strong>Letter Guessing Sim</strong><br>Python-based algorithmic simulation environment for testing letter and string guessing probability distributions.<br><br><code>🔗 Repository: github.com/harshitthek/LetterGuesingSim</code>",
         
-        stack: "⚡ <strong>Primary Technical Stack</strong><br>• <strong>Languages</strong>: Python, JavaScript (ES6+), TypeScript, C/C++, SQL, Bash<br>• <strong>AI & ML</strong>: PyTorch, Scikit-Learn, NumPy, Pandas, Scipy<br>• <strong>Backend & APIs</strong>: FastAPI, Flask, PostgreSQL, REST APIs, Webhooks<br>• <strong>Frontend & UI</strong>: HTML5, CSS3, Three.js WebGL, React<br>• <strong>DevOps & Tools</strong>: Git, Linux, Docker, Webpack, Vercel",
+        stack: "⚡ <strong>Primary Technical Stack</strong><br>• <strong>Languages</strong>: Python, JavaScript (ES6+), TypeScript, C/C++, SQL, Bash<br>• <strong>AI & ML</strong>: PyTorch, Scikit-Learn, TensorFlow, NumPy, Pandas<br>• <strong>Backend & APIs</strong>: FastAPI, Flask, Node.js, Express, PostgreSQL, SQLite<br>• <strong>Frontend & UI</strong>: HTML5, CSS3, Three.js WebGL, React<br>• <strong>DevOps & Tools</strong>: Git, Linux, Docker, Webpack, Vercel",
         
         education: "🎓 <strong>Education & Credentials</strong><br>• <strong>Degree</strong>: B.Tech in Artificial Intelligence & Machine Learning<br>• <strong>University</strong>: USAR (University School of Automation & Robotics), GGSIPU, New Delhi<br>• <strong>Focus Areas</strong>: Machine Learning Systems, Neural Networks, Full-Stack Web Architecture, Autonomous Agents",
         
-        projects: "🚀 <strong>Featured Engineering Projects</strong><br>1. <strong>Resilient</strong>: Autonomous AI Agent Pipeline<br>2. <strong>Used Bike Price Predictor</strong>: ML Valuation Engine (98.4% R²)<br>3. <strong>Carbon Guardian AI</strong>: Cloud Compute Carbon Telemetry<br>4. <strong>Customizable Startpage</strong>: High-speed Web Browser Dashboard<br><br><em>Click any project card above to view architectural deep-dives!</em>",
+        projects: "🚀 <strong>Featured Engineering Projects</strong><br>1. <strong>Resilient</strong>: Autonomous AI Agent Pipeline<br>2. <strong>Used Bike Price Predictor</strong>: ML Valuation Engine (98.4% R²)<br>3. <strong>Carbon Guardian AI</strong>: Cloud Compute Carbon Telemetry<br>4. <strong>Customizable Startpage</strong>: High-speed Web Browser Dashboard<br>5. <strong>openclaw</strong>: Cross-platform Personal AI Assistant<br>6. <strong>ECC</strong>: Agent Harness Optimization System<br><br><em>Explore all repositories on <a href='https://github.com/harshitthek' target='_blank' style='color:var(--cyan-primary)'>github.com/harshitthek</a>!</em>",
         
         contact: "📬 <strong>Contact & Social Profiles</strong><br>• <strong>Email</strong>: codewithharshitsharma@gmail.com<br>• <strong>GitHub</strong>: <a href='https://github.com/harshitthek' target='_blank' style='color:var(--cyan-primary)'>github.com/harshitthek</a><br>• <strong>LinkedIn</strong>: <a href='https://www.linkedin.com/in/devharshitsharma' target='_blank' style='color:var(--cyan-primary)'>linkedin.com/in/devharshitsharma</a><br>• <strong>Location</strong>: New Delhi, India 🇮🇳",
         
-        bio: "👨‍💻 <strong>About Harshit Sharma</strong><br>AI & Machine Learning engineer pursuing B.Tech at USAR (GGSIPU), New Delhi. Passionate about building robust ML valuation models, high-concurrency FastAPI backends, WebGL 3D interactive interfaces, and autonomous agent pipelines.",
+        bio: "👨‍💻 <strong>About Harshit Sharma</strong><br>AI & Machine Learning engineer pursuing B.Tech at USAR (GGSIPU), New Delhi. Specializing in Python ML models, high-concurrency FastAPI backends, WebGL 3D interfaces, and autonomous agent pipelines.",
         
         terminal: "🖥️ <strong>Interactive Lab Terminal</strong><br>Try out shell commands in the terminal window above! Supported commands: <code>neofetch</code>, <code>matrix</code>, <code>cat used_bike_model.py</code>, <code>cat webhook_receiver.py</code>, <code>cat schema.sql</code>, <code>whoami</code>, <code>date</code>, <code>skills</code>, <code>projects</code>, and <code>clear</code>."
     };
+
+    // Live GitHub API repository indexer
+    let dynamicRepos = [];
+    async function syncGitHubProfile() {
+        try {
+            const res = await fetch('https://api.github.com/users/harshitthek/repos?sort=updated&per_page=30');
+            if (res.ok) {
+                dynamicRepos = await res.json();
+                if (statusBadge) {
+                    statusBadge.textContent = `GITHUB LIVE SYNCED (${dynamicRepos.length} REPOS)`;
+                }
+                
+                // Dynamically ingest repositories into knowledgeBase
+                dynamicRepos.forEach(repo => {
+                    const key = repo.name.toLowerCase().replace(/[^a-z0-9]/g, '');
+                    if (!knowledgeBase[key]) {
+                        knowledgeBase[key] = `📦 <strong>${repo.name}</strong><br>${repo.description || 'Public GitHub repository by Harshit Sharma.'}<br><br>• <strong>Language</strong>: ${repo.language || 'Code'}<br>• <strong>Stars</strong>: ⭐ ${repo.stargazers_count} | <strong>Forks</strong>: 🍴 ${repo.forks_count}<br><br><code>🔗 Repository: ${repo.html_url.replace('https://', '')}</code>`;
+                    }
+                });
+            }
+        } catch (err) {
+            console.log('GitHub API live sync fallback to static profile knowledge base.');
+        }
+    }
+    syncGitHubProfile();
 
     function matchQueryIntent(rawQuery) {
         const q = rawQuery.toLowerCase();
@@ -1257,12 +1294,25 @@ function initWatermelonUIComponent() {
         if (/bike|price|motorcycle|valuation|regressor|sklearn|xgboost/.test(q)) return 'bike';
         if (/carbon|guardian|co2|sustainability|footprint|green|energy|telemetry/.test(q)) return 'carbon';
         if (/startpage|browser|newtab|weather|dashboard|shortcut/.test(q)) return 'startpage';
+        if (/openclaw|claw|lobster/.test(q)) return 'openclaw';
+        if (/ecc|harness|instinct|claude|codex/.test(q)) return 'ecc';
+        if (/ticket|support|dispatcher/.test(q)) return 'ticket';
+        if (/cake|blow|candle|birthday/.test(q)) return 'cake';
+        if (/letter|guessing|sim/.test(q)) return 'letter';
         if (/stack|python|javascript|typescript|cpp|c\+\+|fastapi|flask|react|docker|skills|technology|technologies|tools/.test(q)) return 'stack';
         if (/education|college|usar|ggsipu|degree|university|btech|study|student|academics/.test(q)) return 'education';
         if (/project|projects|repo|repository|repositories|portfolio|work|built|apps/.test(q)) return 'projects';
         if (/contact|email|linkedin|github|social|reach|message|hire|connect/.test(q)) return 'contact';
         if (/who|about|harshit|bio|background|location|delhi|experience/.test(q)) return 'bio';
         if (/terminal|cmd|shell|matrix|command|neofetch|cat/.test(q)) return 'terminal';
+
+        // Direct search match against dynamic GitHub repos
+        const cleanedQuery = q.replace(/[^a-z0-9]/g, '');
+        for (const key of Object.keys(knowledgeBase)) {
+            if (cleanedQuery.includes(key) || key.includes(cleanedQuery)) {
+                return key;
+            }
+        }
 
         return null;
     }
