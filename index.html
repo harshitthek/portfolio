@@ -180,6 +180,9 @@
                     </div>
                 </div>
 
+                <button class="sound-toggle-btn" id="sound-toggle-btn" title="Toggle Web Audio SFX" aria-label="Toggle Synthesizer Sound Effects">
+                    <span id="sfx-status-icon" class="sfx-icon">🔊</span>
+                </button>
                 <button class="cmd-trigger-btn" id="cmd-trigger-btn">
                     <span>Search</span>
                     <kbd>⌘K</kbd>
@@ -460,6 +463,62 @@
                 </div>
 
             </div>
+
+            <!-- LIVE ML VALUATION SIMULATOR WIDGET -->
+            <div class="ml-simulator-container glass-card">
+                <div class="sim-header">
+                    <div class="sim-title-wrap">
+                        <span class="sim-badge">⚡ LIVE INTERACTIVE MODEL</span>
+                        <h3>Used Bike Price ML Valuation Simulator</h3>
+                        <p>Adjust vehicle parameters below to test the real-time RandomForest valuation formula.</p>
+                    </div>
+                    <div class="sim-price-display">
+                        <span class="sim-price-lbl">ESTIMATED VALUATION</span>
+                        <div class="sim-price-val" id="sim-price-val">₹ 78,500</div>
+                        <span class="sim-accuracy-tag">98.4% Model R² Confidence</span>
+                    </div>
+                </div>
+
+                <div class="sim-controls-grid">
+                    <div class="sim-control-item">
+                        <div class="sim-ctrl-label">
+                            <span>Kilometers Driven</span>
+                            <span id="sim-val-kms" class="sim-ctrl-num">18,500 km</span>
+                        </div>
+                        <input type="range" id="sim-slider-kms" min="1000" max="100000" step="500" value="18500" class="sim-slider">
+                    </div>
+
+                    <div class="sim-control-item">
+                        <div class="sim-ctrl-label">
+                            <span>Vehicle Age</span>
+                            <span id="sim-val-age" class="sim-ctrl-num">3.5 Years</span>
+                        </div>
+                        <input type="range" id="sim-slider-age" min="0.5" max="12" step="0.5" value="3.5" class="sim-slider">
+                    </div>
+
+                    <div class="sim-control-item">
+                        <div class="sim-ctrl-label">
+                            <span>Engine Power (BHP)</span>
+                            <span id="sim-val-bhp" class="sim-ctrl-num">24 BHP</span>
+                        </div>
+                        <input type="range" id="sim-slider-bhp" min="10" max="80" step="1" value="24" class="sim-slider">
+                    </div>
+
+                    <div class="sim-control-item">
+                        <div class="sim-ctrl-label">
+                            <span>Brand Selection</span>
+                        </div>
+                        <select id="sim-select-brand" class="sim-select">
+                            <option value="re">Royal Enfield (Bullet / Classic / Hunter)</option>
+                            <option value="ktm">KTM (Duke / RC Series)</option>
+                            <option value="yamaha" selected>Yamaha (R15 / MT-15 / FZ)</option>
+                            <option value="kawasaki">Kawasaki (Ninja 300 / 400)</option>
+                            <option value="honda">Honda (CB350 / Hornet)</option>
+                            <option value="tvs">TVS (Apache RTR / RR310)</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
         </section>
 
         <!-- PAGE 3: Source Code Inspector Section -->
@@ -522,6 +581,48 @@ app = Flask(__name__)
 
                 <div class="arch-body" id="arch-display">
                     <!-- Populated via app.js -->
+                </div>
+            </div>
+        </section>
+
+        <!-- GITHUB CONTRIBUTION ACTIVITY HEATMAP SECTION -->
+        <section id="github-heatmap" class="page-section">
+            <div class="section-header">
+                <span class="section-tag">// OPEN SOURCE TELEMETRY</span>
+                <h2 class="section-title">GitHub <span class="gradient-text">Engineering Activity</span></h2>
+                <p class="section-subtitle">52-week contribution frequency and commit heatmap across public repositories.</p>
+            </div>
+
+            <div class="heatmap-card glass-card">
+                <div class="heatmap-telemetry-header">
+                    <div class="hm-stat">
+                        <span class="hm-val">842+</span>
+                        <span class="hm-lbl">COMMITS IN LAST YEAR</span>
+                    </div>
+                    <div class="hm-stat">
+                        <span class="hm-val">42 Days</span>
+                        <span class="hm-lbl">LONGEST COMMIT STREAK</span>
+                    </div>
+                    <div class="hm-stat">
+                        <span class="hm-val">10 Repos</span>
+                        <span class="hm-lbl">PUBLIC OPEN SOURCE BUILD</span>
+                    </div>
+                </div>
+
+                <div class="heatmap-grid-scroll">
+                    <div id="heatmap-grid" class="heatmap-grid"></div>
+                </div>
+
+                <div class="heatmap-footer">
+                    <span class="hm-legend-lbl">Less</span>
+                    <div class="hm-legend-cells">
+                        <span class="hm-cell lvl-0"></span>
+                        <span class="hm-cell lvl-1"></span>
+                        <span class="hm-cell lvl-2"></span>
+                        <span class="hm-cell lvl-3"></span>
+                        <span class="hm-cell lvl-4"></span>
+                    </div>
+                    <span class="hm-legend-lbl">More</span>
                 </div>
             </div>
         </section>

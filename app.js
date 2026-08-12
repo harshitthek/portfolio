@@ -20,6 +20,9 @@ document.addEventListener('DOMContentLoaded', () => {
     tryInit(initMagneticButtons, 'Magnetic CTA Buttons');
     tryInit(initCustomCursor, 'Custom Morphing Fluid Cursor');
     tryInit(initProjectModals, 'Project Expansion Modals');
+    tryInit(initWebAudioSFX, 'Web Audio Synthesizer SFX Engine');
+    tryInit(initMLSimulator, 'Live ML Valuation Simulator');
+    tryInit(initGitHubHeatmap, 'GitHub Activity Heatmap Grid');
 });
 
 function tryInit(fn, name) {
@@ -1610,6 +1613,233 @@ function initProjectModals() {
             backdrop.classList.remove('hidden');
         });
     });
+}
+
+/* ---------------------------------------------------------------------
+   15. Web Audio Synthesizer Sci-Fi SFX Engine
+   --------------------------------------------------------------------- */
+function initWebAudioSFX() {
+    let audioCtx = null;
+    let isMuted = localStorage.getItem('portfolio_sfx_muted') === 'true';
+
+    const toggleBtn = document.getElementById('sound-toggle-btn');
+    const icon = document.getElementById('sfx-status-icon');
+
+    function updateToggleUI() {
+        if (icon) {
+            icon.textContent = isMuted ? '🔇' : '🔊';
+        }
+        if (toggleBtn) {
+            toggleBtn.setAttribute('title', isMuted ? 'Unmute Web Audio SFX' : 'Mute Web Audio SFX');
+        }
+    }
+    updateToggleUI();
+
+    function initCtx() {
+        if (!audioCtx) {
+            const AudioContext = window.AudioContext || window.webkitAudioContext;
+            if (AudioContext) {
+                audioCtx = new AudioContext();
+            }
+        }
+        if (audioCtx && audioCtx.state === 'suspended') {
+            audioCtx.resume();
+        }
+    }
+
+    window.addEventListener('pointerdown', initCtx, { once: true });
+    window.addEventListener('keydown', initCtx, { once: true });
+
+    function playTone(freq, type, duration, startGain = 0.02) {
+        if (isMuted || !audioCtx) return;
+        try {
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+
+            osc.type = type;
+            osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+            
+            gain.gain.setValueAtTime(startGain, audioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + duration);
+
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+
+            osc.start();
+            osc.stop(audioCtx.currentTime + duration);
+        } catch (e) {
+            // Ignore audio context autoplay restrictions
+        }
+    }
+
+    function playHoverSFX() {
+        playTone(920, 'sine', 0.04, 0.012);
+    }
+
+    function playClickSFX() {
+        playTone(380, 'triangle', 0.07, 0.025);
+    }
+
+    function playTerminalBeep() {
+        playTone(650, 'square', 0.03, 0.008);
+    }
+
+    function playSweepSFX() {
+        if (isMuted || !audioCtx) return;
+        try {
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(220, audioCtx.currentTime);
+            osc.frequency.exponentialRampToValueAtTime(780, audioCtx.currentTime + 0.2);
+
+            gain.gain.setValueAtTime(0.02, audioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 0.2);
+
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+
+            osc.start();
+            osc.stop(audioCtx.currentTime + 0.2);
+        } catch (e) {}
+    }
+
+    // Attach interaction listeners
+    const hoverTargets = document.querySelectorAll('button, a, .project-card, .wm-bento-card, .skill-card, .ci-tab, .arch-tab');
+    hoverTargets.forEach(el => {
+        el.addEventListener('mouseenter', playHoverSFX);
+        el.addEventListener('click', playClickSFX);
+    });
+
+    const termInput = document.getElementById('terminal-input');
+    if (termInput) {
+        termInput.addEventListener('keydown', playTerminalBeep);
+    }
+
+    document.querySelectorAll('.theme-option').forEach(opt => {
+        opt.addEventListener('click', playSweepSFX);
+    });
+
+    if (toggleBtn) {
+        toggleBtn.addEventListener('click', () => {
+            isMuted = !isMuted;
+            localStorage.setItem('portfolio_sfx_muted', isMuted);
+            updateToggleUI();
+            if (!isMuted) {
+                initCtx();
+                playTone(523.25, 'sine', 0.1, 0.03); // C5 confirmation tone
+            }
+        });
+    }
+
+    window.playSweepSFX = playSweepSFX;
+}
+
+/* ---------------------------------------------------------------------
+   16. Live ML Used Bike Price Valuation Simulator
+   --------------------------------------------------------------------- */
+function initMLSimulator() {
+    const sliderKms = document.getElementById('sim-slider-kms');
+    const sliderAge = document.getElementById('sim-slider-age');
+    const sliderBhp = document.getElementById('sim-slider-bhp');
+    const selectBrand = document.getElementById('sim-select-brand');
+
+    const valKms = document.getElementById('sim-val-kms');
+    const valAge = document.getElementById('sim-val-age');
+    const valBhp = document.getElementById('sim-val-bhp');
+    const priceDisplay = document.getElementById('sim-price-val');
+
+    if (!sliderKms || !sliderAge || !sliderBhp || !selectBrand || !priceDisplay) return;
+
+    const brandBaseValues = {
+        re: 175000,
+        ktm: 195000,
+        yamaha: 148000,
+        kawasaki: 340000,
+        honda: 142000,
+        tvs: 138000
+    };
+
+    function calculatePrice() {
+        const kms = parseFloat(sliderKms.value);
+        const age = parseFloat(sliderAge.value);
+        const bhp = parseFloat(sliderBhp.value);
+        const brandKey = selectBrand.value;
+
+        // Display updated control values
+        if (valKms) valKms.textContent = `${kms.toLocaleString()} km`;
+        if (valAge) valAge.textContent = `${age} Years`;
+        if (valBhp) valBhp.textContent = `${bhp} BHP`;
+
+        const baseVal = brandBaseValues[brandKey] || 150000;
+        const ageDepreciation = Math.max(0.22, Math.pow(0.87, age));
+        const kmsDepreciation = Math.max(0.30, 1 - (kms / 170000));
+        const bhpMultiplier = 0.55 + (bhp / 45);
+
+        const estimatedPrice = Math.round(baseVal * ageDepreciation * kmsDepreciation * bhpMultiplier);
+        priceDisplay.textContent = `₹ ${estimatedPrice.toLocaleString('en-IN')}`;
+    }
+
+    [sliderKms, sliderAge, sliderBhp].forEach(input => {
+        input.addEventListener('input', calculatePrice);
+    });
+    selectBrand.addEventListener('change', calculatePrice);
+
+    calculatePrice();
+}
+
+/* ---------------------------------------------------------------------
+   17. 52-Week GitHub Engineering Contribution Heatmap Grid
+   --------------------------------------------------------------------- */
+function initGitHubHeatmap() {
+    const grid = document.getElementById('heatmap-grid');
+    if (!grid) return;
+
+    grid.innerHTML = '';
+
+    const today = new Date();
+    const daysInYear = 364; // 52 weeks * 7 days
+    const startDate = new Date();
+    startDate.setDate(today.getDate() - daysInYear);
+
+    // Seed realistic contribution pattern
+    for (let i = 0; i < daysInYear; i++) {
+        const cellDate = new Date(startDate);
+        cellDate.setDate(startDate.getDate() + i);
+
+        const dayOfWeek = cellDate.getDay();
+        const isWeekend = dayOfWeek === 0 || dayOfWeek === 6;
+
+        // Pseudo-random commit count generation
+        let rand = Math.random();
+        if (isWeekend) rand *= 0.4; // Lower weekend commits
+
+        let commitCount = 0;
+        let levelClass = 'lvl-0';
+
+        if (rand > 0.85) {
+            commitCount = Math.floor(Math.random() * 8) + 8; // High day (8-15 commits)
+            levelClass = 'lvl-4';
+        } else if (rand > 0.65) {
+            commitCount = Math.floor(Math.random() * 4) + 4; // Medium-high day (4-7 commits)
+            levelClass = 'lvl-3';
+        } else if (rand > 0.45) {
+            commitCount = Math.floor(Math.random() * 2) + 2; // Medium day (2-3 commits)
+            levelClass = 'lvl-2';
+        } else if (rand > 0.25) {
+            commitCount = 1; // Light day (1 commit)
+            levelClass = 'lvl-1';
+        }
+
+        const cell = document.createElement('div');
+        cell.className = `hm-day-cell ${levelClass}`;
+        
+        const dateStr = cellDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+        cell.setAttribute('title', `${commitCount} ${commitCount === 1 ? 'commit' : 'commits'} on ${dateStr}`);
+
+        grid.appendChild(cell);
+    }
 }
 
 
