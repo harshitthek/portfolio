@@ -189,8 +189,45 @@
                 </button>
                 <a href="#contact" class="btn btn-nav">Contact</a>
             </nav>
+
+            <!-- Mobile Hamburger Menu Toggle Button -->
+            <button class="mobile-menu-toggle" id="mobile-menu-toggle" aria-label="Toggle Mobile Navigation Menu">
+                <span class="hamburger-bar"></span>
+                <span class="hamburger-bar"></span>
+                <span class="hamburger-bar"></span>
+            </button>
         </div>
     </header>
+
+    <!-- Mobile Fullscreen Navigation Drawer Overlay -->
+    <div id="mobile-nav-drawer" class="mobile-nav-drawer hidden" aria-hidden="true">
+        <div class="mobile-drawer-content glass-card">
+            <div class="mobile-drawer-links">
+                <a href="#about" class="mobile-nav-link active">About</a>
+                <a href="#projects" class="mobile-nav-link">Projects</a>
+                <a href="#code-inspector" class="mobile-nav-link">Source Code</a>
+                <a href="#architecture" class="mobile-nav-link">Architecture</a>
+                <a href="#skills" class="mobile-nav-link">Skills</a>
+                <a href="#terminal" class="mobile-nav-link">Terminal</a>
+            </div>
+            
+            <div class="mobile-drawer-divider"></div>
+            
+            <div class="mobile-drawer-actions">
+                <div class="mobile-action-row">
+                    <button class="mobile-action-btn" id="mobile-cmd-btn">
+                        <span>🔍 Search Palette</span>
+                        <kbd>⌘K</kbd>
+                    </button>
+                    <button class="mobile-action-btn" id="mobile-sfx-btn">
+                        <span id="mobile-sfx-icon">🔊</span> Audio SFX
+                    </button>
+                </div>
+                
+                <a href="#contact" class="btn btn-primary mobile-contact-btn">Contact Harshit →</a>
+            </div>
+        </div>
+    </div>
 
     <main class="main-content">
 

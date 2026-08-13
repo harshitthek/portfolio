@@ -1460,31 +1460,250 @@ body {
 .wm-corner-accent.bottom-left { bottom: 0; left: 0; border-bottom: 2px solid; border-left: 2px solid; }
 .wm-corner-accent.bottom-right { bottom: 0; right: 0; border-bottom: 2px solid; border-right: 2px solid; }
 
-@media (max-width: 1024px) {
-    .wm-bento-grid { grid-template-columns: repeat(2, 1fr); }
-    .wm-col-2, .wm-col-3 { grid-column: span 1; }
+/* ---------------------------------------------------------------------
+   Mobile Navigation Hamburger & Drawer Overlay Styles
+   --------------------------------------------------------------------- */
+.mobile-menu-toggle {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    width: 38px;
+    height: 38px;
+    background: rgba(15, 23, 42, 0.6);
+    backdrop-filter: blur(12px);
+    border: 1px solid var(--border-color);
+    border-radius: 9999px;
+    cursor: pointer;
+    z-index: 101;
+    padding: 0;
+    transition: var(--transition-fast);
 }
 
+.mobile-menu-toggle .hamburger-bar {
+    width: 18px;
+    height: 2px;
+    background-color: var(--text-primary);
+    border-radius: 2px;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.mobile-menu-toggle.active .hamburger-bar:nth-child(1) {
+    transform: translateY(7px) rotate(45deg);
+}
+.mobile-menu-toggle.active .hamburger-bar:nth-child(2) {
+    opacity: 0;
+}
+.mobile-menu-toggle.active .hamburger-bar:nth-child(3) {
+    transform: translateY(-7px) rotate(-45deg);
+}
+
+.mobile-nav-drawer {
+    position: fixed;
+    top: 64px;
+    left: 0;
+    width: 100vw;
+    height: calc(100vh - 64px);
+    background: rgba(5, 8, 17, 0.96);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    z-index: 99;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    transition: opacity 0.3s ease;
+}
+
+.mobile-nav-drawer.hidden {
+    display: none !important;
+}
+
+.mobile-drawer-content {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    justify-content: space-between;
+    padding: 24px;
+    border-radius: var(--radius-lg);
+    background: var(--bg-card);
+    border: 1px solid var(--border-cyan);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.9);
+    overflow-y: auto;
+}
+
+.mobile-drawer-links {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.mobile-nav-link {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--text-secondary);
+    text-decoration: none;
+    padding: 12px 16px;
+    border-radius: var(--radius-md);
+    background: var(--bg-surface);
+    border: 1px solid var(--border-color);
+    transition: var(--transition-fast);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.mobile-nav-link::after {
+    content: "→";
+    font-family: var(--font-mono);
+    color: var(--text-muted);
+}
+
+.mobile-nav-link.active, .mobile-nav-link:hover {
+    color: var(--cyan-primary);
+    border-color: var(--cyan-primary);
+    background: color-mix(in srgb, var(--cyan-primary) 12%, transparent);
+}
+
+.mobile-nav-link.active::after, .mobile-nav-link:hover::after {
+    color: var(--cyan-primary);
+}
+
+.mobile-drawer-divider {
+    height: 1px;
+    background: var(--border-color);
+    margin: 16px 0;
+}
+
+.mobile-drawer-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.mobile-action-row {
+    display: flex;
+    gap: 10px;
+}
+
+.mobile-action-btn {
+    flex: 1;
+    height: 44px;
+    background: var(--bg-surface);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    color: var(--text-primary);
+    font-family: var(--font-sans);
+    font-size: 13px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    cursor: pointer;
+}
+
+.mobile-contact-btn {
+    width: 100%;
+    height: 48px;
+    font-size: 15px;
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Comprehensive Responsive Rules for Mobile Devices */
 @media (max-width: 900px) {
-    .wm-telemetry-strip { flex-direction: column; gap: 24px; text-align: center; padding: 24px; }
-    .wm-stat-divider { display: none; }
-}
+    .nav-links {
+        display: none !important;
+    }
 
-@media (max-width: 768px) {
-    .wm-bento-grid { grid-template-columns: 1fr; }
-    .theme-switcher-btn { padding: 0 10px; font-size: 12px; }
-    .cmd-trigger-btn span { display: none; }
-    .btn-nav { padding: 0 12px; font-size: 12px; }
-    .hero-title { font-size: 32px; }
-    .typing-container { font-size: 14px; }
+    .mobile-menu-toggle {
+        display: flex !important;
+    }
+
+    .page-section {
+        padding: 80px 16px 40px;
+    }
+
+    .hero-title {
+        font-size: 32px;
+    }
+
+    .section-title {
+        font-size: 24px;
+    }
+
+    .projects-grid-2x2 {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .wm-bento-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .wm-col-2, .wm-col-3 {
+        grid-column: span 1;
+    }
+
+    .wm-telemetry-strip {
+        flex-direction: column;
+        gap: 20px;
+        text-align: center;
+        padding: 24px;
+    }
+
+    .wm-stat-divider {
+        display: none;
+    }
+
+    .sim-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+    }
+
+    .sim-price-display {
+        text-align: left;
+    }
+
+    .sim-price-val {
+        font-size: 28px;
+    }
+
+    .sim-controls-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .heatmap-card {
+        padding: 20px 16px;
+    }
+
+    .heatmap-telemetry-header {
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    .project-modal-card {
+        padding: 20px;
+        max-height: 90vh;
+    }
 }
 
 @media (max-width: 580px) {
-    .nav-container { padding: 0 12px; }
-    .nav-link:not(.active) { display: none; }
-    .theme-current-name { display: none; }
-    .theme-switcher-btn { padding: 0 8px; }
-    .hero-title { font-size: 28px; }
+    .hero-title {
+        font-size: 26px;
+    }
+
+    .hero-subtitle {
+        font-size: 14px;
+    }
+
+    .typing-container {
+        font-size: 13px;
+    }
 }
 
 /* =====================================================================

@@ -23,6 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
     tryInit(initWebAudioSFX, 'Web Audio Synthesizer SFX Engine');
     tryInit(initMLSimulator, 'Live ML Valuation Simulator');
     tryInit(initGitHubHeatmap, 'GitHub Activity Heatmap Grid');
+    tryInit(initMobileMenu, 'Mobile Drawer Navigation');
 });
 
 function tryInit(fn, name) {
@@ -1840,6 +1841,71 @@ function initGitHubHeatmap() {
 
         grid.appendChild(cell);
     }
+}
+
+/* ---------------------------------------------------------------------
+   18. Mobile Drawer Navigation & Touch Interaction Engine
+   --------------------------------------------------------------------- */
+function initMobileMenu() {
+    const toggleBtn = document.getElementById('mobile-menu-toggle');
+    const drawer = document.getElementById('mobile-nav-drawer');
+    const mobileLinks = document.querySelectorAll('.mobile-nav-link');
+    const mobileCmdBtn = document.getElementById('mobile-cmd-btn');
+    const mobileSfxBtn = document.getElementById('mobile-sfx-btn');
+
+    if (!toggleBtn || !drawer) return;
+
+    function openDrawer() {
+        toggleBtn.classList.add('active');
+        drawer.classList.remove('hidden');
+        drawer.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeDrawer() {
+        toggleBtn.classList.remove('active');
+        drawer.classList.add('hidden');
+        drawer.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
+    }
+
+    toggleBtn.addEventListener('click', () => {
+        if (drawer.classList.contains('hidden')) {
+            openDrawer();
+        } else {
+            closeDrawer();
+        }
+    });
+
+    mobileLinks.forEach(link => {
+        link.addEventListener('click', () => {
+            closeDrawer();
+        });
+    });
+
+    if (mobileCmdBtn) {
+        mobileCmdBtn.addEventListener('click', () => {
+            closeDrawer();
+            const cmdBtn = document.getElementById('cmd-trigger-btn');
+            if (cmdBtn) cmdBtn.click();
+        });
+    }
+
+    if (mobileSfxBtn) {
+        mobileSfxBtn.addEventListener('click', () => {
+            const sfxBtn = document.getElementById('sound-toggle-btn');
+            if (sfxBtn) sfxBtn.click();
+            const sfxIcon = document.getElementById('mobile-sfx-icon');
+            const mainIcon = document.getElementById('sfx-status-icon');
+            if (sfxIcon && mainIcon) sfxIcon.textContent = mainIcon.textContent;
+        });
+    }
+
+    window.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && !drawer.classList.contains('hidden')) {
+            closeDrawer();
+        }
+    });
 }
 
 
