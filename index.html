@@ -212,6 +212,19 @@
             </div>
             
             <div class="mobile-drawer-divider"></div>
+
+            <!-- Mobile 3D Theme Switcher -->
+            <div class="mobile-theme-box">
+                <span class="mobile-theme-lbl">⚡ SELECT 3D DESIGN THEME</span>
+                <select id="mobile-theme-select" class="mobile-theme-select">
+                    <option value="cyberpunk" selected>1. Cyberpunk HUD (Vortex Swirl)</option>
+                    <option value="synthwave">2. Synthwave Tron Grid</option>
+                    <option value="constellation">3. Quantum Constellation</option>
+                    <option value="hyperspace">4. Hyperspace Warp Speed</option>
+                    <option value="matrix">5. Hacker Matrix Rain</option>
+                    <option value="watermelon">6. Watermelon UI (Lime Glow)</option>
+                </select>
+            </div>
             
             <div class="mobile-drawer-actions">
                 <div class="mobile-action-row">
@@ -649,6 +662,8 @@ app = Flask(__name__)
                 <div class="heatmap-grid-scroll">
                     <div id="heatmap-grid" class="heatmap-grid"></div>
                 </div>
+
+                <div id="hm-mobile-info" class="hm-mobile-info">Tap any day cell to view commit details</div>
 
                 <div class="heatmap-footer">
                     <span class="hm-legend-lbl">Less</span>

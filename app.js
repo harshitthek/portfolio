@@ -1572,13 +1572,23 @@ function initProjectModals() {
     const closeBtn = document.getElementById('pm-close-btn');
     if (!backdrop || !closeBtn) return;
 
-    closeBtn.addEventListener('click', () => backdrop.classList.add('hidden'));
+    function closeModal() {
+        backdrop.classList.add('hidden');
+        document.body.style.overflow = '';
+    }
+
+    function openModal() {
+        backdrop.classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+    }
+
+    closeBtn.addEventListener('click', closeModal);
     backdrop.addEventListener('click', (e) => {
-        if (e.target === backdrop) backdrop.classList.add('hidden');
+        if (e.target === backdrop) closeModal();
     });
 
     window.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') backdrop.classList.add('hidden');
+        if (e.key === 'Escape' && !backdrop.classList.contains('hidden')) closeModal();
     });
 
     document.querySelectorAll('.project-card').forEach(card => {
@@ -1611,7 +1621,7 @@ function initProjectModals() {
             const githubBtn = document.getElementById('pm-github-link');
             githubBtn.setAttribute('href', details.url);
 
-            backdrop.classList.remove('hidden');
+            openModal();
         });
     });
 }
@@ -1839,6 +1849,14 @@ function initGitHubHeatmap() {
         const dateStr = cellDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
         cell.setAttribute('title', `${commitCount} ${commitCount === 1 ? 'commit' : 'commits'} on ${dateStr}`);
 
+        cell.addEventListener('click', () => {
+            const info = document.getElementById('hm-mobile-info');
+            if (info) {
+                info.textContent = `📅 ${dateStr}: ${commitCount} ${commitCount === 1 ? 'commit' : 'commits'}`;
+                info.style.borderColor = 'var(--cyan-primary)';
+            }
+        });
+
         grid.appendChild(cell);
     }
 }
@@ -1898,6 +1916,16 @@ function initMobileMenu() {
             const sfxIcon = document.getElementById('mobile-sfx-icon');
             const mainIcon = document.getElementById('sfx-status-icon');
             if (sfxIcon && mainIcon) sfxIcon.textContent = mainIcon.textContent;
+        });
+    }
+
+    const mobileThemeSelect = document.getElementById('mobile-theme-select');
+    if (mobileThemeSelect) {
+        mobileThemeSelect.addEventListener('change', (e) => {
+            const targetTheme = e.target.value;
+            const themeOpt = document.querySelector(`.theme-option[data-theme="${targetTheme}"]`);
+            if (themeOpt) themeOpt.click();
+            closeDrawer();
         });
     }
 
