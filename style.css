@@ -144,6 +144,8 @@ body::before {
     padding: 0;
     box-sizing: border-box;
     scroll-behavior: smooth;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
 }
 
 body {
@@ -152,6 +154,9 @@ body {
     font-family: var(--font-sans);
     line-height: 1.6;
     overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
 }
 
 /* Background Canvas */
@@ -1778,6 +1783,32 @@ body {
 
     .typing-container {
         font-size: 13px;
+    }
+
+    .profile-card {
+        padding: 20px 16px;
+    }
+
+    .glass-card, .project-card, .contact-container, .heatmap-card, .ml-simulator-container {
+        padding: 20px 16px;
+    }
+
+    .hero-cta-group {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .hero-cta-group .btn {
+        width: 100%;
+    }
+}
+
+@media (hover: none), (pointer: coarse) {
+    #cursor-dot, #cursor-ring {
+        display: none !important;
+        opacity: 0 !important;
+        visibility: hidden !important;
+        pointer-events: none !important;
     }
 }
 
